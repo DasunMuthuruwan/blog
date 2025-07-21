@@ -22,6 +22,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('back/vendors/styles/core.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('back/vendors/styles/icon-font.min.css') }}" />
     <link rel="stylesheet" type="text/css" href="{{ asset('back/vendors/styles/style.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.min.css') }}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.structure.min.css') }}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.theme.min.css') }}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('back/src/plugins/sweetalert2/sweetalert2.min.css') }}" />
     <link rel="stylesheet" type="text/css"
         href="{{ asset('back/src/plugins/jquery-toast-plugin/jquery.toast.min.css') }}" />
     @kropifyStyles
@@ -50,7 +56,8 @@
                 <form>
                     <div class="form-group mb-0">
                         <i class="dw dw-search2 search-icon"></i>
-                        <input type="text" class="form-control search-input" placeholder="Search Here" />
+                        <input type="text" class="form-control form-control-sm search-input"
+                            placeholder="Search Here" />
                         <div class="dropdown">
                             <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
                                 <i class="ion-arrow-down-c"></i>
@@ -285,37 +292,43 @@
             <div class="sidebar-menu">
                 <ul id="accordion-menu">
                     <li>
-                        <a href="{{ route('admin.dashboard') }}" class="dropdown-toggle no-arrow">
+                        <a href="{{ route('admin.dashboard') }}"
+                            class="dropdown-toggle no-arrow {{ Route::is('admin.dashboard') ? 'active' : '' }}">
                             <span class="micon fa fa-home"></span>
                             <span class="mtext">Home</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.categories') }}" class="dropdown-toggle no-arrow">
-                            <span class="micon fa fa-th-list"></span>
-                            <span class="mtext">Categories</span>
-                        </a>
-                    </li>
+                    @if (auth()->user()->type == 'superAdmin')
+                        <li>
+                            <a href="{{ route('admin.categories') }}"
+                                class="dropdown-toggle no-arrow {{ Route::is('admin.categories') ? 'active' : '' }}">
+                                <span class="micon fa fa-th-list"></span>
+                                <span class="mtext">Categories</span>
+                            </a>
+                        </li>
+                    @endif
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
+                        <a href="javascript:;" class="dropdown-toggle {{Route::is('admin.add_post') || Route::is('admin.posts') ? 'active' : ''}}">
                             <span class="micon bi bi-archive"></span>
                             <span class="mtext">Posts</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="">New</a></li>
-                            <li><a href="">Posts</a></li>
+                            <li><a href="{{ route('admin.add_post') }}" class="{{ Route::is('admin.add_post') ? 'active' : '' }}">New</a></li>
+                            <li><a href="{{route('admin.posts')}}" class="{{ Route::is('admin.posts') ? 'active' : '' }}">Posts</a></li>
                         </ul>
                     </li>
-                    <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle">
-                            <span class="micon fa fa-shopping-bag"></span>
-                            <span class="mtext">Shop</span>
-                        </a>
-                        <ul class="submenu">
-                            <li><a href="">New Product</a></li>
-                            <li><a href="">All Products</a></li>
-                        </ul>
-                    </li>
+                    @if (auth()->user()->type == 'superAdmin')
+                        <li class="dropdown">
+                            <a href="javascript:;" class="dropdown-toggle">
+                                <span class="micon fa fa-shopping-bag"></span>
+                                <span class="mtext">Shop</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="">New Product</a></li>
+                                <li><a href="">All Products</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     <li>
                         <a href="invoice.html" class="dropdown-toggle no-arrow">
                             <span class="micon bi bi-receipt-cutoff"></span>
@@ -329,17 +342,21 @@
                         <div class="sidebar-small-cap">Settings</div>
                     </li>
                     <li>
-                        <a href="{{ route('admin.profile') }}" class="dropdown-toggle no-arrow">
+                        <a href="{{ route('admin.profile') }}"
+                            class="dropdown-toggle no-arrow {{ Route::is('admin.profile') ? 'active' : '' }}">
                             <span class="micon fa fa-user-circle"></span>
                             <span class="mtext">Profile</span>
                         </a>
                     </li>
-                    <li>
-                        <a href="{{ route('admin.settings') }}" class="dropdown-toggle no-arrow">
-                            <span class="micon fa fa-cogs"></span>
-                            <span class="mtext">General</span>
-                        </a>
-                    </li>
+                    @if (auth()->user()->type == 'superAdmin')
+                        <li>
+                            <a href="{{ route('admin.settings') }}"
+                                class="dropdown-toggle no-arrow {{ Route::is('admin.settings') ? 'active' : '' }}">
+                                <span class="micon fa fa-cogs"></span>
+                                <span class="mtext">General</span>
+                            </a>
+                        </li>
+                    @endif
                 </ul>
 
             </div>
@@ -368,7 +385,9 @@
     <script src="{{ asset('back/vendors/scripts/layout-settings.js') }}"></script>
     <script src="{{ asset('back/src/plugins/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script src="{{ asset('back/src/plugins/jquery-validation/jquery.validate.js') }}"></script>
-    <script src="{{asset('back/src/plugins/jquery-form/jquery.form.min.js')}}"></script>
+    <script src="{{ asset('back/src/plugins/jquery-form/jquery.form.min.js') }}"></script>
+    <script src="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('back/src/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('back/src/custom/Notifications.js') }}"></script>
     @kropifyScripts
     <script>

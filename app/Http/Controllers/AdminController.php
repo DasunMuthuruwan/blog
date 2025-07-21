@@ -163,4 +163,11 @@ class AdminController extends Controller
             return ApiResponse::success([], $this->serverError);
         }
     }
+
+    public function categoryPage()
+    {
+        return view('back.pages.categories.index', [
+            'pageTitle' => 'Categories'
+        ]);
+    }
 }

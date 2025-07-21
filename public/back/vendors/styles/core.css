@@ -5803,7 +5803,7 @@ fieldset:disabled a.btn {
 .page-link {
     position: relative;
     display: block;
-    padding: .5rem .75rem;
+    padding: .3rem .5rem;
     margin-left: -1px;
     line-height: 1.25;
     color: #1b00ff;
@@ -11664,7 +11664,7 @@ a.text-warning:hover {
     color: #ba8b00 !important
 }
 
-.text-danger {
+.text-danger,.error {
     color: #dc3545 !important
 }
 

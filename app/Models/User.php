@@ -88,6 +88,18 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the type of the user's.
+     *
+     * @return \Illuminate\Database\Eloquent\Casts\Attribute
+     */
+    protected function type(): Attribute
+    {
+        return Attribute::make(
+            get: fn($value) => $value
+        );
+    }
+
+    /**
      * Define a relationship to the user's social links.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

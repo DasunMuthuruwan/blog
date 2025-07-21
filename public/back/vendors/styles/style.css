@@ -398,7 +398,7 @@ p {
 .h4,
 .h5,
 .page-header h4 {
-    font-size: 20px;
+    font-size: 16px;
     line-height: 1.35;
     color: #1b3133;
     font-family: 'Inter', sans-serif
@@ -786,7 +786,7 @@ p {
     font-family: 'Inter', sans-serif;
     color: #131e22;
     font-weight: 400;
-    height: 45px;
+    height: 40px;
     border-color: #d4d4d4;
     -webkit-transition: all .3s ease-in-out;
     transition: all .3s ease-in-out
@@ -973,7 +973,7 @@ textarea.form-control {
 .btn-group-sm>.btn,
 .btn-sm {
     padding: .4rem .8rem;
-    font-size: 14px
+    font-size: 12px
 }
 
 .btn.focus,
@@ -1274,7 +1274,7 @@ table.dataTable>tbody>tr.child ul.dtr-details .dtr-title {
 
 .table thead th {
     font-weight: 600;
-    font-size: 15px;
+    font-size: 12px;
     border-bottom: 0;
     padding-left: 1rem
 }
@@ -1285,9 +1285,9 @@ table.dataTable>tbody>tr.child ul.dtr-details .dtr-title {
 }
 
 .table td {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
-    padding: 1rem
+    padding: 0.4rem
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -4653,7 +4653,7 @@ body.IE .register-page-wrap .container {
 
 .table-actions a {
     display: inline-block;
-    font-size: 18px;
+    font-size: 13px;
     color: #131e22
 }
 
