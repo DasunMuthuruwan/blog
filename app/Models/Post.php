@@ -3,7 +3,10 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
 {
@@ -22,7 +25,7 @@ class Post extends Model
         'visibility'
     ];
 
-        /**
+    /**
      * Return the sluggable configuration array for this model.
      *
      * @return array
@@ -34,5 +37,26 @@ class Post extends Model
                 'source' => 'title'
             ]
         ];
+    }
+
+    public function author(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'author_id');
+    }
+
+    public function post_category(): HasOne
+    {
+        return $this->hasOne(Category::class, 'id', 'category');
+    }
+
+    /**
+     * Scope a query to get search posts.
+     */
+    #[Scope]
+    protected function search(Builder $query, string $search): void
+    {
+        $query->whereLike('title', "%{$search}%")
+            ->orWhereLike('content', "%{$search}%")
+            ->orWhereLike('tags', "%{$search}%");
     }
 }

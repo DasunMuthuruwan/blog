@@ -10,6 +10,7 @@ use App\UserType;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -108,5 +109,10 @@ class User extends Authenticatable
     {
         // Establishes a BelongsTo relationship where 'id' of this model maps to 'user_id' in UserSocialLink
         return $this->belongsTo(UserSocialLink::class, 'id', 'user_id');
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'author_id', 'id');
     }
 }

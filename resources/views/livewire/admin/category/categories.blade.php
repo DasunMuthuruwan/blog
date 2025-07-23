@@ -7,7 +7,7 @@
                 </div>
                 <div class="pull-right">
                     <a href="javascript:;" wire:click="AddParentCategory()" class="btn btn-primary btn-sm"><i
-                            class="fa fa-save"></i> Add P.Category</a>
+                            class="icon-copy bi bi-plus-circle mr-1"></i> Add P.Category</a>
                 </div>
             </div>
             <div class="table-responsive mt-3">
@@ -58,7 +58,7 @@
                 </div>
                 <div class="pull-right">
                     <a href="javascript:;" wire:click="AddCategory()" class="btn btn-primary btn-sm"><i
-                            class="fa fa-save"></i> Add Category</a>
+                            class="icon-copy bi bi-plus-circle mr-1"></i> Add Category</a>
                 </div>
             </div>
             <div class="table-responsive mt-3">

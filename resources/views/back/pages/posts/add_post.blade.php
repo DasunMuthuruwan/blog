@@ -23,8 +23,8 @@
             </div>
         </div>
     </div>
-    <form id="addPostForm" action="{{ route('admin.create_post') }}" method="POST" class='needs-validation' novalidate='novalidate'
-        autocomplete="off" enctype="multipart/form-data">
+    <form id="addPostForm" method="POST" class='needs-validation' novalidate='novalidate' autocomplete="off"
+        enctype="multipart/form-data">
         @csrf
         <div class="row">
             <div class="col-md-9">
@@ -33,11 +33,11 @@
                         <div class="form-group">
                             <label for="title"><b>Title</b>:</label>
                             <input type="text" name="title" class="form-control form-control-sm" id="title"
-                                placeholder="Enter post title" required>
+                                placeholder="Enter post title">
                         </div>
                         <div class="form-group">
-                            <label for="title"><b>Content</b>:</label>
-                            <textarea name="content" id="content" cols="30" rows="10" class="form-control"
+                            <label for="content"><b>Content</b>:</label>
+                            <textarea name="content" id="content" cols="30" rows="10" class="ckeditor form-control"
                                 placeholder="Enter post content here..." required></textarea>
                         </div>
                     </div>
@@ -98,8 +98,9 @@
             </div>
         </div>
         <div class="mb-3">
-            <button type="button" onclick="FormOptions.submitForm('addPostForm', true, {'imagePreviewId':'featured_image_preview', 'tagsinput': 'tags'})" class="btn btn-sm btn-primary"><i
-                    class="fa fa-save"></i> Create post</button>
+            <button type="button"
+                onclick="submitPost('#addPostForm')"
+                class="btn btn-sm btn-primary"><i class="fa fa-save"></i> Create post</button>
         </div>
     </form>
 @endsection
@@ -109,6 +110,7 @@
 @push('scripts')
     <script src="{{ asset('back/src/custom/FormOptions.js') }}"></script>
     <script src="{{ asset('back/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
     {{-- <script src="{{ asset('back/src/custom/imagePreview.js') }}"></script> --}}
 
     <script>
@@ -161,5 +163,38 @@
                 }
             });
         });
+
+        function submitPost(formId) {
+            const form = $(formId);
+            if (form.valid()) {
+                event.preventDefault();
+                const formData = new FormData(form[0]);
+                // Id of the textarea
+                var content = CKEDITOR.instances.content.getData();
+                formData.append('content', content)
+
+                $.ajax({
+                    url: "{{ route('admin.create_post') }}",
+                    method: $(formId).attr('method'),
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(data) {
+                        if (data.success) {
+                            $(form)[0].reset();
+                            CKEDITOR.instances.content.setData('');
+                            Notifications.showSuccessMsg(data.message);
+                            $(`img#featured_image_preview`).attr('src', '');
+                            $(`input[name="tags"]`).tagsinput('removeAll');
+                        } else {
+                            Notifications.showErrorMsg(data.message);
+                        }
+                    },
+                    error: function(xhr) {
+                        Notifications.showErrorMsg(xhr.responseJSON?.message || 'Upload failed');
+                    },
+                });
+            }
+        }
     </script>
 @endpush

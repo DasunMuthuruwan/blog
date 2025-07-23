@@ -212,7 +212,7 @@
             FormOptions.initValidation('updateFaviconForm', favionRules);
         });
 
-        function updateLogo(formId) {
+        function updateLogo(formId, event) {
             const form = $(formId);
             if (form.valid()) {
                 event.preventDefault();

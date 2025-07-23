@@ -7,8 +7,6 @@ use App\Exceptions\FileNotFoundException;
 use App\Exceptions\FileUploadFailedException;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Post\PostStoreRequest;
-use App\Models\Category;
-use App\Models\ParentCategory;
 use App\Services\Post\PostService;
 use Exception;
 use Illuminate\Http\Request;
@@ -47,6 +45,17 @@ class PostController extends Controller
             return ApiResponse::error($exception->getMessage(), 500);
         } catch (Exception $exception) {
             return ApiResponse::error($this->serverError, 500);
+        }
+    }
+
+    public function allPosts(Request $request)
+    {
+        try {
+            return view('back.pages.posts.index', [
+                'pageTitle' => 'Posts'
+            ]);
+        } catch (Exception $exception) {
+            return redirect()->back()->with(['error' => $this->serverError]);
         }
     }
 }

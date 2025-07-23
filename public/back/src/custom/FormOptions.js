@@ -1,5 +1,5 @@
 FormOptions = {
-    submitForm: function (form_id, clear_form = true, addtional = {'imagePreviewId':false, 'tagsinput': false}) {
+    submitForm: function (form_id, clear_form = true) {
         form_id = '#' + form_id;
         let isValid = $(form_id).valid();
 
@@ -14,10 +14,6 @@ FormOptions = {
                     success: function (result) {
                         $(form_id)[0].reset();
                         Notifications.showSuccessMsg(result.message);
-                        if(addtional.imagePreviewId || addtional.tagsinput) {
-                            $(`img#${addtional.imagePreviewId}`).attr('src','');
-                            $(`input[name="${addtional.tagsinput}"]`).tagsinput('removeAll');
-                        }
                     },
                     error: function (XMLHttpRequest, textStatus, errorThrown) {
                         if (XMLHttpRequest.status === 422) {
