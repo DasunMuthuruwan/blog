@@ -2,9 +2,9 @@
 
 namespace App\Livewire\Admin;
 
-use App\Models\Category;
-use App\Models\ParentCategory;
 use App\Models\Post;
+use App\Services\Post\PostService;
+use Exception;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -40,6 +40,10 @@ class Posts extends Component
         ]
     ];
 
+    protected $listeners = [
+        'deletePostAction'
+    ];
+
     public function updatedSearch()
     {
         $this->resetPage();
@@ -66,37 +70,43 @@ class Posts extends Component
         $this->resetPage();
     }
 
-    public function mount()
+    public function mount(): void
     {
+        $this->author = auth()->user()->type == 'superAdmin' ? auth()->user()->id : '';
         $this->post_visibility = $this->visibility == 'public' ? 1 : 0;
-        $categoryHtml = "";
-        $pCategories = ParentCategory::whereHas('children', function ($subQuery) {
-            $subQuery->whereHas('posts');
-        })
-            ->orderBy('name', 'asc')
-            ->cursor();
+        $this->categoryHtml = (new PostService)->generateCategoryHtml();
+    }
 
-        $categories = Category::whereHas('posts')->where('parent', 0)->orderBy('name', 'asc')->cursor();
+    public function deletePost(int $postId): void
+    {
+        $this->dispatch('deletePost', ['id' => $postId]);
+    }
 
-        if (sizeof($pCategories) > 0) {
-            foreach ($pCategories as $key => $pCategory) {
-                $categoryHtml .= '<optgroup label="' . $pCategory->name . '">';
-                foreach ($pCategory->children as $key => $children) {
-                    if ($children->posts->count() > 0) {
-                        $categoryHtml .= '<option value="' . $children->id . '">' . $children->name . '</option>';
-                    }
-                }
-                $categoryHtml .= '</optgroup>';
-            }
+    /**
+     * Post delete functionality
+     * @param int $id
+     * @return void
+     */
+    public function deletePostAction(int $id): void
+    {
+        try {
+
+            $post = Post::findOrFail($id);
+            $path = "storage/images/posts/";
+            (new PostService)->deleteFeatureImages($post, ['path' => $path, 'resized_path' => "{$path}resized/"]);
+
+            $post->delete();
+
+            $this->dispatch('showToastr', [
+                'type' => 'info',
+                'message' => 'Post have been deleted successfully.'
+            ]);
+        } catch (Exception $exception) {
+            $this->dispatch('showToastr', [
+                'type' => 'error',
+                'message' => $this->serverError
+            ]);
         }
-
-        if (sizeof($categories) > 0) {
-            foreach ($categories as $key => $category) {
-                $categoryHtml .= "<option value='{{ $category->id }}'>{{$category->name}}</option>";
-            }
-        }
-
-        $this->categoryHtml = $categoryHtml;
     }
 
     public function render()

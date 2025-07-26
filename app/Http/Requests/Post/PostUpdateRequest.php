@@ -11,7 +11,7 @@ class PostUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,14 @@ class PostUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => "required|unique:posts,title,{$this->post->id}",
+            'content' => 'required',
+            'category' => 'required|exists:categories,id',
+            'feature_image' => 'nullable|mimes:png,jpg,jpeg|max:1024',
+            'meta_description' =>'nullable',
+            'meta_keywords' => 'nullable',
+            'tags' => 'nullable',
+            'visibility' => 'required|in:1,0'
         ];
     }
 }

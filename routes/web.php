@@ -52,6 +52,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('/post/new', 'addPost')->name('add_post');
                 Route::post('/post/create', 'createPost')->name('create_post');
                 Route::get('/posts', 'allPosts')->name('posts');
+                Route::get('/post/{post}', 'editPost')->name('post');
+                Route::post('/post/{post}/update', 'updatePost')->name('update_post');
             });
         });
     });

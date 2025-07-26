@@ -308,7 +308,7 @@
                         </li>
                     @endif
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle {{Route::is('admin.add_post') || Route::is('admin.posts') ? 'active' : ''}}">
+                        <a href="javascript:;" class="dropdown-toggle {{Route::is('admin.add_post') || Route::is('admin.posts') || Route::is('admin.post') ? 'active' : ''}}">
                             <span class="micon bi bi-archive"></span>
                             <span class="mtext">Posts</span>
                         </a>
@@ -384,9 +384,9 @@
     <script src="{{ asset('back/vendors/scripts/process.js') }}"></script>
     <script src="{{ asset('back/vendors/scripts/layout-settings.js') }}"></script>
     <script src="{{ asset('back/src/plugins/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('back/src/plugins/jquery-validation/jquery.validate.js') }}"></script>
     <script src="{{ asset('back/src/plugins/jquery-form/jquery.form.min.js') }}"></script>
-    <script src="{{ asset('back/src/plugins/jquery-ui-1.14.1/jquery-ui.min.js') }}"></script>
     <script src="{{ asset('back/src/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('back/src/custom/Notifications.js') }}"></script>
     @kropifyScripts

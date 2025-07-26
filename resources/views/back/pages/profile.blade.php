@@ -1,5 +1,5 @@
 @extends('back.layout.pages-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Page Title')
+@section('pageTitle', $pageTitle ?? 'Page Title')
 @section('content')
     <div class="page-header">
         <div class="row">

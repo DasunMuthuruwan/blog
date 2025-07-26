@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Category;
 
+use App\Exceptions\CategoryCannotbeDeletedWhenPostsExistsException;
 use App\Models\Category;
 use App\Models\ParentCategory;
 use Exception;
@@ -17,8 +18,8 @@ class Categories extends Component
     public $isUpdateCategoryModal = false;
     public $pcategory_id, $pcategory_name;
     public $category_id, $category_name, $parent;
-    public $pcategoriesPerPage = 2;
-    public $categoriesPerPage = 2;
+    public $pcategoriesPerPage = 5;
+    public $categoriesPerPage = 5;
 
     protected $listeners = [
         'updateParentCategoryOrdering',
@@ -160,7 +161,7 @@ class Categories extends Component
             $pCategory = ParentCategory::findOr($id);
 
             // Check if this parent catefiry as children
-            if($pCategory->children->count()) {
+            if ($pCategory->children->count()) {
                 foreach ($pCategory->children as $key => $category) {
                     Category::where('id', $category->id)->update([
                         'parent' => 0
@@ -298,6 +299,11 @@ class Categories extends Component
                 'type' => 'info',
                 'message' => 'Category have been deleted successfully.'
             ]);
+        } catch (CategoryCannotbeDeletedWhenPostsExistsException $exception) {
+            $this->dispatch('showToastr', [
+                'type' => 'error',
+                'message' => $exception->getMessage()
+            ]);
         } catch (Exception $exception) {
             $this->dispatch('showToastr', [
                 'type' => 'error',
@@ -341,7 +347,7 @@ class Categories extends Component
     {
         return view('livewire.admin.category.categories', [
             'pcategories' => ParentCategory::orderBy('ordering', 'asc')->paginate($this->pcategoriesPerPage, ['*'], 'pcat_page'),
-            'categories' => Category::with('parentCategory')->orderBy('ordering','asc')->paginate($this->categoriesPerPage, ['*'], 'cat_page')
+            'categories' => Category::with('parentCategory')->withCount('posts')->orderBy('ordering', 'asc')->paginate($this->categoriesPerPage, ['*'], 'cat_page')
         ]);
     }
 }

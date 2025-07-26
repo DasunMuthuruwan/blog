@@ -15,8 +15,8 @@
                     <thead class="bg-secondary text-white">
                         <th>#</th>
                         <th>Name</th>
-                        <th>N. Of Categories</th>
-                        <th>Action</th>
+                        <th>N. of categories</th>
+                        <th>Actions</th>
                     </thead>
                     <tbody id="sortable_parent_categories">
                         @forelse ($pcategories as $pCategory)
@@ -66,8 +66,9 @@
                     <thead class="bg-secondary text-white">
                         <th>#</th>
                         <th>Name</th>
-                        <th>parent</th>
-                        <th>Action</th>
+                        <th>parent category</th>
+                        <th>No of posts</th>
+                        <th>Actions</th>
                     </thead>
                     <tbody id="sortable_categories">
                         @forelse ($categories as $category)
@@ -75,6 +76,7 @@
                                 <td>{{ $category->id }}</td>
                                 <td>{{ $category->name }}</td>
                                 <td>{{ $category?->parentCategory->name ?? 'Uncategorized' }}</td>
+                                <td>{{ $category->posts_count }}</td>
                                 <td>
                                     <div class="table-actions">
                                         <a href="javascript:;" wire:click="editCategory({{ $category->id }})"

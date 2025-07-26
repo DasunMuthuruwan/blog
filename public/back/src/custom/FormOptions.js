@@ -60,7 +60,7 @@ FormOptions = {
                 error.remove();
                 element.classList.remove('error-element');
             },
-            rules: rules
+            rules
         });
     },
 };

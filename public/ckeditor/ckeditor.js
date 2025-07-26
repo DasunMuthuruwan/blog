@@ -62,8 +62,7 @@ For licensing, see LICENSE.md or https://ckeditor.com/legal/ckeditor-oss-license
             })
         })(); CKEDITOR.status = "basic_loaded"
     }(); "use strict"; CKEDITOR.VERBOSITY_WARN = 1; CKEDITOR.VERBOSITY_ERROR = 2; CKEDITOR.verbosity = CKEDITOR.VERBOSITY_WARN | CKEDITOR.VERBOSITY_ERROR; CKEDITOR.warn = function (a, d) { CKEDITOR.verbosity & CKEDITOR.VERBOSITY_WARN && CKEDITOR.fire("log", { type: "warn", errorCode: a, additionalData: d }) };
-    CKEDITOR.error = function (a, d) { CKEDITOR.verbosity & CKEDITOR.VERBOSITY_ERROR && CKEDITOR.fire("log", { type: "error", errorCode: a, additionalData: d }) };
-    CKEDITOR.on("log", function (a) { if (window.console && window.console.log) { var d = console[a.data.type] ? a.data.type : "log", b = a.data.errorCode; if (a = a.data.additionalData) console[d]("[CKEDITOR] Error code: " + b + ".", a); else console[d]("[CKEDITOR] Error code: " + b + "."); console[d]("[CKEDITOR] For more information about this error go to https://ckeditor.com/docs/ckeditor4/latest/guide/dev_errors.html#" + b) } }, null, null, 999); CKEDITOR.dom = {};
+ CKEDITOR.dom = {};
     (function () {
         function a(a, y, b) { this._minInterval = a; this._context = b; this._lastOutput = this._scheduledTimer = 0; this._output = CKEDITOR.tools.bind(y, b || {}); var c = this; this.input = function () { function a() { c._lastOutput = (new Date).getTime(); c._scheduledTimer = 0; c._call() } if (!c._scheduledTimer || !1 !== c._reschedule()) { var x = (new Date).getTime() - c._lastOutput; x < c._minInterval ? c._scheduledTimer = setTimeout(a, c._minInterval - x) : a() } } } function d(x, y, b) {
             a.call(this, x, y, b); this._args = []; var c = this; this.input = CKEDITOR.tools.override(this.input,

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
+use App\Observers\CategoryObserver;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Session;
@@ -31,5 +33,7 @@ class AppServiceProvider extends ServiceProvider
 
             return route('admin.login');
         });
+
+        Category::observe(classes: CategoryObserver::class);
     }
 }

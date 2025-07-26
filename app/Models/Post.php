@@ -21,7 +21,7 @@ class Post extends Model
         'feature_image',
         'tags',
         'meta_keywords',
-        'meta_desctiption',
+        'meta_description',
         'visibility'
     ];
 
