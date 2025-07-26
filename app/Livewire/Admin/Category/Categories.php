@@ -17,7 +17,7 @@ class Categories extends Component
     public $isUpdateParentCategoryModal = false;
     public $isUpdateCategoryModal = false;
     public $pcategory_id, $pcategory_name;
-    public $category_id, $category_name, $parent;
+    public $category_id, $category_name, $category_description, $parent;
     public $pcategoriesPerPage = 5;
     public $categoriesPerPage = 5;
 
@@ -46,6 +46,7 @@ class Categories extends Component
     {
         $this->category_id = null;
         $this->category_name = null;
+        $this->category_description = null;
         $this->parent = 0;
         $this->isUpdateCategoryModal = false;
         $this->showCategoryModalForm();
@@ -185,7 +186,8 @@ class Categories extends Component
     public function createCategory(Request $request)
     {
         $this->validate([
-            'category_name' => 'required|unique:categories,name'
+            'category_name' => 'required|unique:categories,name',
+            'category_description' => 'required'
         ], [
             'category_name.required' => 'category field is required.',
             'category_name.unique' => 'category name is already exists.'
@@ -196,6 +198,7 @@ class Categories extends Component
             $category = new Category;
             $category->parent = $this->parent;
             $category->name = $this->category_name;
+            $category->description = $this->category_description;
             $category->save();
             $this->hideCategoryModalForm();
 
@@ -222,6 +225,7 @@ class Categories extends Component
         $category = Category::findOrFail($categoryId);
         $this->category_id = $category->id;
         $this->category_name = $category->name;
+        $this->category_description = $category->description;
         $this->parent = $category->parent;
         $this->isUpdateCategoryModal = true;
         $this->showCategoryModalForm();
@@ -237,7 +241,8 @@ class Categories extends Component
         $category = Category::findOrFail($this->category_id);
 
         $this->validate([
-            'category_name' => "required|unique:categories,name,{$category->id}"
+            'category_name' => "required|unique:categories,name,{$category->id}",
+            'category_description' => 'nullable'
         ], [
             'category_name.required' => 'category field is required.',
             'category_name.unique' => 'category name is already exists.'
@@ -245,6 +250,7 @@ class Categories extends Component
         try {
             $this->isUpdateCategoryModal = true;
             $category->name = $this->category_name;
+            $category->description = $this->category_description;
             $category->parent = $this->parent;
             $category->slug = null;
             $category->save();
@@ -271,7 +277,7 @@ class Categories extends Component
                     'ordering' => $newPosition
                 ]);
             }
-
+            cache()->forget('site_navigation');
             $this->dispatch('showToastr', [
                 'type' => 'info',
                 'message' => 'Category ordering have been updated successfully.'
@@ -293,8 +299,8 @@ class Categories extends Component
     {
         try {
             $category = Category::findOr($id);
-
             $category->delete();
+            
             $this->dispatch('showToastr', [
                 'type' => 'info',
                 'message' => 'Category have been deleted successfully.'
@@ -341,6 +347,7 @@ class Categories extends Component
         $this->category_id = null;
         $this->parent = 0;
         $this->category_name = null;
+        $this->category_description = null;
     }
 
     public function render()

@@ -2,13 +2,21 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+/**
+ * FRONTEND ROUTES
+ */
+Route::get('/', [BlogController::class, 'index'])->name('home');
+Route::get('/post/{slug}', [PostController::class, 'readPost'])->name('read_post');
+Route::get('posts/category/{slug}', [BlogController::class, 'categoryPosts'])->name('category_posts');
+Route::get('posts/author/{username}', [BlogController::class, 'authorPosts'])->name('author_posts');
+Route::get('posts/tag/{any}', [BlogController::class, 'tagPosts'])->name('tag_posts');
+Route::get('search', [BlogController::class, 'searchPosts'])->name('search_posts');
 
 /** 
  * TESTING ROUTES

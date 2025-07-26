@@ -1,0 +1,140 @@
+.post-container {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.post-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.post-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    height: 200px;
+    width: 100%;
+}
+
+.post-image {
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-container:hover .post-image {
+    transform: scale(1.05);
+}
+
+/* Overlay Effect */
+.post-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.post-container:hover .post-image-wrapper::after {
+    opacity: 1;
+}
+
+/* View Button Effect */
+.post-image-wrapper::before {
+    content: 'Read Article';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    color: white;
+    background: rgba(255, 255, 255, 0.9);
+    color: #111;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    z-index: 2;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-container:hover .post-image-wrapper::before {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Disable hover effects when author link is hovered */
+.post-container.author-hovered:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.post-container.author-hovered:hover .post-image {
+    transform: none;
+}
+
+.post-container.author-hovered:hover .post-image-wrapper::after {
+    opacity: 0;
+}
+
+.post-container.author-hovered:hover .post-image-wrapper::before {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+}
+
+.post-container.author-hovered:hover .post-title::after {
+    width: 0;
+}
+
+/* Title Effect */
+.post-title {
+    position: relative;
+    display: inline-block;
+    transition: color 0.3s ease;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.post-title::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #3b82f6;
+    transition: width 0.3s ease;
+}
+
+.post-container:hover .post-title {
+    color: #3b82f6;
+}
+
+.post-container:hover .post-title::after {
+    width: 100%;
+}
+
+/* Meta Effects */
+.post-meta {
+    color: #64748b;
+}
+
+.post-meta a {
+    transition: color 0.2s ease;
+    position: relative;
+    z-index: 10;
+}
+
+.post-meta .author-link:hover {
+    color: #3b82f6 !important;
+}
+
+/* Reset general text color on hover */
+.post-container:hover {
+    color: inherit;
+}

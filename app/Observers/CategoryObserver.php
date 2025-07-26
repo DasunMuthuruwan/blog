@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Constants\CacheKeys;
 use App\Exceptions\CategoryCannotbeDeletedWhenPostsExistsException;
 use App\Models\Category;
 
@@ -10,17 +11,17 @@ class CategoryObserver
     /**
      * Handle the Category "created" event.
      */
-    public function created(Category $category): void
+    public function creating(Category $category): void
     {
-        //
+        cache()->forget(CacheKeys::SITE_NAVIGATIONS);
     }
 
     /**
      * Handle the Category "updated" event.
      */
-    public function updated(Category $category): void
+    public function updating(Category $category): void
     {
-        //
+        cache()->forget(CacheKeys::SITE_NAVIGATIONS);
     }
 
     /**
@@ -31,29 +32,13 @@ class CategoryObserver
         // check dependency posts exits for category can not be delete category
         $postCount = $category->posts->count();
         throw_if($postCount > 0, CategoryCannotbeDeletedWhenPostsExistsException::class, "This category has ({$postCount}) related post(s). Can not be deleted.");
+        cache()->forget(CacheKeys::SITE_NAVIGATIONS);
     }
 
     /**
-     * Handle the Category "deleted" event.
+     * Handle the Category "saving" event.
      */
-    public function deleted(Category $category): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Category "restored" event.
-     */
-    public function restored(Category $category): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Category "force deleted" event.
-     */
-    public function forceDeleted(Category $category): void
-    {
-        //
+    public function saving(Category $category) {
+       cache()->forget(CacheKeys::SITE_NAVIGATIONS);
     }
 }

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->integer('author_id');
-            $table->integer('category');
+            $table->integer('category')->index();
             $table->string('title');
             $table->string('slug')->unique();
             $table->text('content');
@@ -23,7 +23,8 @@ return new class extends Migration
             $table->string('meta_keywords')->nullable();
             $table->text('meta_description')->nullable();
             $table->integer('visibility')->default(1);
-            $table->timestamps();
+            $table->timestamp('created_at')->index();
+            $table->timestamp('updated_at');
         });
     }
 

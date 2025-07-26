@@ -3,7 +3,13 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\GeneralSetting;
+use App\Models\ParentCategory;
+use App\Models\Post;
 use App\Observers\CategoryObserver;
+use App\Observers\GeneralSettingObserver;
+use App\Observers\ParentCategoryObserver;
+use App\Observers\PostObserver;
 use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Auth\Middleware\RedirectIfAuthenticated;
 use Illuminate\Support\Facades\Session;
@@ -34,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
             return route('admin.login');
         });
 
+        GeneralSetting::observe(GeneralSettingObserver::class);
         Category::observe(classes: CategoryObserver::class);
+        ParentCategory::observe(classes: ParentCategoryObserver::class);
+        Post::observe(PostObserver::class);
     }
 }

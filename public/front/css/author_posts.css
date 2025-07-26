@@ -1,0 +1,140 @@
+.author-card img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.author-card:hover img {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Post Card Hover Effects */
+.post-container {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.post-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.post-image-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.post-image {
+    transition: transform 0.5s ease;
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.post-container:hover .post-image {
+    transform: scale(1.05);
+}
+
+/* Overlay Effect */
+.post-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.post-container:hover .post-image-wrapper::after {
+    opacity: 1;
+}
+
+/* View Button Effect */
+.post-image-wrapper::before {
+    content: 'View Article';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 20px);
+    color: white;
+    background: rgba(255, 255, 255, 0.9);
+    color: #111;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 2;
+    opacity: 0;
+    transition: all 0.3s ease;
+}
+
+.post-container:hover .post-image-wrapper::before {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+}
+
+/* Title Effect */
+.post-title {
+    position: relative;
+    display: inline-block;
+}
+
+.post-title::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #3b82f6;
+    color: #3b82f6;
+    transition: width 0.3s ease;
+}
+
+.post-container:hover .post-title::after {
+    width: 100%;
+}
+
+/* Disable hover effects when author link is hovered */
+.post-container.category-hovered:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.post-container.category-hovered:hover .post-image {
+    transform: none;
+}
+
+.post-container.category-hovered:hover .post-image-wrapper::after {
+    opacity: 0;
+}
+
+.post-container.category-hovered:hover .post-image-wrapper::before {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+}
+
+.post-container.category-hovered:hover .post-title::after {
+    width: 0;
+}
+
+/* Meta Effects */
+.post-meta a {
+    transition: color 0.2s ease;
+}
+
+.post-meta a:hover {
+    color: #3b82f6;
+}
+
+/* Social Icons */
+.social-links a {
+    transition: all 0.3s ease;
+}
+
+.social-links a:hover {
+    transform: translateY(-3px);
+}

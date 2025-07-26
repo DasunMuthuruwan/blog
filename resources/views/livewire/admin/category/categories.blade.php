@@ -161,7 +161,7 @@
                         <input type="hidden" wire:model="category_id">
                     @endif
                     <div class="form-group">
-                        <label for="parent_category"><b>Parent category</b></label>
+                        <label for="parent_category"><b>Parent category</b>:</label>
                         <select wire:model="parent" id="parent_category" class="custom-select custom-select-sm">
                             <option value="0">Uncategorized</option>
                             @foreach ($pcategories as $category)
@@ -173,10 +173,18 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="category_name"><b>category name</b></label>
+                        <label for="category_name"><b>Category name</b>:</label>
                         <input type="text" class="form-control form-control-sm" wire:model="category_name"
                             placeholder="Enter category name">
                         @error('category_name')
+                            <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="category_description"><b>Category description</b>:</label>
+                        <textarea wire:model="category_description" id="category_description" cols="30" rows="10" class="form-control"
+                            placeholder="Enter category description here..."></textarea>
+                        @error('category_description')
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>

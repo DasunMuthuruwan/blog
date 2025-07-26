@@ -51,6 +51,8 @@ class Post extends Model
 
     /**
      * Scope a query to get search posts.
+     * @param Builder $query
+     * @param string $search
      */
     #[Scope]
     protected function search(Builder $query, string $search): void
@@ -58,5 +60,15 @@ class Post extends Model
         $query->whereLike('title', "%{$search}%")
             ->orWhereLike('content', "%{$search}%")
             ->orWhereLike('tags', "%{$search}%");
+    }
+
+    /**
+     * Scope a query to get visibility posts.
+     * @param Builder $query
+     * @param int $visibility
+     */
+    #[Scope]
+    protected function visible(Builder $query, int $visibility) {
+        $query->where('visibility', $visibility);
     }
 }
