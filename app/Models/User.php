@@ -115,4 +115,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class, 'author_id', 'id');
     }
+
+    public function postViews(): HasMany
+    {
+        return $this->hasMany(PostView::class);
+    }
 }

@@ -6,6 +6,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Post extends Model
@@ -45,6 +46,11 @@ class Post extends Model
         return $this->hasOne(User::class, 'id', 'author_id');
     }
 
+    public function views(): HasMany
+    {
+        return $this->hasMany(PostView::class);
+    }
+
     public function post_category(): HasOne
     {
         return $this->hasOne(Category::class, 'id', 'category');
@@ -69,7 +75,8 @@ class Post extends Model
      * @param int $visibility
      */
     #[Scope]
-    protected function visible(Builder $query, int $visibility) {
+    protected function visible(Builder $query, int $visibility)
+    {
         $query->where('visibility', $visibility);
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Requests\ContactRequest;
 use App\Mail\ContactMail;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostView;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\JsonLd;
 use Artesaos\SEOTools\Facades\SEOMeta;
@@ -197,12 +198,19 @@ class BlogController extends Controller
     public function readPost(Request $request, string $slug)
     {
         try {
-            $post = Post::where('slug', $slug)
+            $post = Post::with(['author:id,name,username', 'post_category:id,name,slug'])
+                ->withCount('views')
+                ->where('slug', $slug)
                 ->firstOrFail();
 
             $cacheKey = 'post_viewed_' . $post->id . '_' . request()->ip();
             if (!Cache::has($cacheKey)) {
-                $post->increment('views');
+                PostView::create([
+                    'post_id' => $post->id,
+                    'user_id' => auth()->id() ?? NULL, // or null if guest
+                    'ip_address' => request()->ip(),
+                    'viewed_at' => now(),
+                ]);
                 Cache::put($cacheKey, true, now()->addHours(1));
             }
 

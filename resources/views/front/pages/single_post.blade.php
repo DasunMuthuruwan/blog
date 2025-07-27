@@ -24,7 +24,7 @@
                             {{ readDuration($post->title, $post->content) }} @choice('min|mins', readDuration($post->title, $post->content))
                         </li>
                         <li class="list-inline-item">
-                            <i class="ti-eye mr-1"></i>{{ $post->views }} Views
+                            <i class="ti-eye mr-1"></i>{{ $post->views_count }} Views
                         </li>
                     </ul>
                 </div>
