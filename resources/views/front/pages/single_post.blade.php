@@ -167,9 +167,9 @@
             <div class="widget">
                 <h5 class="widget-title"><span>Latest Article</span></h5>
                 <!-- post-item -->
-                <ul class="list-unstyled widget-list">
+                <ul class="list-unstyled widget-list latest-article">
                     @foreach (sidebarLatestPosts(5, $post->id) as $sidebarLatestPost)
-                        <li class="media widget-post align-items-center">
+                        <li class="media widget-post align-items-center letest-result-item">
                             <a href="{{ route('read_post', $sidebarLatestPost->slug) }}">
                                 <img loading="lazy" class="mr-3"
                                     src='{{ asset("storage/images/posts/resized/resized_$sidebarLatestPost->feature_image") }}'>

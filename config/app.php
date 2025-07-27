@@ -123,5 +123,6 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
-    'mail_user' => env('MAIL_USER', 'dasunmuthuruwan9@gmail.com')
+    'mail_user' => env('MAIL_USER', 'dasunmuthuruwan9@gmail.com'),
+    'tor_proxy_url' => env('TOR_PROXY_URL')
 ];
