@@ -58,7 +58,7 @@ class BlogController extends Controller
     {
         try {
             // Find Category by slug
-            $category = Category::where('slug', $slug)
+            $category = Category::slug($slug)
                 ->firstOrFail();
 
             // Retrieve posts related to this category and paginate
@@ -117,7 +117,7 @@ class BlogController extends Controller
             $posts = Post::visible(1) // Only published posts
                 ->with(['post_category:id,name,slug']) // Eager load categorywhere('author_id', $author->id)
                 ->where('author_id', $author->id)
-                ->orderBy('created_at')
+                ->oldest()
                 ->paginate(8);
 
             /** Set SEO Meta tags */
@@ -200,7 +200,7 @@ class BlogController extends Controller
         try {
             $post = Post::with(['author:id,name,username', 'post_category:id,name,slug'])
                 ->withCount('views')
-                ->where('slug', $slug)
+                ->slug($slug)
                 ->firstOrFail();
 
             $cacheKey = 'post_viewed_' . $post->id . '_' . request()->ip();
@@ -218,17 +218,18 @@ class BlogController extends Controller
                 ->with(['author:id,name,username', 'post_category:id,name,slug']) // Eager load relationships
                 ->where('id', '!=', $post->id)
                 ->visible(1)
+                ->latest()
                 ->take(3)
                 ->get();
 
             $nextPost = Post::where('id', '>', $post->id)
                 ->visible(1)
-                ->orderBy('id')
+                ->oldest()
                 ->first();
 
             $prevPost = Post::where('id', '<', $post->id)
                 ->visible(1)
-                ->orderBy('id', 'desc')
+                ->latest()
                 ->first();
 
             /** Set SEO Meta Tags */

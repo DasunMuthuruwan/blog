@@ -79,4 +79,15 @@ class Post extends Model
     {
         $query->where('visibility', $visibility);
     }
+
+    /**
+     * Scope a query to get post according to the slug.
+     * @param Builder $query
+     * @param string $slug
+     */
+    #[Scope]
+    protected function slug(Builder $query, string $slug): void
+    {
+        $query->where('slug', $slug);
+    }
 }

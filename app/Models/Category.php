@@ -3,13 +3,15 @@
 namespace App\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Category extends Model
 {
     use Sluggable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -42,7 +44,19 @@ class Category extends Model
         return $this->belongsTo(ParentCategory::class, 'parent', 'id');
     }
 
-    public function posts() {
+    public function posts()
+    {
         return $this->hasMany(Post::class, 'category', 'id');
+    }
+
+    /**
+     * Scope a query to get category according to the slug.
+     * @param Builder $query
+     * @param string $slug
+     */
+    #[Scope]
+    protected function slug(Builder $query, string $slug): void
+    {
+        $query->where('slug', $slug);
     }
 }
