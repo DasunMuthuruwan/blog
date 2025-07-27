@@ -44,7 +44,7 @@
                     </ul>
 
                     <!-- search -->
-                    <div class="search px-4">
+                    {{-- <div class="search px-4">
                         <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
                         <div class="search-wrapper">
                             <form action="javascript:void(0)" class="h-100">
@@ -53,7 +53,7 @@
                             </form>
                             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
                         </div>
-                    </div>
+                    </div> --}}
                     <!-- /search -->
                 </div>
             </nav>

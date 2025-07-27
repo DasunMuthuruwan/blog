@@ -31,8 +31,6 @@
     <script src="{{ asset('back/src/custom/FormOptions.js') }}"></script>
     <script>
         window.addEventListener('deletePost', function(event) {
-            console.log(event.detail[0].id);
-            
             const id = event.detail[0].id;
             FormOptions.deleteRecord(id, 'deletePostAction');
         })

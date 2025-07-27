@@ -1246,3 +1246,22 @@ a:hover {
 .text-xs {
   font-size: 13px;
 }
+/* Additional styles for search integration */
+.search-results-section, .home__latest {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-result-item, .letest-result-item {
+    border-left: 3px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.search-result-item:hover, .letest-result-item:hover {
+    border-left-color: #3b82f6;
+    background-color: #f8f9fa;
+}
