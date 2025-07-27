@@ -18,7 +18,7 @@
                 </div>
             </div>
             @error('password')
-                <span class="text-danger text-sm">{{ $message }}</span>
+                <span class="text-danger small">{{ $message }}</span>
             @enderror
             <div class="input-group custom mt-2">
                 <input type="password" class="form-control form-control-lg" placeholder="Confirm New Password"
@@ -28,7 +28,7 @@
                 </div>
             </div>
             @error('password_confirmation')
-                <span class="text-danger text-sm">{{ $message }}</span>
+                <span class="text-danger small">{{ $message }}</span>
             @enderror
             <div class="row align-items-center">
                 <div class="col-5">

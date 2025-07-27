@@ -38,7 +38,8 @@
     <div class="pre-loader">
         <div class="pre-loader-box">
             <div class="loader-logo">
-                <img src="{{ asset('back/vendors/images/deskapp-logo.svg') }}" alt="" />
+                <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
+                    alt="Loader Logo" class="light-logo img-fluid" />
             </div>
             <div class="loader-progress" id="progress_div">
                 <div class="bar" id="bar1"></div>
@@ -91,92 +92,7 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="dashboard-setting user-notification">
-                <div class="dropdown">
-                    <a class="dropdown-toggle no-arrow" href="javascript:;" data-toggle="right-sidebar">
-                        <i class="dw dw-settings2"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="user-notification">
-                <div class="dropdown">
-                    <a class="dropdown-toggle no-arrow" href="#" role="button" data-toggle="dropdown">
-                        <i class="icon-copy dw dw-notification"></i>
-                        <span class="badge notification-active"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        <div class="notification-list mx-h-350 customscroll">
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/img.jpg') }}" alt="" />
-                                        <h3>John Doe</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/photo1.jpg') }}" alt="" />
-                                        <h3>Lea R. Frith</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/photo2.jpg') }}" alt="" />
-                                        <h3>Erik L. Richards</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/photo3.jpg') }}" alt="" />
-                                        <h3>John Doe</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/photo4.jpg') }}" alt="" />
-                                        <h3>Renee I. Hansen</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <img src="{{ asset('back/vendors/images/img.jpg') }}" alt="" />
-                                        <h3>Vicki M. Coleman</h3>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing
-                                            elit, sed...
-                                        </p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
             @livewire('admin.top-user-info')
-            <div class="github-link">
-                <a href="https://github.com/dropways/deskapp" target="_blank"><img
-                        src="{{ asset('back/vendors/images/github.svg') }}" alt="" /></a>
-            </div>
         </div>
     </div>
 
@@ -277,7 +193,7 @@
 
     <div class="left-side-bar">
         <div class="brand-logo">
-            <a href="index.html">
+            <a href="{{ route('admin.dashboard') }}">
                 <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
                     alt="Site Logo" class="dark-logo img-fluid brand_logo" style="width: 50px; height: 50px;" />
 
@@ -308,16 +224,19 @@
                         </li>
                     @endif
                     <li class="dropdown">
-                        <a href="javascript:;" class="dropdown-toggle {{Route::is('admin.add_post') || Route::is('admin.posts') || Route::is('admin.post') ? 'active' : ''}}">
+                        <a href="javascript:;"
+                            class="dropdown-toggle {{ Route::is('admin.add_post') || Route::is('admin.posts') || Route::is('admin.post') ? 'active' : '' }}">
                             <span class="micon bi bi-archive"></span>
                             <span class="mtext">Posts</span>
                         </a>
                         <ul class="submenu">
-                            <li><a href="{{ route('admin.add_post') }}" class="{{ Route::is('admin.add_post') ? 'active' : '' }}">New</a></li>
-                            <li><a href="{{route('admin.posts')}}" class="{{ Route::is('admin.posts') ? 'active' : '' }}">Posts</a></li>
+                            <li><a href="{{ route('admin.add_post') }}"
+                                    class="{{ Route::is('admin.add_post') ? 'active' : '' }}">New</a></li>
+                            <li><a href="{{ route('admin.posts') }}"
+                                    class="{{ Route::is('admin.posts') ? 'active' : '' }}">Posts</a></li>
                         </ul>
                     </li>
-                    @if (auth()->user()->type == 'superAdmin')
+                    {{-- @if (auth()->user()->type == 'superAdmin')
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">
                                 <span class="micon fa fa-shopping-bag"></span>
@@ -328,13 +247,13 @@
                                 <li><a href="">All Products</a></li>
                             </ul>
                         </li>
-                    @endif
-                    <li>
+                    @endif --}}
+                    {{-- <li>
                         <a href="invoice.html" class="dropdown-toggle no-arrow">
                             <span class="micon bi bi-receipt-cutoff"></span>
                             <span class="mtext">Invoice</span>
                         </a>
-                    </li>
+                    </li> --}}
                     <li>
                         <div class="dropdown-divider"></div>
                     </li>
@@ -356,6 +275,13 @@
                                 <span class="mtext">General</span>
                             </a>
                         </li>
+                        <li>
+                            <a href="{{ route('admin.slider') }}"
+                                class="dropdown-toggle no-arrow {{ Route::is('admin.slider') ? 'active' : '' }}">
+                                <span class="micon fa fa-cogs"></span>
+                                <span class="mtext">Manage Slider</span>
+                            </a>
+                        </li>
                     @endif
                 </ul>
 
@@ -372,8 +298,7 @@
                 </div>
             </div>
             <div class="footer-wrap pd-20 mb-20 card-box">
-                DeskApp - Bootstrap 4 Admin Template By
-                <a href="https://github.com/dropways" target="_blank">Ankit Hingarajiya</a>
+                &copy; {{ date('Y') }} - Design &amp; Develop By {{ config('app.name') }}
             </div>
         </div>
     </div>

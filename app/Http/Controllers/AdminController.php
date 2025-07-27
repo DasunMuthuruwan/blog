@@ -37,6 +37,9 @@ class AdminController extends Controller
             Auth::logout();
             Session::invalidate();
             Session::regenerateToken();
+            if (!empty($request->source)) {
+                return redirect()->back();
+            }
 
             return redirect()->route('admin.login')->with('fail', 'You are now logged out.');
         } catch (Exception $exception) {
@@ -168,6 +171,13 @@ class AdminController extends Controller
     {
         return view('back.pages.categories.index', [
             'pageTitle' => 'Categories'
+        ]);
+    }
+
+    public function manageSlider(Request $request)
+    {
+        return view('back.pages.silder', [
+            'pageTitle' => 'Manage Home Slider'
         ]);
     }
 }

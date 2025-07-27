@@ -123,4 +123,5 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    'mail_user' => env('MAIL_USER', 'dasunmuthuruwan9@gmail.com')
 ];

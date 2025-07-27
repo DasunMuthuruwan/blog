@@ -19,7 +19,7 @@
                 </nav>
             </div>
             <div class="col-md-6 col-sm-12 text-right">
-                <a href="{{ route('admin.posts') }}" class="btn btn-sm btn-primary"><i class=" icon-copy bi bi-eye mr-1"></i>View all posts</a>
+                <a href="{{ route('admin.posts') }}" class="btn btn-sm btn-primary"><i class="icon-copy bi bi-eye mr-1"></i>View all posts</a>
             </div>
         </div>
     </div>

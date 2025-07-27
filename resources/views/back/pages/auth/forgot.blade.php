@@ -19,7 +19,7 @@
                 </div>
             </div>
             @error('email')
-                <span class="text-danger text-sm">{{ $message }}</span>
+                <span class="text-danger small">{{ $message }}</span>
             @enderror
             <div class="row align-items-center mt-2">
                 <div class="col-5">

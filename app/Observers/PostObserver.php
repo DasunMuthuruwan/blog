@@ -14,6 +14,7 @@ class PostObserver
     {
         cache()->forget(CacheKeys::SITE_NAVIGATIONS);
         cache()->forget(CacheKeys::LATEST_POSTS);
+        cache()->forget(CacheKeys::SIDEBAR_LATEST_POSTS);
         cache()->forget(CacheKeys::SIDEBAR_CATEGORIES);
     }
 
@@ -24,6 +25,7 @@ class PostObserver
     {
         cache()->forget(CacheKeys::SITE_NAVIGATIONS);
         cache()->forget(CacheKeys::LATEST_POSTS);
+        cache()->forget(CacheKeys::SIDEBAR_LATEST_POSTS);
         cache()->forget(CacheKeys::SIDEBAR_CATEGORIES);
     }
 
@@ -34,6 +36,7 @@ class PostObserver
     {
         cache()->forget(CacheKeys::SITE_NAVIGATIONS);
         cache()->forget(CacheKeys::LATEST_POSTS);
+        cache()->forget(CacheKeys::SIDEBAR_LATEST_POSTS);
     }
 
     /**
@@ -43,6 +46,7 @@ class PostObserver
     {
         cache()->forget(CacheKeys::SITE_NAVIGATIONS);
         cache()->forget(CacheKeys::LATEST_POSTS);
+        cache()->forget(CacheKeys::SIDEBAR_LATEST_POSTS);
         cache()->forget(CacheKeys::SIDEBAR_CATEGORIES);
     }
 }

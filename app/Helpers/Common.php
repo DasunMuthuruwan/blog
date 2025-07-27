@@ -5,6 +5,8 @@ use App\Models\Category;
 use App\Models\GeneralSetting;
 use App\Models\ParentCategory;
 use App\Models\Post;
+use App\Models\SiteSocialLink;
+use App\Models\Slide;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -53,16 +55,18 @@ if (!function_exists('navigations')) {
             // Build parent categories with dropdowns
             if ($pCategories->isNotEmpty()) {
                 foreach ($pCategories as $category) {
+                    $iconClass = $category->parent_icon ?? 'ti-folder'; // default icon
                     $navigationHtml .= '
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
+                                <i class="' . $iconClass . ' mr-1"></i>
                                 ' . e($category->name) . ' <i class="ti-angle-down ml-1"></i>
                             </a>
                             <div class="dropdown-menu">';
 
                     foreach ($category->children as $child) {
-                        $navigationHtml .= '<a class="dropdown-item" href="'.route('category_posts', $child->slug).'">'
+                        $navigationHtml .= '<a class="dropdown-item" href="' . route('category_posts', $child->slug) . '">'
                             . e($child->name) . '</a>';
                     }
 
@@ -75,7 +79,7 @@ if (!function_exists('navigations')) {
                 foreach ($categories as $category) {
                     $navigationHtml .= '
                         <li class="nav-item">
-                            <a class="nav-link" href="'.route('category_posts', $category->slug).'">
+                            <a class="nav-link" href="' . route('category_posts', $category->slug) . '">
                                 ' . e($category->name) . '
                             </a>
                         </li>';
@@ -180,6 +184,60 @@ if (!function_exists('navigations')) {
             }
 
             return $tags->all();
+        }
+    }
+
+    /**
+     * LISTING SIDEBAR LATEST POSTS
+     */
+
+    if (!function_exists('sidebarLatestPosts')) {
+        function sidebarLatestPosts($limit = 3, $except = null)
+        {
+            $posts = Post::limit($limit);
+
+            if ($except) {
+                $posts = $posts->where('id', '!=', $except);
+            }
+
+            return Cache::remember(CacheKeys::SIDEBAR_LATEST_POSTS, CacheKeys::SHORT_TERM, function () use ($posts) {
+                return $posts
+                    ->visible(1)
+                    ->latest()
+                    ->get();
+            });
+        }
+    }
+
+    /**
+     * RETRIVE HOME SLIDE
+     */
+
+    if (!function_exists('getSlides')) {
+        function getSlides($limit = 5)
+        {
+            return
+                Cache::remember(CacheKeys::HOME_SLIDES, CacheKeys::SHORT_TERM, function () use ($limit) {
+                    return Slide::where('status', 1)
+                        ->limit($limit)
+                        ->orderBy('ordering', 'asc')
+                        ->get();
+                });
+        }
+    }
+
+    /**
+     * SITE SOCIAL LINKS
+     */
+
+    if(!function_exists('siteSocialLinks')) {
+        function siteSocialLinks() {
+            $links = Cache::remember(CacheKeys::SITE_SOCIAL_LINKS, CacheKeys::LONG_TERM, function () {
+                return SiteSocialLink::first();
+            });
+            if($links) {
+                return $links;
+            }
         }
     }
 }

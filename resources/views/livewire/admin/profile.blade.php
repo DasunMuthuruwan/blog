@@ -106,7 +106,7 @@
                                                     <input type="text" wire:model="name" id="full_name"
                                                         placeholder="Enter full name" class="form-control form-control-sm">
                                                     @error('name')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -116,7 +116,7 @@
                                                     <input type="text" wire:model="email" id="email"
                                                         placeholder="Enter email" class="form-control form-control-sm" disabled>
                                                     @error('email')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -126,7 +126,7 @@
                                                     <input type="text" wire:model="username" id="username"
                                                         placeholder="Enter username" class="form-control form-control-sm">
                                                     @error('username')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -135,7 +135,7 @@
                                                     <label for="bio" class="for">Bio</label>
                                                     <textarea type="text" wire:model="bio" id="bio" placeholder="Enter your bio..." class="form-control"></textarea>
                                                     @error('bio')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -159,7 +159,7 @@
                                                         id="current_password" placeholder="Enter current password"
                                                         class="form-control form-control-sm">
                                                     @error('current_password')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -169,7 +169,7 @@
                                                     <input type="password" wire:model="password" id="password"
                                                         placeholder="Enter new password" class="form-control form-control-sm">
                                                     @error('password')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -181,7 +181,7 @@
                                                         id="password_confirmation"
                                                         placeholder="Enter confirm password" class="form-control form-control-sm">
                                                     @error('password_confirmation')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -204,7 +204,7 @@
                                                     <input type="text" wire:model="facebook_url" id="facebook_url"
                                                         placeholder="Facebook url" class="form-control form-control-sm">
                                                     @error('facebook_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -215,7 +215,7 @@
                                                         id="instagram_url" placeholder="Instagram url"
                                                         class="form-control form-control-sm">
                                                     @error('instagram_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -225,7 +225,7 @@
                                                     <input type="text" wire:model="youtube_url" id="youtube_url"
                                                         placeholder="Youtube url" class="form-control form-control-sm">
                                                     @error('youtube_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -235,7 +235,7 @@
                                                     <input type="text" wire:model="linkedin_url" id="linkedin_url"
                                                         placeholder="Linkedin url" class="form-control form-control-sm">
                                                     @error('linkedin_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -245,7 +245,7 @@
                                                     <input type="text" wire:model="twitter_url" id="twitter_url"
                                                         placeholder="Twitter url" class="form-control form-control-sm">
                                                     @error('twitter_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>
@@ -255,7 +255,7 @@
                                                     <input type="text" wire:model="github_url" id="github_url"
                                                         placeholder="Github url" class="form-control form-control-sm">
                                                     @error('github_url')
-                                                        <span class="text-danger">{{ $message }}</span>
+                                                        <span class="text-danger small">{{ $message }}</span>
                                                     @enderror
                                                 </div>
                                             </div>

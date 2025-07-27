@@ -127,10 +127,19 @@
                         <input type="text" class="form-control form-control-sm" wire:model="pcategory_name"
                             placeholder="Enter parent category name">
                         @error('pcategory_name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger small">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="parent_icon"><b>Icon</b>:</label>
+                        <input type="text" class="form-control form-control-sm" wire:model="parent_icon"
+                            placeholder="Enter icon(Example: ti-user)">
+                        @error('parent_icon')
+                            <span class="text-danger small">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">
                         <i class="fa fa-times"></i> Close
@@ -169,7 +178,7 @@
                             @endforeach
                         </select>
                         @error('parent')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger small">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
@@ -177,15 +186,15 @@
                         <input type="text" class="form-control form-control-sm" wire:model="category_name"
                             placeholder="Enter category name">
                         @error('category_name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger small">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="category_description"><b>Category description</b>:</label>
-                        <textarea wire:model="category_description" id="category_description" cols="30" rows="10" class="form-control"
-                            placeholder="Enter category description here..."></textarea>
+                        <textarea wire:model="category_description" id="category_description" cols="30" rows="10"
+                            class="form-control" placeholder="Enter category description here..."></textarea>
                         @error('category_description')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="text-danger small">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>

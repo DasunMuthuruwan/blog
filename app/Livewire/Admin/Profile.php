@@ -192,7 +192,6 @@ class Profile extends Component
                 'message' => $this->serverError
             ]);
         } catch (Exception $e) {
-            dd($e);
             $this->dispatch('showToastr', [
                 'type' => 'error',
                 'message' => $this->serverError

@@ -17,6 +17,13 @@
                         Logo & Favicon
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a wire:click="selectTab('social_links')"
+                        class="nav-link {{ $tab == 'social_links' ? 'active' : '' }}" href="#social_links"
+                        role="tab">
+                        Social Links
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade {{ $tab == 'general_settings' ? 'show active' : '' }}" id="general_settings"
@@ -30,7 +37,7 @@
                                         <input type="text" name="site_title" id="site_title" wire:model="site_title"
                                             placeholder="Enter site title" class="form-control form-control-sm">
                                         @error('site_title')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -41,7 +48,7 @@
                                         <input type="text" name="site_email" id="site_email" wire:model="site_email"
                                             placeholder="Enter site email" class="form-control form-control-sm">
                                         @error('site_email')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -53,7 +60,7 @@
                                             placeholder="Enter site contact number"
                                             class="form-control form-control-sm">
                                         @error('site_phone')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -66,7 +73,7 @@
                                             wire:model="site_meta_keywords" placeholder="Eg: free api, laravel, mysql"
                                             class="form-control form-control-sm">
                                         @error('site_meta_keywords')
-                                            <span class="text-danger">{{ $message }}</span>
+                                            <span class="text-danger small">{{ $message }}</span>
                                         @enderror
                                     </div>
                                 </div>
@@ -78,7 +85,7 @@
                                 <textarea wire:model="site_meta_description" name="site_meta_description" id="site_meta_description"
                                     class="form-control" placeholder="Site meta description..."></textarea>
                                 @error('site_meta_description')
-                                    <span class="text-danger">{{ $message }}</span>
+                                    <span class="text-danger small">{{ $message }}</span>
                                 @enderror
                             </div>
 
@@ -131,6 +138,66 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade {{ $tab == 'social_links' ? 'show active' : '' }}" id="general_settings"
+                    role="tabpanel">
+                    <div class="pd-20">
+                        <form wire:submit="updateSiteSocialLinks()">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="facebook"><b>Facebook</b>:</label>
+                                        <input type="text" wire:model="facebook_url"
+                                            class="form-control form-control-sm" placeholder="Facebook URL">
+                                        @error('facebook_url')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="instagram"><b>Instagram</b>:</label>
+                                        <input type="text" wire:model="instagram_url"
+                                            class="form-control form-control-sm" placeholder="Instagram URL">
+                                        @error('instagram_url')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="linkdin"><b>Linkdin</b>:</label>
+                                        <input type="text" wire:model="linkdin_url"
+                                            class="form-control form-control-sm" placeholder="Linkdin URL">
+                                        @error('linkdin_url')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="twitter"><b>Twitter (X)</b>:</label>
+                                        <input type="text" wire:model="twitter_url"
+                                            class="form-control form-control-sm" placeholder="Twitter URL">
+                                        @error('twitter_url')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit">
+                                <i class="fa fa-save"></i> Save Changes
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

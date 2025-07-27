@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ContactRequest;
+use App\Mail\ContactMail;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\User;
@@ -10,7 +12,8 @@ use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\SEOTools;
 use Exception;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
 
 class BlogController extends Controller
 {
@@ -70,7 +73,7 @@ class BlogController extends Controller
             $featureImage = $posts->first()->featured_image;
             $canonical = url()->current();
 
-            SEOTools::setTitle($title);
+            SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
             SEOTools::opengraph()
                 ->setUrl($canonical)
@@ -94,7 +97,6 @@ class BlogController extends Controller
                 'posts' => $posts
             ]);
         } catch (Exception $exception) {
-            dd($exception);
             logger()->error("Category posts error: " . $exception->getMessage());
 
             return redirect()->route('home')->with('error', 'Category not found');
@@ -124,7 +126,7 @@ class BlogController extends Controller
             $canonical = route('author_posts', ['username' => $author->username]);
             $featureImage = optional($posts->first())->featured_image ?: $author->picture;
 
-            SEOTools::setTitle($title);
+            SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
             SEOTools::setCanonical(route('author_posts', ['username' => $author->username]));
             SEOTools::opengraph()->setUrl(route('author_posts', ['username' => $author->username]));
@@ -178,7 +180,7 @@ class BlogController extends Controller
         $description = "Explore all posts tagged with {$tag} on our blog";
 
         /** Set SEO Meta Tags */
-        SEOTools::setTitle($title);
+        SEOTools::setTitle($title, false);
         SEOTools::setDescription($description);
         SEOTools::setCanonical(url()->current());
 
@@ -190,5 +192,93 @@ class BlogController extends Controller
             'tag' => $tag,
             'posts' => $posts
         ]);
+    }
+
+    public function readPost(Request $request, string $slug)
+    {
+        try {
+            $post = Post::where('slug', $slug)
+                ->firstOrFail();
+
+            $cacheKey = 'post_viewed_' . $post->id . '_' . request()->ip();
+            if (!Cache::has($cacheKey)) {
+                $post->increment('views');
+                Cache::put($cacheKey, true, now()->addHours(1));
+            }
+
+            $relatedPosts = Post::where('category', $post->category)
+                ->with(['author:id,name,username', 'post_category:id,name,slug']) // Eager load relationships
+                ->where('id', '!=', $post->id)
+                ->visible(1)
+                ->take(3)
+                ->get();
+
+            $nextPost = Post::where('id', '>', $post->id)
+                ->visible(1)
+                ->orderBy('id')
+                ->first();
+
+            $prevPost = Post::where('id', '<', $post->id)
+                ->visible(1)
+                ->orderBy('id', 'desc')
+                ->first();
+
+            /** Set SEO Meta Tags */
+            $title = $post->title;
+            $description = !empty($post->meta_description)
+                ? $post->meta_description : words($post->content, 35);
+            $image = asset("storage/images/posts/{$post->feature_image}");
+            SEOTools::setTitle($title, false);
+            SEOTools::setDescription($description);
+            SEOTools::opengraph()->setUrl(route('read_post', $post->slug));
+            SEOTools::opengraph()->addProperty('type', 'article');
+            SEOTools::opengraph()->addImage($image);
+            SEOTools::twitter()->setImage($image);
+
+            return view('front.pages.single_post', [
+                'pageTitle' => $title,
+                'post' => $post,
+                'relatedPosts' => $relatedPosts,
+                'prevPost' => $prevPost,
+                'nextPost' => $nextPost
+            ]);
+        } catch (Exception $exception) {
+            logger()->error("Author posts error: " . $exception->getMessage());
+
+            return redirect()->route('home')->with('error', 'The author you requested was not found');
+        }
+    }
+
+    public function contactPage(Request $request)
+    {
+        $title = "Contact Us";
+        $description = "Hate Forms? Write Us Email";
+        SEOTools::setTitle($title, false);
+        SEOTools::setDescription($description);
+
+        return view('front.pages.contact');
+    }
+
+    public function sendEmail(ContactRequest $contactRequest)
+    {
+        try {
+
+            $data = [
+                'name' => $contactRequest->name,
+                'email' => $contactRequest->email,
+                'subject' => $contactRequest->subject,
+                'message' => $contactRequest->message
+            ];
+            $siteInfo = settings();
+
+            Mail::to($siteInfo->site_email)
+                ->queue(new ContactMail($data, $siteInfo));
+
+            return redirect()->back()->with('success', 'Email Sent Successfully.');
+        } catch (Exception $exception) {
+            logger()->error("Author posts error: " . $exception->getMessage());
+
+            return redirect()->route('home')->with('error', 'Something went wrong. Try again later.');
+        }
     }
 }

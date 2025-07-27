@@ -4,7 +4,7 @@
     @livewire('admin.category.categories')
 @endsection
 @push('scripts')
-<script src="{{ asset('back/src/custom/FormOptions.js') }}"></script>
+    <script src="{{ asset('back/src/custom/FormOptions.js') }}"></script>
     <script>
         window.addEventListener('showParentCategoryModalForm', function() {
             $('#parent_category_modal').modal('show');

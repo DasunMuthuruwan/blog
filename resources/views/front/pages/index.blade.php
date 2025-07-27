@@ -11,31 +11,28 @@
             <div id="home-content">
                 @if (empty($search))
                     <article class="row mb-5">
-                        <div class="col-12">
-                            <div class="post-slider">
-                                <div class="slider-item">
-                                    <img loading="lazy" src="{{ asset('front/images/posts/11.png') }}" class="img-fluid"
-                                        alt="post-thumb">
-                                    <div class="slider-content">
-                                        <h2 class="animate__animated">JavaScript ES6: Arrow Functions Explained</h2>
-                                    </div>
-                                </div>
-                                <div class="slider-item">
-                                    <img loading="lazy" src="{{ asset('front/images/posts/02.png') }}" class="img-fluid"
-                                        alt="post-thumb">
-                                    <div class="slider-content">
-                                        <h2 class="animate__animated">CSS Flexbox: Aligning Elements Like a Pro</h2>
-                                    </div>
-                                </div>
-                                <div class="slider-item">
-                                    <img loading="lazy" src="{{ asset('front/images/posts/03.png') }}" class="img-fluid"
-                                        alt="post-thumb">
-                                    <div class="slider-content">
-                                        <h2 class="animate__animated">Optimizing Applications for Speed</h2>
-                                    </div>
+                        @if (!empty(getSlides()))
+                            <div class="col-12">
+                                <div class="post-slider">
+                                    @foreach (getSlides() as $slide)
+                                        <div class="slider-item">
+                                            <img loading="lazy" src='{{ asset("images/slides/{$slide->image}") }}'
+                                                class="img-fluid" alt="{{ $slide->heading }}">
+                                            <div class="slider-content">
+                                                @if ($slide->link)
+                                                    <a href="{{ $slide->link }}">
+                                                        <h2 class="animated__animated">{{ $slide->heading }}</h2>
+                                                    </a>
+                                                @else
+                                                    <h2 class="animate__animated">{{ $slide->heading }}</h2>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
                                 </div>
                             </div>
-                        </div>
+                        @endif
+
 
                         @foreach (latestPosts(0, 1) as $post)
                             <div class="col-12 mx-auto">
@@ -53,7 +50,8 @@
                                     <li class="list-inline-item"><i
                                             class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}</li>
                                     <li class="list-inline-item">Category : <a
-                                            href="{{ route('category_posts', $post->post_category->slug) }}" class="ml-1">
+                                            href="{{ route('category_posts', $post->post_category->slug) }}"
+                                            class="ml-1">
                                             {{ $post->post_category->name }}
                                         </a>
                                     </li>
@@ -72,7 +70,7 @@
                         @endforeach
                     </article>
 
-                    <section id="home__latest-posts" class="home__latest">
+                    <section id="home__latest-posts" class="latest-article">
                         @foreach (latestPosts(1, 3) as $latestPost)
                             <article class="row mb-5 letest-result-item">
                                 <div class="col-md-4 mb-4 mb-md-0">
@@ -133,53 +131,13 @@
             <x-sidebar-tags />
 
             <!-- latest post -->
-            <div class="widget">
-                <h5 class="widget-title"><span>Latest Article</span></h5>
-                <!-- post-item -->
-                <ul class="list-unstyled widget-list">
-                    <li class="media widget-post align-items-center">
-                        <a href="post-details.html">
-                            <img loading="lazy" class="mr-3" src="{{ asset('front/images/posts/05.png') }}">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="mb-0">
-                                <a href="post-details.html">Optimizing CodeIgniter Applications for Speed.</a>
-                            </h6>
-                            <small>June 10, 2024</small>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list-unstyled widget-list">
-                    <li class="media widget-post align-items-center">
-                        <a href="post-details.html">
-                            <img loading="lazy" class="mr-3" src="{{ asset('front/images/posts/06.png') }}">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="mb-0"><a href="post-details.html">CSS Animations: Adding Life to Your Web Page</a>
-                            </h6>
-                            <small>June 27, 2024</small>
-                        </div>
-                    </li>
-                </ul>
-                <ul class="list-unstyled widget-list">
-                    <li class="media widget-post align-items-center">
-                        <a href="post-details-2.html">
-                            <img loading="lazy" class="mr-3" src="{{ asset('front/images/posts/07.png') }}">
-                        </a>
-                        <div class="media-body">
-                            <h6 class="mb-0"><a href="post-details-2.html">PHP Error Handling: Best Practices for
-                                    Beginners</a></h6>
-                            <small>June 03, 2024</small>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <x-sidebar-latest-article />
 
             <div class="d-flex align-items-center justify-content-center" style="background-color: #655087; height: 200px;">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" class="w-100 h-100 rounded-lg">
                     <rect width="100%" height="100%" fill="#655087" />
-                    <text x="50%" y="50%" fill="white" font-size="36" font-family="Arial, sans-serif"
-                        text-anchor="middle" dy=".3em">
+                    <text x="50%" y="50%" fill="white" font-size="36" font-family="Arial, sans-serif" text-anchor="middle"
+                        dy=".3em">
                         Ad Space
                     </text>
                 </svg>

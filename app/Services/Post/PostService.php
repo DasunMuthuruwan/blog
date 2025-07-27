@@ -6,7 +6,9 @@ use App\Exceptions\FailedOnCreatedException;
 use App\Exceptions\FailedOnUpdatedException;
 use App\Exceptions\FileNotFoundException;
 use App\Exceptions\FileUploadFailedException;
+use App\Jobs\SendNewsletterJob;
 use App\Models\Category;
+use App\Models\NewsLetterSubscriber;
 use App\Models\ParentCategory;
 use App\Models\Post;
 use Illuminate\Support\Facades\File;
@@ -69,6 +71,12 @@ class PostService
             'visibility' => $request->visibility
         ]);
 
+        if ($request->visibility == 1) {
+            // Get post details
+            $latestPost = Post::latest()->first();
+            $this->sendNewsletterForSubscribers($latestPost);
+        }
+
         throw_if(!$created, FailedOnCreatedException::class, 'Unable to create the post due to an error.');
 
         return $created;
@@ -88,6 +96,13 @@ class PostService
             $featureImageName = $this->imageUpload($request, $post);
         }
 
+        $sendEmailToSubscribers =
+            ($post->visibility == 0 &&
+                $post->is_notified == 0 &&
+                $request->visibility == 1)
+            ? true
+            : false;
+
         // Post update
         $updated = $post->update([
             'category' => $request->category,
@@ -103,9 +118,31 @@ class PostService
 
         throw_if(!$updated, FailedOnUpdatedException::class, 'Unable to update the post due to an error.');
 
+        /**
+         * Send newsletter to subscriber
+         */
+        $sendEmailToSubscribers && $this->sendNewsletterForSubscribers($post);
+
         return [
             'data' => $post
         ];
+    }
+
+    /**
+     * Summary of sendNewsletterForSubscribers
+     * @param object $latestPost
+     * @return void
+     */
+    public function sendNewsletterForSubscribers(object $latestPost): void
+    {
+        if (NewsLetterSubscriber::exists()) {
+            $subscribers = NewsLetterSubscriber::pluck('email');
+            foreach ($subscribers as $key => $email) {
+                SendNewsletterJob::dispatch($email, $latestPost);
+                $latestPost->is_notified = true;
+                $latestPost->save();
+            }
+        }
     }
 
     /**

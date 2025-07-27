@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\TermConditionsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -12,11 +14,17 @@ use Illuminate\Support\Facades\Route;
  * FRONTEND ROUTES
  */
 Route::get('/', [BlogController::class, 'index'])->name('home');
-Route::get('/post/{slug}', [PostController::class, 'readPost'])->name('read_post');
+Route::get('/post/{slug}', [BlogController::class, 'readPost'])->name('read_post');
 Route::get('posts/category/{slug}', [BlogController::class, 'categoryPosts'])->name('category_posts');
 Route::get('posts/author/{username}', [BlogController::class, 'authorPosts'])->name('author_posts');
 Route::get('posts/tag/{any}', [BlogController::class, 'tagPosts'])->name('tag_posts');
 Route::get('search', [BlogController::class, 'searchPosts'])->name('search_posts');
+Route::get('contact', [BlogController::class, 'contactPage'])->name('contact');
+Route::post('contact', [BlogController::class, 'sendEmail'])->name('send_email');
+
+Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
+Route::get('about-us', [AboutUsController::class, 'index'])->name('about_us');
+Route::get('term-conditions', [TermConditionsController::class, 'index'])->name('term_conditions');
 
 /** 
  * TESTING ROUTES
@@ -31,7 +39,7 @@ Route::view('example-auth', 'example-auth');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest', 'prevent-back-history'])->group(function () {
         Route::controller(AuthController::class)->group(function () {
-            Route::get('/login', 'loginForm')->name('login');
+            Route::get('/login', 'loginForm')->name(name: 'login');
             Route::post('/login', 'loginHandler')->name('login_handler');
             Route::get('/forgot-password', 'forgotForm')->name('forgot');
             Route::post('send-password-reset-link', 'sendPasswordResetLink')->name('send_password_reset_link');
@@ -52,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::post('update-logo', 'updateLogo')->name('update_logo');
                 Route::post('update-favicon', 'updateFavicon')->name('update_favicon');
                 Route::get('/categories', 'categoryPage')->name('categories');
+                Route::get('/slider', 'manageSlider')->name('slider');
             });
 
 

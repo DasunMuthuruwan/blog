@@ -16,8 +16,8 @@ class Categories extends Component
 
     public $isUpdateParentCategoryModal = false;
     public $isUpdateCategoryModal = false;
-    public $pcategory_id, $pcategory_name;
-    public $category_id, $category_name, $category_description, $parent;
+    public $pcategory_id, $pcategory_name, $parent_icon;
+    public $category_id, $category_name, $category_description, $parent, $icon;
     public $pcategoriesPerPage = 5;
     public $categoriesPerPage = 5;
 
@@ -38,6 +38,7 @@ class Categories extends Component
     {
         $this->pcategory_id = null;
         $this->pcategory_name = null;
+        $this->parent_icon = null;
         $this->isUpdateParentCategoryModal = false;
         $this->showParentCategoryModalForm();
     }
@@ -48,6 +49,7 @@ class Categories extends Component
         $this->category_name = null;
         $this->category_description = null;
         $this->parent = 0;
+        $this->icon = null;
         $this->isUpdateCategoryModal = false;
         $this->showCategoryModalForm();
     }
@@ -65,6 +67,7 @@ class Categories extends Component
             // Store new parent category
             $pCategory = new ParentCategory;
             $pCategory->name = $this->pcategory_name;
+            $pCategory->icon = $this->parent_icon;
             $pCategory->save();
             $this->hideParentCategoryModalForm();
 
@@ -91,6 +94,7 @@ class Categories extends Component
         $pCategory = ParentCategory::findOrFail($pCategoryId);
         $this->pcategory_id = $pCategory->id;
         $this->pcategory_name = $pCategory->name;
+         $this->parent_icon = $pCategory->parent_icon;
         $this->isUpdateParentCategoryModal = true;
         $this->showParentCategoryModalForm();
     }
@@ -113,6 +117,7 @@ class Categories extends Component
         try {
             $this->isUpdateParentCategoryModal = true;
             $pCategory->name = $this->pcategory_name;
+            $pCategory->parent_icon = $this->parent_icon;
             $pCategory->slug = null;
             $pCategory->save();
 
@@ -331,6 +336,7 @@ class Categories extends Component
         $this->isUpdateParentCategoryModal = false;
         $this->pcategory_id = null;
         $this->pcategory_name = null;
+        $this->parent_icon = null;
     }
 
     // Category
