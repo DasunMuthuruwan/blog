@@ -8,7 +8,7 @@
                     placeholder="Type to discover articles, guide &amp; tutorials..." class="search-input"
                     autocomplete="off">
                 <button type="button" wire:click="clearSearch">
-                    <i class="ti-close"></i>
+                    <i class="ti-close text-dark"></i>
                 </button>
                 <button type="button" class="search-btn">
                     <i class="ti-search"></i>
@@ -80,7 +80,7 @@
                 @endforeach
 
                 <div class="pagination-block">
-                    {{ $posts->appends(request()->input())->links('custom-paginations') }}
+                    {{ $posts->links('custom-pagination-livewire') }}
                 </div>
             @else
                 <div class="text-center py-5">

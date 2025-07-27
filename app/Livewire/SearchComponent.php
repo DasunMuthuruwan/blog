@@ -13,7 +13,11 @@ class SearchComponent extends Component
 
     public $search = '';
     public $showResults = false;
-    protected $queryString = ['search'];
+    protected $queryString = [
+        'search' => [
+            'except' => ''
+        ]
+    ];
 
     public function mount()
     {
@@ -43,7 +47,7 @@ class SearchComponent extends Component
 
         if (!empty($this->search)) {
             $searchTerm = "%{$this->search}%";
-            
+
             $posts = Post::whereLike('title', $searchTerm)
                 ->orWhereLike('content', 'like', $searchTerm)
                 ->orWhereLike('tags', 'like', $searchTerm)
@@ -55,10 +59,10 @@ class SearchComponent extends Component
             $posts->getCollection()->transform(function ($post) {
                 $post->highlighted_title = $this->highlightSearchTerm($post->title, $this->search);
                 $post->highlighted_content = $this->highlightSearchTerm(
-                    Str::limit(strip_tags($post->content), 150), 
+                    Str::limit(strip_tags($post->content), 150),
                     $this->search
                 );
-                
+
                 return $post;
             });
         }
@@ -76,7 +80,7 @@ class SearchComponent extends Component
         }
 
         return preg_replace(
-            '/('.preg_quote($searchTerm, '/').')/i',
+            '/(' . preg_quote($searchTerm, '/') . ')/i',
             '<span class="search-highlight">$1</span>',
             $text
         );
