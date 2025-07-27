@@ -19,7 +19,8 @@
                 </nav>
             </div>
             <div class="col-md-6 col-sm-12 text-right">
-                <a href="{{ route('admin.posts') }}" class="btn btn-sm btn-primary"><i class=" icon-copy bi bi-eye mr-1"></i>View all posts</a>
+                <a href="{{ route('admin.posts') }}" class="btn btn-sm btn-primary"><i
+                        class=" icon-copy bi bi-eye mr-1"></i>View all posts</a>
             </div>
         </div>
     </div>
@@ -72,11 +73,12 @@
                         <div class="form-group">
                             <label for="feature_image"><b>Post Featured image</b>:</label>
                             <input type="file" class="form-control-file form-control form-control-sm"
-                                name="feature_image" id="feature_image" height="auto" {{ !isset($post) ? 'required' : '' }}>
+                                name="feature_image" id="feature_image" height="auto"
+                                {{ !isset($post) ? 'required' : '' }}>
                         </div>
                         <div class="d-block mb-3" style="max-width: 250px;">
-                            <img src="{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}" alt=""
-                                class="img-thumbnail" id="featured_image_preview">
+                            <img src="{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}"
+                                alt="" class="img-thumbnail" id="featured_image_preview">
                         </div>
                         <div class="form-group">
                             <label for="tags"><b>Tags</b></label>
@@ -91,8 +93,8 @@
                                 <label for="customRadio1" class="custom-control-label">Public</label>
                             </div>
                             <div class="custom-control custom-radio mb-5">
-                                <input type="radio" value="0" name="visibility" id="customRadio2" class="custom-control-input"
-                                    {{ $post->visibility == 0 ? 'checked' : '' }}>
+                                <input type="radio" value="0" name="visibility" id="customRadio2"
+                                    class="custom-control-input" {{ $post->visibility == 0 ? 'checked' : '' }}>
                                 <label for="customRadio2" class="custom-control-label">Private</label>
                             </div>
                         </div>
@@ -112,7 +114,68 @@
 @push('scripts')
     <script src="{{ asset('back/src/plugins/bootstrap-tagsinput/bootstrap-tagsinput.js') }}"></script>
     <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('ckeditor/plugins/codesnippet/plugin.js') }}"></script>
+    <script src="{{ asset('ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
     {{-- <script src="{{ asset('back/src/custom/imagePreview.js') }}"></script> --}}
+    <script>
+        CKEDITOR.replace('content', {
+            height: 400,
+            extraPlugins: 'codesnippet,uploadimage,image,clipboard,dialog,dialogui,widget,lineutils,justify,colorbutton,font',
+            codeSnippet_theme: 'default',
+
+            toolbar: [{
+                    name: 'document',
+                    items: ['Source', '-', 'Preview', 'Print']
+                },
+                {
+                    name: 'clipboard',
+                    items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+                },
+                {
+                    name: 'editing',
+                    items: ['Find', 'Replace', '-', 'SelectAll', 'Scayt']
+                },
+                {
+                    name: 'insert',
+                    items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'Embed', 'CodeSnippet']
+                },
+                {
+                    name: 'styles',
+                    items: ['Styles', 'Format', 'Font', 'FontSize']
+                },
+                {
+                    name: 'basicstyles',
+                    items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+                },
+                {
+                    name: 'paragraph',
+                    items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']
+                },
+                {
+                    name: 'links',
+                    items: ['Link', 'Unlink', 'Anchor']
+                },
+                {
+                    name: 'tools',
+                    items: ['Maximize', 'ShowBlocks']
+                },
+                {
+                    name: 'colors',
+                    items: ['TextColor', 'BGColor']
+                },
+                {
+                    name: 'align',
+                    items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                }
+            ],
+
+            removeButtons: '', // keep all buttons
+            autoGrow_minHeight: 300,
+            autoGrow_maxHeight: 600,
+            autoGrow_bottomSpace: 50,
+            removePlugins: 'resize'
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
