@@ -1344,3 +1344,9 @@ pre {
 .navbar .user-details.active .user-dropdown {
   display: block;
 }
+
+.scroll-top a:hover {
+  color: #fff;
+  background-color: #1b00ff;
+  border-color: #1b00ff;
+}

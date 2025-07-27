@@ -3,7 +3,6 @@
 namespace App\Livewire;
 
 use App\Models\NewsLetterSubscriber;
-use Exception;
 use Livewire\Component;
 
 class NewsLetterForm extends Component
@@ -37,24 +36,25 @@ class NewsLetterForm extends Component
 
     public function subscribe()
     {
-        try {
-            $this->validate();
+        $this->validate();
 
-            // Save
-            NewsLetterSubscriber::create(['email' => $this->email]);
+        // Save
+        $created = NewsLetterSubscriber::create(['email' => $this->email]);
 
-            //Clear input and notify user
-            $this->email = '';
-            $this->dispatch('showToastr', [
-                'type' => 'info',
-                'message' => 'You have successfully subscribed.'
-            ]);
-        } catch (Exception $exception) {
+        //Clear input and notify user
+        $this->email = '';
+
+        if (!$created) {
             $this->dispatch('showToastr', [
                 'type' => 'error',
                 'message' => $this->serverError
             ]);
         }
+
+        $this->dispatch('showToastr', [
+            'type' => 'info',
+            'message' => 'You have successfully subscribed.'
+        ]);
     }
 
     public function render()
