@@ -17,7 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->prependToGroup('web', [
             BlockCrawlers::class,
-            BlockAnonymousProxies::class
+            // BlockAnonymousProxies::class
         ])
             ->alias([
                 'prevent-back-history' => PreventBackHistoryMiddleware::class,

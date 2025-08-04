@@ -167,15 +167,20 @@
         });
     </script>
     <script>
-        document.querySelector('.user-details').addEventListener('click', function() {
-            this.classList.toggle('active');
-        });
+        const userDetails = document.querySelector('.user-details');
+        if (userDetails) {
+            userDetails.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        }
 
         // Close Dropdown
         document.addEventListener('click', function(e) {
             const userDetails = document.querySelector('.user-details');
-            if (!userDetails.contains(e.target)) {
-                userDetails.classList.remove('active');
+            if (userDetails) {
+                if (!userDetails.contains(e.target)) {
+                    userDetails.classList.remove('active');
+                }
             }
         });
     </script>

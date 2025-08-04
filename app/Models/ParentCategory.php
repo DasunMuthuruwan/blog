@@ -5,10 +5,12 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ParentCategory extends Model
 {
     use Sluggable;
+    // , SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

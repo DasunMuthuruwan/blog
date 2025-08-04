@@ -243,6 +243,30 @@ class BlogController extends Controller
             SEOTools::opengraph()->addProperty('type', 'article');
             SEOTools::opengraph()->addImage($image);
             SEOTools::twitter()->setImage($image);
+            SEOTools::jsonLd()->setType('BlogPosting');
+            SEOTools::jsonLd()->setTitle($title);
+            SEOTools::jsonLd()->setDescription($description);
+            SEOTools::jsonLd()->addImage($image);
+            SEOTools::jsonLd()->setUrl(route('read_post', $post->slug));
+            SEOTools::jsonLd()->addValue('published_at', $post->published_at ?? now());
+            SEOTools::jsonLd()->addValue('updated_at', $post->updated_at ?? $post->published_at ?? now());
+            SEOTools::jsonLd()->addValue('author', [
+                '@type' => 'Person',
+                'name' => $post->author->name ?? 'Dasun Muthuruwan'
+            ]);
+            SEOTools::jsonLd()->addValue('publisher', value: [
+                '@type' => 'Organization',
+                'name' => config('app.name'),
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png'),
+                ]
+            ]);
+            SEOTools::jsonLd()->addValue('mainEntityOfPage', [
+                '@type' => 'WebPage',
+                '@id' => route('read_post', $post->slug)
+            ]);
+
 
             return view('front.pages.single_post', [
                 'pageTitle' => $title,

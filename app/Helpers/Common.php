@@ -1,6 +1,7 @@
 <?php
 
 use App\Constants\CacheKeys;
+use App\Models\Ads;
 use App\Models\Category;
 use App\Models\GeneralSetting;
 use App\Models\ParentCategory;
@@ -230,14 +231,72 @@ if (!function_exists('navigations')) {
      * SITE SOCIAL LINKS
      */
 
-    if(!function_exists('siteSocialLinks')) {
-        function siteSocialLinks() {
+    if (!function_exists('siteSocialLinks')) {
+        function siteSocialLinks()
+        {
             $links = Cache::remember(CacheKeys::SITE_SOCIAL_LINKS, CacheKeys::LONG_TERM, function () {
                 return SiteSocialLink::first();
             });
-            if($links) {
+            if ($links) {
                 return $links;
             }
+        }
+    }
+
+    /**
+     * SITE SOCIAL LINKS
+     */
+
+    if (!function_exists('getCornerAd')) {
+        function getCornerAd()
+        {
+            return Cache::remember(CacheKeys::CORNER_AD, CacheKeys::LONG_TERM, function () {
+                $now = Carbon::now();
+
+                $ad = Ads::select('content', 'image', 'url')->where('type', 'corner')
+                    ->where(function ($q) use ($now) {
+                        $q->where('start_at', '<=', $now);
+                    })
+                    ->where(function ($q) use ($now) {
+                        $q->where('end_at', '>=', $now);
+                    })
+                    ->orderBy('start_at', 'desc')
+                    ->first();
+
+                if (!$ad) {
+                    $ad = Ads::where('type', 'corner')
+                        ->where('is_default', true)
+                        ->first();
+                }
+
+                return $ad;
+            });
+        }
+    }
+
+    if (!function_exists('getPopupAd')) {
+        function getPopupAd()
+        {
+            return Cache::remember(CacheKeys::POPUP_AD, CacheKeys::LONG_TERM, function () {
+                $now = now();
+
+                $ad = Ads::select('content', 'image', 'url')
+                    ->where('type', 'popup')
+                    ->where(function ($q) use ($now) {
+                        $q->where('start_at', '<=', $now);
+                    })
+                    ->where(function ($q) use ($now) {
+                        $q->where('end_at', '>=', $now);
+                    })
+                    ->orderBy('start_at', 'desc')
+                    ->first();
+
+                if (!$ad) {
+                    $ad = Ads::where('type', 'popup')->where('is_default', true)->first();
+                }
+
+                return $ad;
+            });
         }
     }
 }

@@ -25,6 +25,7 @@ return new class extends Migration
             $table->integer('visibility')->default(1);
             $table->timestamp('created_at')->index();
             $table->timestamp('updated_at');
+            $table->softDeletes();
         });
     }
 

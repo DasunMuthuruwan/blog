@@ -1350,3 +1350,32 @@ pre {
   background-color: #1b00ff;
   border-color: #1b00ff;
 }
+
+/* Copy icon */
+pre {
+  position: relative;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow: auto;
+  /* margin-bottom: 1rem; */
+}
+
+/* Copy button inside <pre> */
+pre .copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #e2e8f0;
+  border: none;
+  padding: 3px 6px;
+  font-size: 12px;
+  /* border-radius: 4px; */
+  cursor: pointer;
+  z-index: 10;
+  color: #333;
+}
+
+pre .copy-button:hover {
+  background: #cbd5e0;
+}

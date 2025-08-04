@@ -134,13 +134,32 @@
             <x-sidebar-latest-article />
 
             <div class="d-flex align-items-center justify-content-center" style="background-color: #655087; height: 200px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" class="w-100 h-100 rounded-lg">
-                    <rect width="100%" height="100%" fill="#655087" />
-                    <text x="50%" y="50%" fill="white" font-size="36" font-family="Arial, sans-serif" text-anchor="middle"
-                        dy=".3em">
-                        Ad Space
-                    </text>
-                </svg>
+                @php
+                    $cornerAd = getCornerAd();
+                @endphp
+                @if ($cornerAd)
+                    <div class="w-100 h-100 rounded-lg">
+                        @if ($cornerAd->image && $cornerAd->url)
+                            {{-- Show image wrapped in a link --}}
+                            <a href="{{ e($cornerAd->url) }}" target="_blank" rel="noopener noreferrer">
+                                <img src='{{ asset("images/ads/{$cornerAd->image}") }}' alt="Ad" class="img-fluid">
+                            </a>
+                        @elseif($cornerAd->url && $cornerAd->content)
+                            {{-- Show content wrapped in a link --}}
+                            <a href="{{ $cornerAd->url }}" target="_blank" rel="noopener noreferrer">
+                                {!! $cornerAd->content !!}
+                            </a>
+                        @endif
+                    </div>
+                @else
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 600" class="w-100 h-100 rounded-lg">
+                        <rect width="100%" height="100%" fill="#655087" />
+                        <text x="50%" y="50%" fill="white" font-size="36" font-family="Arial, sans-serif"
+                            text-anchor="middle" dy=".3em">
+                            Ad Space
+                        </text>
+                    </svg>
+                @endif
             </div>
         </aside>
     </div>

@@ -236,6 +236,15 @@
                                     class="{{ Route::is('admin.posts') ? 'active' : '' }}">Posts</a></li>
                         </ul>
                     </li>
+                    @if (auth()->user()->type == 'superAdmin')
+                        <li>
+                            <a href="{{ route('admin.advertisements') }}"
+                                class="dropdown-toggle no-arrow {{ Route::is('admin.advertisements') ? 'active' : '' }}">
+                                <span class="micon fa fa-bullhorn"></span>
+                                <span class="mtext">Advertisements</span>
+                            </a>
+                        </li>
+                    @endif
                     {{-- @if (auth()->user()->type == 'superAdmin')
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">

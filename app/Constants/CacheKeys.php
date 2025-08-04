@@ -12,6 +12,10 @@ class CacheKeys
     public const SIDEBAR_LATEST_POSTS = 'sidebar_latest_posts'; // latest posts
     public const SIDEBAR_CATEGORIES = 'sidebar_categories'; // sidebar categories
 
+    public const CORNER_AD = 'corner_ad'; // corner ad
+
+    public const POPUP_AD = 'popup_ad'; // popup ad
+
     public const HOME_SLIDES = 'home_slides';
 
     // Time durations (in seconds)

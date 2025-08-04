@@ -199,6 +199,42 @@
                 ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0');
 
             return false;
-        })
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.content pre').forEach(function(pre) {
+                // Skip if already has a copy button
+                if (pre.querySelector('.copy-button')) return;
+
+                const code = pre.querySelector('code');
+                if (!code) return;
+
+                // Create the copy button inside <pre>
+                const button = document.createElement('button');
+                button.className = 'copy-button';
+                button.innerHTML = '📋';
+
+                pre.appendChild(button); // append inside <pre>
+
+                button.addEventListener('click', function() {
+                    const text = code.innerText;
+
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+
+                    try {
+                        document.execCommand('copy');
+                        button.innerHTML = '✅';
+                    } catch (err) {
+                        button.innerHTML = '❌';
+                    }
+
+                    document.body.removeChild(textarea);
+                    setTimeout(() => button.innerHTML = '📋', 1500);
+                });
+            });
+        });
     </script>
 @endpush

@@ -180,4 +180,11 @@ class AdminController extends Controller
             'pageTitle' => 'Manage Home Slider'
         ]);
     }
+
+    public function manageAds(Request $request)
+    {
+        return view('back.pages.advertisements', [
+            'pageTitle' => 'Manage Advertisements'
+        ]);
+    }
 }
