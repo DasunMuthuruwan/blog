@@ -18,12 +18,22 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name'=>'Admin',
+            'name' => 'Dasun Muthuruwan',
             'email' => 'dasunmuthuruwan9@gmail.com',
             'username' => 'admin',
-            'password' => Hash::make('Dasun@123'),
+            'password' => Hash::make('Dasun@9495'),
             'type' => UserType::SuperAdmin,
-            'status'=>UserStatus::Active,
+            'status' => UserStatus::Active,
+            'password_changed_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'name' => 'Gayashani Ranasinghe',
+            'email' => 'gayashiranasinghe@gmail.com',
+            'username' => 'admin',
+            'password' => Hash::make('Gayashi@9495'),
+            'type' => UserType::SuperAdmin,
+            'status' => UserStatus::Active,
             'password_changed_at' => Carbon::now()
         ]);
     }
