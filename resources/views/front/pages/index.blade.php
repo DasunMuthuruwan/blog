@@ -11,10 +11,10 @@
             <div id="home-content">
                 @if (empty($search))
                     <article class="row mb-5">
-                        @if (!empty(getSlides()))
+                        @if (!empty($slides))
                             <div class="col-12">
                                 <div class="post-slider">
-                                    @foreach (getSlides() as $slide)
+                                    @foreach ($slides as $slide)
                                         <div class="slider-item">
                                             <img loading="lazy" src='{{ asset("images/slides/{$slide->image}") }}'
                                                 class="img-fluid" alt="{{ $slide->heading }}">
@@ -98,10 +98,13 @@
                                                 {{ $latestPost->post_category->name }}
                                             </a>
                                         </li>
+                                        @php
+                                            $duration = readDuration($latestPost->title, $latestPost->content);
+                                        @endphp
                                         <li class="list-inline-item">
                                             <i class="ti-timer mr-1"></i>
-                                            {{ readDuration($latestPost->title, $latestPost->content) }}
-                                            @choice('min|mins', readDuration($latestPost->title, $latestPost->content))
+                                            {{ $duration }}
+                                            @choice('min|mins', $duration)
                                         </li>
                                     </ul>
                                     <p>
@@ -133,7 +136,7 @@
             <!-- latest post -->
             <x-sidebar-latest-article />
 
-            <div class="d-flex align-items-center justify-content-center" style="background-color: #655087; height: 200px;">
+            <div class="d-flex align-items-center justify-content-center ad-container" style="background-color: #655087; height: 200px;">
                 @php
                     $cornerAd = getCornerAd();
                 @endphp

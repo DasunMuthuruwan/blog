@@ -53,7 +53,7 @@ class SearchComponent extends Component
                 ->orWhereLike('tags', 'like', $searchTerm)
                 ->with(['author', 'post_category'])
                 ->latest()
-                ->paginate(2);
+                ->paginate(3);
 
             // Add highlighting
             $posts->getCollection()->transform(function ($post) {

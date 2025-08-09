@@ -8,7 +8,6 @@ use App\Exceptions\FileUploadFailedException;
 use App\Helpers\ApiResponse;
 use App\Http\Requests\Post\PostStoreRequest;
 use App\Http\Requests\Post\PostUpdateRequest;
-use App\Models\ParentCategory;
 use App\Models\Post;
 use App\Services\Post\PostService;
 use Exception;
@@ -39,7 +38,9 @@ class PostController extends Controller
     public function createPost(PostStoreRequest $postStoreRequest)
     {
         try {
-            return ApiResponse::success($this->postService->create($postStoreRequest), "New post has been created successfully.");
+            $response = $this->postService->create($postStoreRequest);
+
+            return ApiResponse::success($response['data'], $response['message']);
         } catch (
             FileNotFoundException |
             FileUploadFailedException |
@@ -76,7 +77,7 @@ class PostController extends Controller
         try {
             $response = $this->postService->updatePost($postUpdateRequest, $post);
 
-            return ApiResponse::success($response['data'], "Post has been updated successfully.");
+            return ApiResponse::success($response['data'], $response['message']);
         } catch (
             FileNotFoundException |
             FileUploadFailedException |

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Cohensive\OEmbed\Facades\OEmbed;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -66,9 +67,11 @@ class Post extends Model
     #[Scope]
     protected function search(Builder $query, string $search): void
     {
-        $query->whereLike('title', "%{$search}%")
-            ->orWhereLike('content', "%{$search}%")
-            ->orWhereLike('tags', "%{$search}%");
+        if (!empty($search)) {
+            $query->whereLike('title', "%{$search}%")
+                ->orWhereLike('content', "%{$search}%")
+                ->orWhereLike('tags', "%{$search}%");
+        }
     }
 
     /**
@@ -82,14 +85,15 @@ class Post extends Model
         $query->where('visibility', $visibility);
     }
 
-    /**
-     * Scope a query to get post according to the slug.
-     * @param Builder $query
-     * @param string $slug
-     */
-    #[Scope]
-    protected function slug(Builder $query, string $slug): void
-    {
-        $query->where('slug', $slug);
-    }
+
+    // /**
+    //  * Scope a query to get post according to the slug.
+    //  * @param Builder $query
+    //  * @param string $slug
+    //  */
+    // #[Scope]
+    // protected function slug(Builder $query, string $slug): void
+    // {
+    //     $query->where('slug', $slug);
+    // }
 }

@@ -82,6 +82,12 @@
                                         style="color: rgb(38,94,215)">
                                         <i class="icon-copy dw dw-edit2"></i>
                                     </a>
+                                    @if (auth()->user()->type == 'superAdmin' && !$post->visibility)
+                                        <a href="javascript:;" wire:click="approvePost({{ $post->id }})"
+                                            data-color="#e95959" style="color: rgb(233,89,89)">
+                                            <i class="icon-copy bi bi-check-circle"></i>
+                                        </a>
+                                    @endif
                                     <a href="javascript:;" wire:click="deletePost({{ $post->id }})"
                                         data-color="#e95959" style="color: rgb(233,89,89)">
                                         <i class="icon-copy dw dw-delete-3"></i>

@@ -2,9 +2,11 @@
 
 namespace App\Livewire\Admin;
 
+use App\Mail\SendApprovedPostForAuthorMail;
 use App\Models\Post;
 use App\Services\Post\PostService;
 use Exception;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -41,7 +43,8 @@ class Posts extends Component
     ];
 
     protected $listeners = [
-        'deletePostAction'
+        'deletePostAction',
+        'approvePostAction'
     ];
 
     public function updatedSearch()
@@ -72,7 +75,7 @@ class Posts extends Component
 
     public function mount(): void
     {
-        $this->author = auth()->user()->type == 'superAdmin' ? auth()->user()->id : '';
+        // $this->author = auth()->user()->type == 'superAdmin' ? auth()->user()->id : '';
         $this->post_visibility = $this->visibility == 'public' ? 1 : 0;
         $this->categoryHtml = (new PostService)->generateCategoryHtml();
     }
@@ -80,6 +83,42 @@ class Posts extends Component
     public function deletePost(int $postId): void
     {
         $this->dispatch('deletePost', ['id' => $postId]);
+    }
+
+    public function approvePost(int $postId)
+    {
+        $this->dispatch('approvePost', ['id' => $postId]);
+    }
+
+    /**
+     * Pending post approve functionality
+     * @param int $id
+     * @return void
+     */
+    public function approvePostAction(int $id)
+    {
+        try {
+
+            $post = Post::with('author')->findOrFail($id);
+            $post->update([
+                'visibility' => 1
+            ]);
+
+            Mail::to($post->author->email)
+                ->queue(new SendApprovedPostForAuthorMail($post));
+
+            (new PostService)->sendNewsletterForSubscribers($post);
+
+            $this->dispatch('showToastr', [
+                'type' => 'info',
+                'message' => 'Post have been approved successfully.'
+            ]);
+        } catch (Exception $exception) {
+            $this->dispatch('showToastr', [
+                'type' => 'error',
+                'message' => $this->serverError
+            ]);
+        }
     }
 
     /**
@@ -113,10 +152,10 @@ class Posts extends Component
     {
         $query = Post::with(['author', 'post_category'])
             ->search(trim($this->search))
-            ->when($this->author, fn($q) => $q->where('author_id', $this->author))
-            ->when($this->visibility, fn($q) => $q->where('visibility', $this->post_visibility))
-            ->when($this->category, fn($q) => $q->where('category', $this->category))
-            ->when($this->sort_by, fn($q) => $q->orderBy('id', $this->sort_by))
+            ->when(!empty($this->author), fn($q) => $q->where('author_id', $this->author))
+            ->when(!empty($this->visibility), fn($q) => $q->where('visibility', $this->post_visibility))
+            ->when(!empty($this->category), fn($q) => $q->where('category', $this->category))
+            ->when(!empty($this->sort_by), fn($q) => $q->orderBy('id', $this->sort_by))
             ->clone();
 
         return view('livewire.admin.posts', [

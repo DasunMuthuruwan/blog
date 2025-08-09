@@ -108,14 +108,21 @@ h6,
   border-color: var(--main-color);
 }
 
-.btn-primary:active,
+.btn-primary:hover {
+  background-color: #7b64a4;
+  border-color: #7b64a4;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(101, 80, 135, 0.4);
+}
+
+/* .btn-primary:active,
 .btn-primary:visited,
 .btn-primary:hover,
 .btn-primary.focus,
 .btn-primary.active {
   background: var(--main-color) !important;
   border-color: var(--main-color) !important;
-}
+} */
 
 .btn-outline-primary {
   background: transparent;
@@ -199,8 +206,8 @@ a:hover {
 }
 
 .section {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
 }
 
 .section-sm {
@@ -410,9 +417,15 @@ a:hover {
 }
 
 /* search */
-.search-btn {
+.search-btn,.search-btn-top {
   border: 0;
   background: transparent;
+}
+
+.search-btn:hover {
+   background-color: #7b64a4;
+  border-color: #7b64a4;
+  color: #fff;
 }
 
 .search-wrapper {
@@ -1059,6 +1072,11 @@ pre {
   padding-left: 40px;
 }
 
+.subscription .form-control:hover {
+  background-color: #e6e6e6; /* slightly darker for hover */
+  box-shadow: 0 0 2px rgba(101, 80, 135, 0.3); /* subtle glow */
+}
+
 .subscription .email-icon {
   position: absolute;
   left: 10px;
@@ -1346,9 +1364,9 @@ pre {
 }
 
 .scroll-top a:hover {
+  background-color: #7b64a4;
+  border-color: #7b64a4;
   color: #fff;
-  background-color: #1b00ff;
-  border-color: #1b00ff;
 }
 
 /* Copy icon */
@@ -1378,4 +1396,47 @@ pre .copy-button {
 
 pre .copy-button:hover {
   background: #cbd5e0;
+}
+
+.error-page-wrap {
+  font-size: 16px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #222222;
+}
+
+.error-page h1 {
+  font-size: 210px;
+  font-weight: 700;
+  text-shadow: 2px 2px 0 #181f48, 4px 4px 0 #fff, 8px 8px 0 #181f48;
+  line-height: 1;
+  color: #181f48;
+}
+
+.error-page h3 {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 30px;
+  padding-top: 30px;
+}
+
+.ad-container {
+    background-color: #655087;
+    height: 200px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ad-container:hover {
+    transform: scale(1.03); /* slight zoom */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* shadow glow */
+}
+
+.ad-container img {
+    transition: transform 0.3s ease;
+    border-radius: 8px;
+}
+
+.ad-container:hover img {
+    transform: scale(1.05); /* zoom image slightly */
 }

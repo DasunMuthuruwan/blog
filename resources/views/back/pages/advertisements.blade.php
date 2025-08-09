@@ -41,8 +41,6 @@
                     $('#start_at_picker').datepicker('setDate', new Date(dates[0].start_at));
                 }
                 if (dates[0].end_at) {
-                    
-                    console.log(dates[0].end_at);
                     $('#end_at_picker').datepicker('setDate', new Date(dates[0].end_at));
                 }
             });

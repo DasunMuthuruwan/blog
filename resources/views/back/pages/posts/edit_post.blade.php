@@ -85,19 +85,21 @@
                             <input type="text" class="form-control form-control-sm" name="tags" data-role="tagsinput"
                                 value="{{ $post->tags }}">
                         </div>
-                        <div class="form-group">
-                            <label for="visibility"><b>Visibility</b>:</label>
-                            <div class="custom-control custom-radio mb-5">
-                                <input type="radio" name="visibility" id="customRadio1" class="custom-control-input"
-                                    value="1" {{ $post->visibility == 1 ? 'checked' : '' }}>
-                                <label for="customRadio1" class="custom-control-label">Public</label>
+                        @if (auth()->user()->type == 'superAdmin')
+                            <div class="form-group">
+                                <label for="visibility"><b>Visibility</b>:</label>
+                                <div class="custom-control custom-radio mb-5">
+                                    <input type="radio" name="visibility" id="customRadio1" class="custom-control-input"
+                                        value="1" {{ $post->visibility == 1 ? 'checked' : '' }}>
+                                    <label for="customRadio1" class="custom-control-label">Public</label>
+                                </div>
+                                <div class="custom-control custom-radio mb-5">
+                                    <input type="radio" value="0" name="visibility" id="customRadio2"
+                                        class="custom-control-input" {{ $post->visibility == 0 ? 'checked' : '' }}>
+                                    <label for="customRadio2" class="custom-control-label">Private</label>
+                                </div>
                             </div>
-                            <div class="custom-control custom-radio mb-5">
-                                <input type="radio" value="0" name="visibility" id="customRadio2"
-                                    class="custom-control-input" {{ $post->visibility == 0 ? 'checked' : '' }}>
-                                <label for="customRadio2" class="custom-control-label">Private</label>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

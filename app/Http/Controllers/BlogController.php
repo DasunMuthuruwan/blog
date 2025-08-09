@@ -20,10 +20,11 @@ class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        $title = settings()->site_title ?? '';
-        $description = settings()->site_meta_description ?? '';
-        $imgUrl = settings()->site_logo ? asset("/storage/images/" . settings()->site_logo) : '';
-        $keywords = settings()->site_meta_keywords ?? '';
+        $settings = settings();
+        $title = $settings->site_title ?? '';
+        $description = $settings->site_meta_description ?? '';
+        $imgUrl = $settings->site_logo ? asset("/storage/images/{$settings->site_logo}") : '';
+        $keywords = $settings->site_meta_keywords ?? '';
         $currentUrl = url()->current();
 
         /** Meta  SEO */
@@ -49,7 +50,8 @@ class BlogController extends Controller
         return view(
             'front.pages.index',
             [
-                'pageTitle' => settings()->site_title ?? ''
+                'pageTitle' => $title,
+                'slides' => getSlides()
             ]
         );
     }
@@ -195,12 +197,56 @@ class BlogController extends Controller
         ]);
     }
 
+    public function searchPosts(Request $request)
+    {
+        // Get search query from the input
+        $query = $request->input('q');
+        if ($query) {
+            $keywords = explode(' ', $query);
+            $postsQuery = Post::query();
+            foreach ($keywords as $key => $keyword) {
+                $postsQuery->orWhereLike('title', "%{$keyword}%")
+                    ->orWhereLike('tags', "%{$keyword}%");
+            }
+
+            $posts = $postsQuery->where('visibility', 1)
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+            $title = "Search results for {$query}";
+            $description = "Browse search results for $query on our blog";
+        } else {
+            $posts = collect();
+
+            $title = "Search";
+            $description = "Search for blog posts on our website";
+        }
+
+        SEOTools::setTitle($title, false);
+        SEOTools::setDescription($description);
+        SEOTools::jsonLd()->setTitle($title);
+        SEOTools::jsonLd()->setDescription($description);
+        SEOTools::jsonLd()->addValue('publisher', value: [
+            '@type' => 'Organization',
+            'name' => config('app.name'),
+            'logo' => [
+                '@type' => 'ImageObject',
+                'url' => settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png'),
+            ]
+        ]);
+
+        return view('front.pages.search_posts', [
+            'pageTitle' => $title,
+            'query' => $query,
+            'posts' => $posts
+        ]);
+    }
+
     public function readPost(Request $request, string $slug)
     {
         try {
             $post = Post::with(['author:id,name,username', 'post_category:id,name,slug'])
                 ->withCount('views')
-                ->slug($slug)
+                ->where('slug', $slug)
                 ->firstOrFail();
 
             $cacheKey = 'post_viewed_' . $post->id . '_' . request()->ip();

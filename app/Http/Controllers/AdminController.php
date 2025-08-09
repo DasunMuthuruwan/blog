@@ -187,4 +187,11 @@ class AdminController extends Controller
             'pageTitle' => 'Manage Advertisements'
         ]);
     }
+
+    public function manageUsers(Request $request)
+    {
+        return view('back.pages.users', [
+            'pageTitle' => 'Manage Users'
+        ]);
+    }
 }

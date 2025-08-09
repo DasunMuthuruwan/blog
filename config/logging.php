@@ -1,5 +1,6 @@
 <?php
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
@@ -127,6 +128,17 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        'request-log' => [
+            'driver' => 'daily',
+            'formatter' => LineFormatter::class,
+            'formatter_with' => [
+                'format' => "%datetime%,%channel%.%level_name%,%message%\n",
+                'dateFormat' => 'Y-m-d H:i:s',
+            ],
+            'path' => storage_path('logs/requests/log.log'),
+            'level' => 'info',
+            'days' => 180,
+        ],
     ],
 
 ];

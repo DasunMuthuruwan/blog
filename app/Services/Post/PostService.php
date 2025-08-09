@@ -4,19 +4,29 @@ namespace App\Services\Post;
 
 use App\Exceptions\FailedOnCreatedException;
 use App\Exceptions\FailedOnUpdatedException;
-use App\Exceptions\FileNotFoundException;
 use App\Exceptions\FileUploadFailedException;
 use App\Jobs\SendNewsletterJob;
+use App\Mail\SendApprovalPostMail;
 use App\Models\Category;
 use App\Models\NewsLetterSubscriber;
 use App\Models\ParentCategory;
 use App\Models\Post;
+use App\Models\User;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
 class PostService
 {
+    private bool $isSuperAdmin;
+    private User $user;
+
+    public function __construct() {
+        $this->user = auth()->user();
+        $this->isSuperAdmin = $this->user->type == 'superAdmin';
+    }
+
     /**
      * Get select option dropdown data for catrgories
      * @param ?Post $post
@@ -56,11 +66,11 @@ class PostService
         return $categoryHtml;
     }
 
-    public function create(object $request): Post
+    public function create(object $request): array
     {
         $newFileName = $this->imageUpload($request);
-        $created = Post::create([
-            'author_id' => auth()->id(),
+        $post = Post::create([
+            'author_id' => $this->user->id,
             'category' => $request->category,
             'title' => $request->title,
             'content' => $request->content,
@@ -68,8 +78,21 @@ class PostService
             'tags' => $request->tags,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
-            'visibility' => $request->visibility
+            'visibility' => $this->isSuperAdmin ? $request->visibility : 0
         ]);
+        
+        throw_if(!$post, FailedOnCreatedException::class, 'Unable to create the post due to an error.');
+
+        if (!$this->isSuperAdmin) {
+            $siteInfo = settings();
+            Mail::to($siteInfo->site_email)
+                ->queue(new SendApprovalPostMail($post, $this->user));
+
+            return [
+                'data' => $post,
+                'message' => "Your post has been submitted and is awaiting approval by the super admin."
+            ];
+        }
 
         if ($request->visibility == 1) {
             // Get post details
@@ -77,9 +100,10 @@ class PostService
             $this->sendNewsletterForSubscribers($latestPost);
         }
 
-        throw_if(!$created, FailedOnCreatedException::class, 'Unable to create the post due to an error.');
-
-        return $created;
+        return [
+            'data' => $post,
+            'message' => "New post has been created successfully."
+        ];
     }
 
     /**
@@ -99,7 +123,7 @@ class PostService
         $sendEmailToSubscribers =
             ($post->visibility == 0 &&
                 $post->is_notified == 0 &&
-                $request->visibility == 1)
+                $request->visibility == 1 && $this->isSuperAdmin)
             ? true
             : false;
 
@@ -113,10 +137,21 @@ class PostService
             'tags' => $request->tags,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
-            'visibility' => $request->visibility
+            'visibility' => $this->isSuperAdmin ? $request->visibility : 0
         ]);
 
         throw_if(!$updated, FailedOnUpdatedException::class, 'Unable to update the post due to an error.');
+
+        if (!$this->isSuperAdmin) {
+            $siteInfo = settings();
+            Mail::to($siteInfo->site_email)
+                ->queue(new SendApprovalPostMail($post, $this->user));
+
+            return [
+                'data' => $post,
+                'message' => "Your post has been submitted and is awaiting approval by the super admin."
+            ];
+        }
 
         /**
          * Send newsletter to subscriber
@@ -124,7 +159,8 @@ class PostService
         $sendEmailToSubscribers && $this->sendNewsletterForSubscribers($post);
 
         return [
-            'data' => $post
+            'data' => $post,
+            'message' => "Post has been updated successfully."
         ];
     }
 

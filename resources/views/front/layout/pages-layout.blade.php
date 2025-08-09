@@ -5,8 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     @yield('meta_tags')
-    <link rel="shortcut icon" href="/storage/images/site/{{ settings()->site_favicon ?? '' }}"" type="image/x-icon">
-    <link rel="icon" href="/storage/images/site/{{ settings()->site_favicon ?? '' }}"" type="image/x-icon">
+    @php
+        $settings = settings();
+    @endphp
+    <link rel="shortcut icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
+    <link rel="icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">
@@ -21,11 +24,10 @@
     <!-- navigation -->
     <header class="sticky-top bg-white border-bottom border-default">
         <div class="container">
-
             <nav class="navbar navbar-expand-lg navbar-white">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <img class="img-fluid" width="50px" src="/storage/images/site/{{ settings()->site_logo ?? '' }}"
-                        alt="{{ settings()->site_title ?? '' }}">
+                    <img class="img-fluid" width="70px" src="/storage/images/site/{{ $settings->site_logo ?? '' }}"
+                        alt="{{ $pageTitle ?? '' }}">
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
                     <i class="ti-menu"></i>
@@ -38,7 +40,8 @@
                         </li>
                         {!! navigations() !!}
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('about_us') }}"><i class="ti-info mr-1"></i>About</a>
+                            <a class="nav-link" href="{{ route('about_us') }}"><span
+                                    class="icon-copy ti-info-alt mr-1"></span> About</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('contact') }}"><i class="ti-email mr-1"></i>Contact</a>
@@ -46,26 +49,30 @@
                     </ul>
 
                     <!-- search -->
-                    {{-- <div class="search px-4">
-                        <button id="searchOpen" class="search-btn"><i class="ti-search"></i></button>
+                    <div class="search px-4">
+                        <button id="searchOpen" class="search-btn-top"><i class="ti-search"></i></button>
                         <div class="search-wrapper">
-                            <form action="javascript:void(0)" class="h-100">
-                                <input class="search-box pl-4" id="search-query" name="s" type="search"
-                                    placeholder="Type to discover articles, guide &amp; tutorials... ">
+                            <form action="{{route('search_posts')}}" method="GET" class="h-100">
+                                <input class="search-box pl-4" id="search-query" name="q" type="search"
+                                    placeholder="Type to discover articles, guide &amp; tutorials... "
+                                    value="{{ request('q') ?? '' }}">
                             </form>
                             <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
                         </div>
-                    </div> --}}
+                    </div>
                     <!-- /search -->
 
                     <!-- User Details + Dropdown -->
                     @auth
+                        @php
+                            $user = auth()->user();
+                        @endphp
                         <div class="user-details">
-                            <img src="{{ auth()->user()->picture }}" class="img-fluid user-avatar" alt="User avatar">
+                            <img src="{{ $user->picture }}" class="img-fluid user-avatar" alt="User avatar">
                             <div class="user-dropdown">
                                 <a href="{{ route('admin.dashboard') }}"><i class="ti-dashboard"></i>Dashboard</a>
                                 <a href="{{ route('admin.profile') }}"><i class="ti-user"></i>Profile</a>
-                                @if (auth()->user()->type == 'superAdmin')
+                                @if ($user->type == 'superAdmin')
                                     <a href="{{ route('admin.settings') }}"><i class="ti-settings"></i>Settings</a>
                                 @endif
                                 <form id="front-logout-form" method="POST" style="display: none"
@@ -96,16 +103,15 @@
                 <div class="col-md-3 mb-4">
                     <a class="mb-4 d-block" href="{{ route('home') }}">
                         <img class="img-fluid" width="50px"
-                            src="/storage/images/site/{{ settings()->site_logo ?? '' }}"
-                            alt="{{ settings()->site_title ?? '' }}">
+                            src="/storage/images/site/{{ $settings->site_logo ?? '' }}" alt="{{ $pageTitle ?? '' }}">
                     </a>
-                    <p>{{ settings()->site_meta_description ?? '' }}</p>
+                    <p>{{ $settings->site_meta_description ?? '' }}</p>
                 </div>
 
                 <div class="col-lg-2 col-md-3 col-6 mb-4">
                     <h6 class="mb-4">Quick Links</h6>
                     <ul class="list-unstyled footer-list">
-                        <li><a href="{{ route('home') }}">Contact</a></li>
+                        <li><a href="{{ route('contact') }}">Contact</a></li>
                         <li><a href="{{ route('about_us') }}">About</a></li>
                         <li><a href="{{ route('privacy_policy') }}">Privacy Policy</a></li>
                         <li><a href="{{ route('term_conditions') }}">Terms Conditions</a></li>
@@ -114,18 +120,21 @@
 
                 <div class="col-lg-2 col-md-3 col-6 mb-4">
                     <h6 class="mb-4">Social Links</h6>
+                    @php
+                        $social_links = siteSocialLinks();
+                    @endphp
                     <ul class="list-unstyled footer-list">
-                        @if (siteSocialLinks()->facebook_url)
-                            <li><a target="_blank" href="{{ siteSocialLinks()->facebook_url }}">Facebook</a></li>
+                        @if ($social_links->facebook_url)
+                            <li><a target="_blank" href="{{ $social_links->facebook_url }}"> Facebook</a></li>
                         @endif
-                        @if (siteSocialLinks()->twitter_url)
-                            <li><a target="_blank" href="{{ siteSocialLinks()->twitter_url }}">Twitter</a></li>
+                        @if ($social_links->twitter_url)
+                            <li><a target="_blank" href="{{ $social_links->twitter_url }}"> Twitter</a></li>
                         @endif
-                        @if (siteSocialLinks()->linkdin_url)
-                            <li><a target="_blank" href="{{ siteSocialLinks()->instagram_url }}">Instagram</a></li>
+                        @if ($social_links->linkdin_url)
+                            <li><a target="_blank" href="{{ $social_links->instagram_url }}"> Instagram</a></li>
                         @endif
-                        @if (siteSocialLinks()->linkdin_url)
-                            <li><a target="_blank" href="{{ siteSocialLinks()->linkdin_url }}">Linkedin</a></li>
+                        @if ($social_links->linkdin_url)
+                            <li><a target="_blank" href="{{ $social_links->linkdin_url }}">Linkedin</a></li>
                         @endif
                     </ul>
                 </div>

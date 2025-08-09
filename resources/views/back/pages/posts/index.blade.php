@@ -13,7 +13,7 @@
                             <a href="{{ route('admin.dashboard') }}">Home</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">
-                            List
+                            Posts
                         </li>
                     </ol>
                 </nav>
@@ -33,6 +33,26 @@
         window.addEventListener('deletePost', function(event) {
             const id = event.detail[0].id;
             FormOptions.deleteRecord(id, 'deletePostAction');
+        })
+
+        window.addEventListener('approvePost', function(event) {
+            const id = event.detail[0].id;
+            Swal.fire({
+                title: "Approve this post?",
+                text: "Once approved, the post will be published and visible to users.",
+                icon: "question",
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: "Yes, approve it!",
+                customClass: {
+                    popup: 'text-sm' // optional if you want smaller font
+                }
+            }).then((result) => {
+                if (result.value) {
+                    Livewire.dispatch('approvePostAction', [id])
+                }
+            });
         })
     </script>
 @endpush

@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('tags')->nullable();
             $table->string('meta_keywords')->nullable();
             $table->text('meta_description')->nullable();
-            $table->integer('visibility')->default(1);
+            $table->integer('visibility')->default(0);
             $table->timestamp('created_at')->index();
             $table->timestamp('updated_at');
             $table->softDeletes();

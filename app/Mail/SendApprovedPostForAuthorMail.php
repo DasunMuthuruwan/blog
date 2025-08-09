@@ -5,19 +5,21 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ContactMail extends Mailable implements ShouldQueue
+class SendApprovedPostForAuthorMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(private array $data, private object $siteInfo)
+    /**
+     * Create a new message instance.
+     */
+    public function __construct(private object $post)
     {
         //
     }
@@ -28,23 +30,19 @@ class ContactMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: new Address($this->data['email'], $this->data['name']),
-            replyTo: [
-                new Address($this->siteInfo->site_email, $this->siteInfo->site_title),
-            ],
-            subject: $this->data['subject'],
+            subject: 'New Article Approved Notification',
         );
     }
 
     /**
      * Get the message content definition.
-    */
+     */
     public function content(): Content
     {
         return new Content(
-            markdown: 'email-templates.contact-message-template',
+            markdown: 'email-templates.approved-post',
             with: [
-                'data' => $this->data
+                'data' => $this->post
             ]
         );
     }

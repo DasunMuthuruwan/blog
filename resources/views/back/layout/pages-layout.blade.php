@@ -39,7 +39,7 @@
         <div class="pre-loader-box">
             <div class="loader-logo">
                 <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
-                    alt="Loader Logo" class="light-logo img-fluid" />
+                    alt="Loader Logo" class="light-logo img-fluid" width="100px" />
             </div>
             <div class="loader-progress" id="progress_div">
                 <div class="bar" id="bar1"></div>
@@ -195,10 +195,7 @@
         <div class="brand-logo">
             <a href="{{ route('admin.dashboard') }}">
                 <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
-                    alt="Site Logo" class="dark-logo img-fluid brand_logo" style="width: 50px; height: 50px;" />
-
-                <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
-                    alt="Site Logo" class="light-logo img-fluid" style="width: 50px; height: 50px;" />
+                    alt="Site Logo" class="dark-logo img-fluid brand_logo" style="width: 90px; height: 55px;" />
             </a>
             <div class="close-sidebar" data-toggle="left-sidebar-close">
                 <i class="ion-close-round"></i>
