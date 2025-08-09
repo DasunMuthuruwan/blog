@@ -348,10 +348,8 @@ class BlogController extends Controller
                 'subject' => $contactRequest->subject,
                 'message' => $contactRequest->message
             ];
-            $siteInfo = settings();
-
-            Mail::to($siteInfo->site_email)
-                ->queue(new ContactMail($data, $siteInfo));
+            Mail::to(settings()->site_email)
+                ->queue(new ContactMail($data));
 
             return redirect()->back()->with('success', 'Email Sent Successfully.');
         } catch (Exception $exception) {

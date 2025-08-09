@@ -78,8 +78,8 @@
                             </td>
                         </tr>
                     @empty
-                        <tr>
-                            <td class="text-center"><span class="text-danger">No slide item found!</span></td>
+                        <tr class="text-center">
+                            <td colspan="8" class="text-center"><span class="text-danger">No slide item found!</span></td>
                         </tr>
                     @endforelse
                 </tbody>

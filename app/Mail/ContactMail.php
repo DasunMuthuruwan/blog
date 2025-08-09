@@ -17,7 +17,7 @@ class ContactMail extends Mailable implements ShouldQueue
     /**
      * Create a new message instance.
      */
-    public function __construct(private array $data, private object $siteInfo)
+    public function __construct(private array $data)
     {
         //
     }
@@ -30,7 +30,7 @@ class ContactMail extends Mailable implements ShouldQueue
         return new Envelope(
             from: new Address($this->data['email'], $this->data['name']),
             replyTo: [
-                new Address($this->siteInfo->site_email, $this->siteInfo->site_title),
+                new Address($this->data['email'], $this->data['name']),
             ],
             subject: $this->data['subject'],
         );

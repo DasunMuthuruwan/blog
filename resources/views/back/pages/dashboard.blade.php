@@ -1,5 +1,10 @@
 @extends('back.layout.pages-layout')
-@section('pageTitle', isset($pageTitle) ? $pageTitle : 'Page Title')
+@section('pageTitle', $pageTitle ?? 'Page Title')
 @section('content')
-Page content here...
+    <div class="text-center py-5">
+        <div class="mb-4">
+            <i class="ti-search text-muted" style="font-size: 4rem;"></i>
+        </div>
+        <h5 class="text-muted mb-2">Coming soon...</h5>
+    </div>
 @endsection
