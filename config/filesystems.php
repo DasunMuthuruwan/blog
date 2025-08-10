@@ -59,6 +59,12 @@ return [
             'url' => env('APP_URL').'/images',
             'visibility' => 'public'
         ],
+        'aboutus' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+            'url' => env('APP_URL').'/images',
+            'visibility' => 'public'
+        ],
         'users' => [
             'driver' => 'local',
             'root' => public_path('images'),

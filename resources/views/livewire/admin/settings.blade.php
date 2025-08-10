@@ -24,6 +24,12 @@
                         Social Links
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a wire:click="selectTab('about_us')" class="nav-link {{ $tab == 'about_us' ? 'active' : '' }}"
+                        href="#about_us" role="tab">
+                        About Us
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade {{ $tab == 'general_settings' ? 'show active' : '' }}" id="general_settings"
@@ -140,7 +146,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade {{ $tab == 'social_links' ? 'show active' : '' }}" id="general_settings"
+                <div class="tab-pane fade {{ $tab == 'social_links' ? 'show active' : '' }}" id="social_links"
                     role="tabpanel">
                     <div class="pd-20">
                         <form wire:submit="updateSiteSocialLinks()">
@@ -200,6 +206,75 @@
                         </form>
                     </div>
                 </div>
+                <div class="tab-pane fade {{ $tab == 'about_us' ? 'show active' : '' }}" id="about_us"
+                    role="tabpanel">
+                    <div class="pd-20">
+                        <form wire:submit="updateSiteAboutUs()">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="content"><b>Content</b>:</label>
+                                        <div wire:ignore>
+                                            <textarea id="content" class="ckeditor form-control" placeholder="Enter about us content here...">
+        {!! $content !!}
+    </textarea>
+                                        </div>
+                                        @error('content')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        @if ($selected_image)
+                                            <div class="d-block" style="max-width: 200px">
+                                                <img src="{{ $selected_image }}" alt="image"
+                                                    class="img-thumbnail" style="max-width: 100%; height:auto">
+                                            </div>
+                                        @endif
+                                        <div class="form-group">
+                                            <label for="slide_image"><b>Image</b>:</label>
+                                            <input type="file" wire:model="image"
+                                                class="form-control form-control-sm" wire:ignore>
+                                            @error('image')
+                                                <span class="text-danger small ml-1">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="twitter"><b>Meta Keywords</b>(Comma seperated):</label>
+                                        <input type="text" wire:model="meta_keywords"
+                                            class="form-control form-control-sm" placeholder="Meta Keywords">
+                                        @error('meta_keywords')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="mb-3">
+                                        <label for="twitter"><b>Meta Descriptions</b>:</label>
+                                        <textarea type="text" wire:model="meta_descriptions" class="form-control form-control-sm"
+                                            placeholder="Meta Descriptions"></textarea>
+                                        @error('meta_descriptions')
+                                            <span class="text-danger small ml-1">
+                                                {{ $message }}
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-sm" type="submit">
+                                <i class="fa fa-save"></i> Save Changes
+                            </button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -207,6 +282,88 @@
 
 @push('scripts')
     <script src="{{ asset('back/src/custom/FormOptions.js') }}"></script>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}"></script>
+    <script src="{{ asset('ckeditor/plugins/codesnippet/plugin.js') }}"></script>
+    <script src="{{ asset('ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js') }}"></script>
+    {{-- <script src="{{ asset('back/src/custom/imagePreview.js') }}"></script> --}}
+    <script>
+        function initCkeditor() {
+            if (CKEDITOR.instances.content) {
+                CKEDITOR.instances.content.destroy(true); // remove old instance if exists
+            }
+
+            CKEDITOR.replace('content', {
+                height: 400,
+                extraPlugins: 'codesnippet,uploadimage,image,clipboard,dialog,dialogui,widget,lineutils,justify,colorbutton,font',
+                codeSnippet_theme: 'default',
+                toolbar: [{
+                        name: 'document',
+                        items: ['Source', '-', 'Preview', 'Print']
+                    },
+                    {
+                        name: 'clipboard',
+                        items: ['Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo']
+                    },
+                    {
+                        name: 'editing',
+                        items: ['Find', 'Replace', '-', 'SelectAll', 'Scayt']
+                    },
+                    {
+                        name: 'insert',
+                        items: ['Image', 'Table', 'HorizontalRule', 'SpecialChar', 'Embed', 'CodeSnippet']
+                    },
+                    {
+                        name: 'styles',
+                        items: ['Styles', 'Format', 'Font', 'FontSize']
+                    },
+                    {
+                        name: 'basicstyles',
+                        items: ['Bold', 'Italic', 'Underline', 'Strike', '-', 'RemoveFormat']
+                    },
+                    {
+                        name: 'paragraph',
+                        items: ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote']
+                    },
+                    {
+                        name: 'links',
+                        items: ['Link', 'Unlink', 'Anchor']
+                    },
+                    {
+                        name: 'tools',
+                        items: ['Maximize', 'ShowBlocks']
+                    },
+                    {
+                        name: 'colors',
+                        items: ['TextColor', 'BGColor']
+                    },
+                    {
+                        name: 'align',
+                        items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock']
+                    }
+                ],
+                autoGrow_minHeight: 300,
+                autoGrow_maxHeight: 600,
+                autoGrow_bottomSpace: 50,
+                removePlugins: 'resize'
+            });
+
+            CKEDITOR.instances.content.on('change', function() {
+                @this.set('content', CKEDITOR.instances.content.getData());
+            });
+        }
+
+        document.addEventListener('livewire:load', () => {
+            initCkeditor();
+        });
+
+        document.addEventListener('livewire:navigated', () => {
+            initCkeditor();
+        });
+
+        Livewire.on('refreshCkeditor', () => {
+            initCkeditor();
+        });
+    </script>
     <script>
         $(document).ready(function() {
             (function($) {

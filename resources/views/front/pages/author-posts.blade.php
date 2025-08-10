@@ -9,7 +9,7 @@
         <div class="container">
             <!-- Author Profile -->
             <div class="author-card text-center">
-                <img src="{{ $author->picture }}" alt="Author's Photo" class="rounded-full w-24 h-24 mx-auto object-cover">
+                <img src="{{ asset($author->picture) }}" alt="Author's Photo" class="rounded-full w-24 h-24 mx-auto object-cover">
                 <h3 class="mt-3 title-color font-semibold text-xl">{{ $author->name }}</h3>
                 <p class="text-gray-600">{{ $author->username }}</p>
                 <p class="text-gray-700 max-w-2xl mx-auto mt-2">

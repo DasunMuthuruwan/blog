@@ -50,15 +50,4 @@ class Category extends Model
     {
         return $this->hasMany(Post::class, 'category', 'id');
     }
-
-    /**
-     * Scope a query to get category according to the slug.
-     * @param Builder $query
-     * @param string $slug
-     */
-    #[Scope]
-    protected function slug(Builder $query, string $slug): void
-    {
-        $query->where('slug', $slug);
-    }
 }

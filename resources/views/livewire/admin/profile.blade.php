@@ -6,7 +6,7 @@
                     <a href="javascript:;"
                         onclick="event.preventDefault();document.getElementById('profilePictureFile').click();"
                         class="edit-avatar"><i class="fa fa-pencil"></i></a>
-                    <img src="{{ $user->picture }}" alt="profile picture" class="avatar-photo" id="profilePicturePreview">
+                    <img src="{{ asset($user->picture) }}" alt="profile picture" class="avatar-photo" id="profilePicturePreview">
                     <input type="file" name="profile_picture_file" id="profilePictureFile" class="d-none"
                         style="opacity: 0;">
                 </div>

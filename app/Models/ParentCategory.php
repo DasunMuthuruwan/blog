@@ -21,7 +21,7 @@ class ParentCategory extends Model
         'name',
         'slug',
         'ordering',
-        'parent_icon',
+        'icon',
         'created_by',
         'updated_by',
     ];

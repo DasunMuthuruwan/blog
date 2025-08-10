@@ -26,7 +26,7 @@ class TermConditionsController extends Controller
         SEOTools::opengraph()->setTitle($title);
         SEOTools::opengraph()->setDescription($description);
 
-        SEOTools::twitter()->setSite('@techSolve');
+        SEOTools::twitter()->setSite('@devTalk');
         SEOTools::jsonLd()->setTitle($title);
         SEOTools::jsonLd()->setDescription($description);
 

@@ -3,14 +3,21 @@
 namespace App\Livewire\Admin;
 
 use App\Constants\CacheKeys;
+use App\Exceptions\FileUploadFailedException;
 use App\Models\GeneralSetting;
 use App\Models\SiteSocialLink;
 use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class Settings extends Component
 {
+    use WithFileUploads;
+
     public $tab = null;
     public string $tablename = 'general_settings';
     protected $queryString = ['tab' => ['keep' => true]];
@@ -24,6 +31,9 @@ class Settings extends Component
     public $site_logo;
     public $site_favicon;
 
+    // About Us
+    public $content, $image, $meta_keywords, $meta_descriptions, $selected_image = null;
+
     // site social links form properties
     public $facebook_url, $instagram_url, $linkdin_url, $twitter_url;
 
@@ -32,6 +42,13 @@ class Settings extends Component
     public function __construct()
     {
         $this->serverError = config('exception-errors.errors.server-error');
+    }
+
+    public function updatedImage()
+    {
+        if ($this->image) {
+            $this->selected_image = $this->image->temporaryUrl();
+        }
     }
 
     /**
@@ -56,8 +73,9 @@ class Settings extends Component
      */
     protected function populateSettings(): void
     {
-        $settings = GeneralSetting::first(); // first() is more semantic than take(1)->first()
-        $socialLinks = SiteSocialLink::first();
+        $settings = DB::table('general_settings')->first(); // first() is more semantic than take(1)->first()
+        $socialLinks = DB::table('site_social_links')->first();
+        $aboutUs = DB::table('about_us')->first();
         if ($settings) {
             $this->fill([
                 'site_title' => $settings->site_title,
@@ -75,6 +93,16 @@ class Settings extends Component
                 'twitter_url' => $socialLinks->twitter_url
             ]);
         }
+
+        if ($aboutUs) {
+            $this->fill([
+                'content' => $aboutUs->content,
+                'image' => $aboutUs->image,
+                'meta_keywords' => $aboutUs->meta_keywords,
+                'meta_descriptions' => $aboutUs->meta_descriptions
+            ]);
+            $this->selected_image = asset("images/aboutus/{$aboutUs->image}");
+        }
     }
 
     /**
@@ -86,7 +114,7 @@ class Settings extends Component
             'site_title' => 'required|max:128',
             'site_email' => 'required|email',
             'site_phone' => 'numeric',
-            'site_meta_keywords' => 'nullable',
+            'site_meta_keywords' => 'nullable|max:255',
             'site_meta_description' => 'nullable'
         ]);
 
@@ -139,6 +167,61 @@ class Settings extends Component
                 'message' => 'Site social links updated successfully.'
             ]);
         } catch (Exception $e) {
+            $this->dispatch('showToastr', [
+                'type' => 'error',
+                'message' => $this->serverError
+            ]);
+        }
+    }
+
+    /**
+     * Update site about us
+     */
+    public function updateSiteAboutUs()
+    {
+        $this->dispatch('refreshCkeditor');
+        $this->validate([
+            'content' => 'required',
+            'image' => 'nullable|mimes:png,jpg,jpeg|max:1024',
+            'meta_keywords' => 'required|max:255',
+            'meta_descriptions' => 'required',
+        ]);
+
+        try {
+            $aboutUs = DB::table('about_us')->first();
+            throw_if(!$aboutUs, ModelNotFoundException::class, 'About us details not found.');
+
+            $file = $this->image;
+            $fileName = 'About_' . date('YmdHis', time()) . '.' . $file->getClientOriginalExtension();
+
+            // Upload about us image
+            $upload = $file->storeAs("aboutus", $fileName, 'aboutus');
+            throw_if(!$upload, FileUploadFailedException::class, 'Something went wrong while uploading about us image.');
+            $path = "images/aboutus";
+            $oldImage = $aboutUs->image;
+            if (!empty($oldImage) && File::exists(public_path("{$path}/{$oldImage}"))) {
+                File::delete(public_path("{$path}/{$oldImage}"));
+            }
+
+            DB::table('about_us')->where('id', $aboutUs->id)->update([
+                'content' => $this->content,
+                'image' => $fileName,
+                'meta_keywords' => $this->meta_keywords,
+                'meta_descriptions' => $this->meta_descriptions
+            ]);
+            Cache::forget(CacheKeys::ABOUT_US);
+            $this->image = null;
+
+            $this->dispatch('showToastr', [
+                'type' => 'info',
+                'message' => 'Site about us updated successfully.'
+            ]);
+        } catch (ModelNotFoundException $modelNotFoundException) {
+            $this->dispatch('showToastr', [
+                'type' => 'error',
+                'message' => $modelNotFoundException->getMessage()
+            ]);
+        } catch (Exception $exception) {
             $this->dispatch('showToastr', [
                 'type' => 'error',
                 'message' => $this->serverError

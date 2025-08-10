@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('parent_categories', function (Blueprint $table) {
-            $table->string('parent_icon')->nullable();
+            $table->string('icon')->nullable();
         });
     }
 
@@ -22,7 +22,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('parent_categories', function (Blueprint $table) {
-            $table->dropColumn('parent_icon');
+            $table->dropColumn('icon');
         });
     }
 };

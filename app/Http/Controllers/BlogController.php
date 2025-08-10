@@ -40,7 +40,7 @@ class BlogController extends Controller
         /** Twitter */
         SEOTools::twitter()->addImage($imgUrl);
         SEOTools::twitter()->setUrl($currentUrl);
-        SEOTools::twitter()->setSite('@techSolve');
+        SEOTools::twitter()->setSite('@devTalk');
 
         /**json-ld */
         JsonLd::setTitle($title);
@@ -60,7 +60,7 @@ class BlogController extends Controller
     {
         try {
             // Find Category by slug
-            $category = Category::slug($slug)
+            $category = Category::where('slug', $slug)
                 ->firstOrFail();
 
             // Retrieve posts related to this category and paginate
@@ -253,7 +253,7 @@ class BlogController extends Controller
             if (!Cache::has($cacheKey)) {
                 PostView::create([
                     'post_id' => $post->id,
-                    'user_id' => auth()->id() ?? NULL, // or null if guest
+                    // 'user_id' => auth()->id() ?? NULL, // or null if guest
                     'ip_address' => request()->ip(),
                     'viewed_at' => now(),
                 ]);
@@ -261,7 +261,7 @@ class BlogController extends Controller
             }
 
             $relatedPosts = Post::where('category', $post->category)
-                ->with(['author:id,name,username', 'post_category:id,name,slug']) // Eager load relationships
+                // ->with(['author:id,name,username', 'post_category:id,name,slug']) // Eager load relationships
                 ->where('id', '!=', $post->id)
                 ->visible(1)
                 ->latest()
@@ -305,7 +305,7 @@ class BlogController extends Controller
                 'name' => config('app.name'),
                 'logo' => [
                     '@type' => 'ImageObject',
-                    'url' => settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png'),
+                    'url' => asset('storage/images/site/' . settings()->site_logo),
                 ]
             ]);
             SEOTools::jsonLd()->addValue('mainEntityOfPage', [

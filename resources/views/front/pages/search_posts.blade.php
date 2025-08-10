@@ -34,7 +34,7 @@
                                     <i class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
                                 </li>
                                 <li class="list-inline-item">
-                                    Category : <a href="{{ route('category_posts', $post->post_category->slug) }}"
+                                    <i class="ti-folder"></i> <a href="{{ route('category_posts', $post->post_category->slug) }}"
                                         class="ml-1">{{ $post->post_category->name }} </a>
                                 </li>
                                 <li class="list-inline-item">

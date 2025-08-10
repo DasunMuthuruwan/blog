@@ -68,7 +68,7 @@
                             $user = auth()->user();
                         @endphp
                         <div class="user-details">
-                            <img src="{{ $user->picture }}" class="img-fluid user-avatar" alt="User avatar">
+                            <img src="{{ asset($user->picture) }}" class="img-fluid user-avatar" alt="User avatar">
                             <div class="user-dropdown">
                                 <a href="{{ route('admin.dashboard') }}"><i class="ti-dashboard"></i>Dashboard</a>
                                 <a href="{{ route('admin.profile') }}"><i class="ti-user"></i>Profile</a>

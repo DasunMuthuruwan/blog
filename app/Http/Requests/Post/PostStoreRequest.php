@@ -28,7 +28,7 @@ class PostStoreRequest extends FormRequest
             'category' => 'required|exists:categories,id',
             'feature_image' => 'required|mimes:png,jpg,jpeg|max:1024',
             'meta_description' => 'nullable',
-            'meta_keywords' => 'nullable',
+            'meta_keywords' => 'nullable|max:255',
             'tags' => 'nullable',
             'visibility' => [
                 Rule::when(auth()->user()->type == 'superAdmin', [

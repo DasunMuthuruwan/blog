@@ -286,12 +286,11 @@ class Advertisements extends Component
     {
         try {
             $ad = Ads::findOrFail($id);
-
             // Delete Ad imag
             $path = "images/{$this->path}";
             $oldImage = $ad->image;
-            if (!empty($oldImage) && File::exists(public_path("{$path}/{$oldImage}"))) {
-                File::delete(public_path("{$path}/{$oldImage}"));
+            if (!empty($oldImage) && File::exists(public_path("{$path}{$oldImage}"))) {
+                File::delete(public_path("{$path}{$oldImage}"));
             }
 
             $ad->delete();

@@ -131,7 +131,7 @@ class Slides extends Component
         $this->validate([
             'slide_heading' => "required|unique:slides,heading,{$this->slide_id}",
             'slide_link' => 'nullable|url',
-            'slide_image' => 'required|mimes:png,jpg,jpeg|max:2048',
+            'slide_image' => 'nullable|mimes:png,jpg,jpeg|max:2048',
             'slide_status' => 'required|boolean'
         ]);
 

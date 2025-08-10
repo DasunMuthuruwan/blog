@@ -13,9 +13,9 @@
                         <li class="list-inline-item"><i class="ti-user mr-2"></i><a
                                 href="{{ route('author_posts', $post->author->username) }}">{{ $post->author->name }}</a>
                         </li>
-                        <li class="list-inline-item"><i class="ti-calender mr-2"></i> {{ dateFormatter($post->created_at) }}
+                        <li class="list-inline-item"><i class="ti-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
                         </li>
-                        <li class="list-inline-item">Category : <a
+                        <li class="list-inline-item"><i class="ti-folder"></i> <a
                                 href="{{ route('category_posts', $post->post_category->slug) }}"
                                 class="ml-1">{{ $post->post_category->name }}</a>
                         </li>
@@ -110,7 +110,7 @@
                                     <i class="ti-calendar mr-1"></i>{{ dateFormatter($relatedPost->created_at) }}
                                 </li>
                                 <li class="list-inline-item">
-                                    Category : <a href="{{ route('category_posts', $relatedPost->post_category->slug) }}"
+                                    <i class="ti-folder"></i> <a href="{{ route('category_posts', $relatedPost->post_category->slug) }}"
                                         class="ml-1">{{ $relatedPost->post_category->name }} </a>
                                 </li>
                                 <li class="list-inline-item"><i class="ti-timer mr-1">

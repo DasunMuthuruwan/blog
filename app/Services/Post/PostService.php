@@ -2,6 +2,7 @@
 
 namespace App\Services\Post;
 
+use App\Constants\CacheKeys;
 use App\Exceptions\FailedOnCreatedException;
 use App\Exceptions\FailedOnUpdatedException;
 use App\Exceptions\FileUploadFailedException;
@@ -12,6 +13,7 @@ use App\Models\NewsLetterSubscriber;
 use App\Models\ParentCategory;
 use App\Models\Post;
 use App\Models\User;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 use Intervention\Image\Drivers\Gd\Driver;
@@ -82,7 +84,7 @@ class PostService
         ]);
         
         throw_if(!$post, FailedOnCreatedException::class, 'Unable to create the post due to an error.');
-
+        Cache::forget(CacheKeys::SIDEBAR_LATEST_POSTS);
         if (!$this->isSuperAdmin) {
             $siteInfo = settings();
             Mail::to($siteInfo->site_email)

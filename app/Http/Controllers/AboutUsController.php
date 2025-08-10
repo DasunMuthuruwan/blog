@@ -2,22 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
 use Artesaos\SEOTools\Facades\SEOMeta;
 use Artesaos\SEOTools\Facades\SEOTools;
-use Illuminate\Http\Request;
 
 class AboutUsController extends Controller
 {
     public function index()
     {
+        $aboutUs = AboutUs::first();
         /** Site config */
         $siteName = config('app.name');
         $title = "About Us | {$siteName}";
-        $description = "Discover what {$siteName} is all about — a hub for practical programming tutorials, code snippets, and developer resources.";
-        $keywords = ['about us', $siteName, 'developer tutorials', 'coding tips', 'Laravel blog', 'React', 'Vue', 'Javascript'];
+        $description = $aboutUs->meta_descriptions;
+        $keywords = $aboutUs->meta_keywords;
 
         /** SEO Meta Tags */
-        SEOTools::setTitle($title);
+        SEOTools::setTitle($title, false);
         SEOTools::setDescription($description);
         SEOMeta::setKeywords($keywords);
         SEOTools::setCanonical(url()->current());
@@ -29,7 +30,7 @@ class AboutUsController extends Controller
         SEOTools::opengraph()->setDescription($description);
 
         /** Twitter Cards */
-        SEOTools::twitter()->setSite('@techSolve');
+        SEOTools::twitter()->setSite('@devTalk');
         SEOTools::twitter()->setTitle($title);
         SEOTools::twitter()->setDescription($description);
 
@@ -38,7 +39,8 @@ class AboutUsController extends Controller
         SEOTools::jsonLd()->setDescription($description);
 
         return view('front.pages.about', [
-            'pageTitle' => 'About Us'
+            'pageTitle' => 'About Us',
+            'about_us' => $aboutUs
         ]);
     }
 }

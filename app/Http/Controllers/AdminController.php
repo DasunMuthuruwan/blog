@@ -62,15 +62,15 @@ class AdminController extends Controller
             $file = $profilePictureUpdateRequest->file('profile_picture_file');
             $oldPicture = $user->picture;
             $filename = 'IMG_' . uniqid() . '.png';
-
             $upload = Kropify::getFile($file, $filename)
                 ->setDisk('public')
                 ->setPath($path)
                 ->save();
 
             if ($upload) {
-                $oldFilePath = public_path("storage/{$path}/{$oldPicture}");
-                if ($oldPicture != null && File::exists($oldFilePath)) {
+                // dd(public_path("{$oldPicture}"));
+                $oldFilePath = public_path("{$oldPicture}");
+                if ($oldPicture != null && File::exists($oldPicture)) {
                     File::delete($oldFilePath);
                 }
 

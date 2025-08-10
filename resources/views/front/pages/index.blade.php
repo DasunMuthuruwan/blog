@@ -33,8 +33,11 @@
                             </div>
                         @endif
 
-
                         @foreach (latestPosts(0, 1) as $post)
+                            @php
+                                $postAuthor = $post->author;
+                                $postCategory = $post->post_category;
+                            @endphp
                             <div class="col-12 mx-auto">
                                 <h3>
                                     <a class="post-title" href="{{ route('read_post', $post->slug) }}">
@@ -43,16 +46,15 @@
                                 </h3>
                                 <ul class="list-inline post-meta mb-4">
                                     <li class="list-inline-item"><i class="ti-user mr-1"></i>
-                                        <a href="{{ route('author_posts', $post->author->username) }}">
-                                            {{ $post->author->name }}
+                                        <a href="{{ route('author_posts', $postAuthor->username) }}">
+                                            {{ $postAuthor->name }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item"><i
                                             class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}</li>
-                                    <li class="list-inline-item">Category : <a
-                                            href="{{ route('category_posts', $post->post_category->slug) }}"
-                                            class="ml-1">
-                                            {{ $post->post_category->name }}
+                                    <li class="list-inline-item"><i class="ti-folder"></i> <a
+                                            href="{{ route('category_posts', $postCategory->slug) }}" class="ml-1">
+                                            {{ $postCategory->name }}
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
@@ -72,10 +74,14 @@
 
                     <section id="home__latest-posts" class="latest-article">
                         @foreach (latestPosts(1, 3) as $latestPost)
+                            @php
+                                $latestPostAuthor = $latestPost->author;
+                                $latestPostCategory = $latestPost->post_category;
+                            @endphp
                             <article class="row mb-5 letest-result-item">
                                 <div class="col-md-4 mb-4 mb-md-0">
                                     <div class="post-img-box">
-                                        <img src='{{ asset("storage/images/posts/resized/resized_$latestPost->feature_image") }}'
+                                        <img src='{{ asset("storage/images/posts/resized/resized_{$latestPost->feature_image}") }}'
                                             class="img-fluid rounded-lg" alt="{{ $latestPost->title }}">
                                     </div>
                                 </div>
@@ -87,15 +93,17 @@
                                     </h4>
                                     <ul class="list-inline post-meta mb-2">
                                         <li class="list-inline-item">
-                                            <i class="ti-user mr-2"></i>
+                                            <i class="ti-user mr-1"></i>
                                             <a
-                                                href="{{ route('author_posts', $latestPost->author->username) }}">{{ $latestPost->author->name }}</a>
+                                                href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
                                         </li>
-                                        <li class="list-inline-item">{{ dateFormatter($latestPost->created_at) }}</li>
-                                        <li class="list-inline-item">Category : <a
-                                                href="{{ route('category_posts', $latestPost->post_category->slug) }}"
+                                        <li class="list-inline-item"><i
+                                                class="ti-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
+                                        </li>
+                                        <li class="list-inline-item"><i class="ti-folder"></i> <a
+                                                href="{{ route('category_posts', $latestPostCategory->slug) }}"
                                                 class="ml-1">
-                                                {{ $latestPost->post_category->name }}
+                                                {{ $latestPostCategory->name }}
                                             </a>
                                         </li>
                                         @php
@@ -136,7 +144,8 @@
             <!-- latest post -->
             <x-sidebar-latest-article />
 
-            <div class="d-flex align-items-center justify-content-center ad-container" style="background-color: #655087; height: 200px;">
+            <div class="d-flex align-items-center justify-content-center ad-container"
+                style="background-color: #655087; height: 200px;">
                 @php
                     $cornerAd = getCornerAd();
                 @endphp

@@ -11,6 +11,7 @@ class CacheKeys
     public const LATEST_POSTS = 'latest_posts'; // latest posts
     public const SIDEBAR_LATEST_POSTS = 'sidebar_latest_posts'; // latest posts
     public const SIDEBAR_CATEGORIES = 'sidebar_categories'; // sidebar categories
+    public const ABOUT_US = 'about_us'; // latest posts
 
     public const CORNER_AD = 'corner_ad'; // corner ad
 
