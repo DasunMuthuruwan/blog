@@ -101,7 +101,7 @@ class Advertisements extends Component
             "image" => [
                 Rule::requiredIf(empty($this->content)),
                 'nullable',
-                'mimes:png,jpg,jpeg',
+                'mimes:png,jpg,jpeg,webp',
                 'max:2048',
                 function ($attribute, $value, $fail) {
                     if (!empty($this->content) && !empty($this->image)) {
@@ -219,7 +219,7 @@ class Advertisements extends Component
             "image" => [
                 Rule::requiredIf(empty($this->content) && empty($ad->image)),
                 'nullable',
-                'mimes:png,jpg,jpeg',
+                'mimes:png,jpg,jpeg,webp',
                 'max:2048',
                 function ($attribute, $value, $fail) {
                     if (!empty($this->content) && !empty($this->image)) {

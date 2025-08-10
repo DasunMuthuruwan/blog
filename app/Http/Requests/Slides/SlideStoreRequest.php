@@ -24,7 +24,7 @@ class SlideStoreRequest extends FormRequest
         return [
             'slide_heading' => 'required',
             'slide_link' => 'nullable|url',
-            'slide_image' => 'required|mimes,png,jpg,jpeg|max:2048'
+            'slide_image' => 'required|mimes,png,jpg,jpeg,webp|max:2048'
         ];
     }
 }

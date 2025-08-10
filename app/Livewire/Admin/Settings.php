@@ -182,7 +182,7 @@ class Settings extends Component
         $this->dispatch('refreshCkeditor');
         $this->validate([
             'content' => 'required',
-            'image' => 'nullable|mimes:png,jpg,jpeg|max:1024',
+            'image' => 'nullable|mimes:png,jpg,jpeg,webp|max:1024',
             'meta_keywords' => 'required|max:255',
             'meta_descriptions' => 'required',
         ]);

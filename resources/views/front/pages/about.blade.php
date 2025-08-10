@@ -7,7 +7,7 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <div class="mb-5 d-flex align-items-center">
+                <div class="mb-2 d-flex align-items-center">
                     <h3 class="title-color">About Us</h3>
                     @php
                         $siteSocialLinks = siteSocialLinks();

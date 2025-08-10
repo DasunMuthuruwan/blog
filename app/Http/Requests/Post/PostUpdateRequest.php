@@ -26,7 +26,7 @@ class PostUpdateRequest extends FormRequest
             'title' => "required|unique:posts,title,{$this->post->id}",
             'content' => 'required',
             'category' => 'required|exists:categories,id',
-            'feature_image' => 'nullable|mimes:png,jpg,jpeg|max:1024',
+            'feature_image' => 'nullable|mimes:png,jpg,jpeg,webp|max:1024',
             'meta_description' =>'nullable',
             'meta_keywords' => 'nullable',
             'tags' => 'nullable',
