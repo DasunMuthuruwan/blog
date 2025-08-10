@@ -242,6 +242,15 @@
                             </a>
                         </li>
                     @endif
+                    @if (auth()->user()->type == 'superAdmin')
+                        <li>
+                            <a href="{{ route('admin.news_subscriber_list') }}"
+                                class="dropdown-toggle no-arrow {{ Route::is('admin.news_subscriber_list') ? 'active' : '' }}">
+                                <span class="micon fa fa-list"></span>
+                                <span class="mtext">Subscriber List</span>
+                            </a>
+                        </li>
+                    @endif
                     {{-- @if (auth()->user()->type == 'superAdmin')
                         <li class="dropdown">
                             <a href="javascript:;" class="dropdown-toggle">

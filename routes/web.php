@@ -62,6 +62,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('categories', 'categoryPage')->name('categories');
                 Route::get('slider', 'manageSlider')->name('slider');
                 Route::get('ads', 'manageAds')->name('advertisements');
+                Route::get('news-subscriber-list', 'manageNewsSubscriberList')->name('news_subscriber_list');
                 Route::get('users', 'ManageUsers')->name('users');
                 Route::post('post-approve', 'ManageUsers')->name('post_approve');
             });

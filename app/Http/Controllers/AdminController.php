@@ -7,6 +7,7 @@ use App\Http\Requests\Profile\ProfilePictureUpdateRequest;
 use App\Http\Requests\SiteSetting\FaviconUpdateRequest;
 use App\Http\Requests\SiteSetting\LogoUpdateRequest;
 use App\Models\GeneralSetting;
+use App\Models\NewsLetterSubscriber;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -192,6 +193,12 @@ class AdminController extends Controller
     {
         return view('back.pages.users', [
             'pageTitle' => 'Manage Users'
+        ]);
+    }
+
+    public function manageNewsSubscriberList() {
+        return view('back.pages.news-subscribers', [
+            'pageTitle' => 'Manage News Subscribers',
         ]);
     }
 }
