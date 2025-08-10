@@ -29,7 +29,7 @@
             <div class="brand-logo">
                 <a href="">
                     <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
-                        alt="Login Logo" class="light-logo img-fluid" style="width: 50px; height: 50px;" />
+                        alt="Login Logo" class="light-logo img-fluid" style="width: 90px; height: 55px;" />
                 </a>
             </div>
             {{-- <div class="login-menu">
@@ -43,7 +43,7 @@
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-md-6 col-lg-7">
-                    <img src="{{ asset('back/vendors/images/login-page-img.png') }}" alt="" />
+                    <img src="{{ asset('back/src/images/login-page-img.webp') }}" alt="" />
                 </div>
                 <div class="col-md-6 col-lg-5">
                     @yield('content')
