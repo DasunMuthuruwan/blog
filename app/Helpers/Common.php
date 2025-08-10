@@ -43,7 +43,7 @@ if (!function_exists('navigations')) {
                     $query->whereHas('posts')
                         ->orderBy('name', 'asc');
                 }])
-                ->orderBy('name', 'asc')
+                ->orderBy('id', 'asc')
                 ->get();
 
             // Optimized query for standalone categories
