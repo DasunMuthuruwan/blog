@@ -22,7 +22,7 @@ class LogoUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'site_logo' => 'required|image|mimes:png,jpg,jpeg,webp|max:2048',
+            'site_logo' => 'required',
         ];
     }
 }

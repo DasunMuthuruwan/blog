@@ -13,8 +13,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
-    use Sluggable;
-    // , SoftDeletes;
+    use Sluggable, SoftDeletes;
 
     protected $fillable = [
         'author_id',
@@ -52,6 +51,11 @@ class Post extends Model
     public function views(): HasMany
     {
         return $this->hasMany(PostView::class);
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class, 'post_id');
     }
 
     public function post_category(): HasOne

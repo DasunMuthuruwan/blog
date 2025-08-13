@@ -210,12 +210,12 @@ class PostService
 
         // Thumbnail (Aspect ratio: 1)
         $image = $manager->read("{$path}{$newFileName}");
-        $image->scale(250, 250);
+        $image->scale(250, 250)->toWebp();
         $image->save("{$resized_path}thumb_{$newFileName}");
 
         // Thumbnail (Aspect ratio: 1.6)
         $image = $manager->read("{$path}{$newFileName}");
-        $image->scale(512, 320);
+        $image->scale(512, 320)->toWebp();
         $image->save("{$resized_path}resized_{$newFileName}");
 
         // Delete old feature path

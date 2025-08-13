@@ -3,7 +3,9 @@
 @section('meta_tags')
     {!! SEO::generate(true) !!}
 @endsection
-
+@push('stylesheets')
+    <link rel="stylesheet" href="{{ asset('front/css/category_posts.css') }}">
+@endpush
 @section('content')
     <div class="w-full mb-6">
         <h3 class="text-2xl font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
@@ -51,9 +53,6 @@
     </div>
 
 @endsection
-@push('stylesheets')
-    <link rel="stylesheet" href="{{ asset('front/css/category_posts.css') }}">
-@endpush
 @push('scripts')
     <script>
         // JavaScript to control card hover states when author link is hovered

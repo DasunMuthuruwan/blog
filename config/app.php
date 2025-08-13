@@ -124,5 +124,6 @@ return [
     ],
 
     'mail_user' => env('MAIL_USER', 'dasunmuthuruwan9@gmail.com'),
-    'tor_proxy_url' => env('TOR_PROXY_URL')
+    'tor_proxy_url' => env('TOR_PROXY_URL'),
+    'contact_email' => env('CONTACT_EMAIL', 'contact@devtalk.com')
 ];

@@ -3,128 +3,232 @@
 @section('meta_tags')
     {!! SEO::generate(true) !!}
 @endsection
-
+@push('stylesheets')
+    <link rel="stylesheet" href="{{ asset('front/css/popular_posts.css') }}">
+@endpush
 @section('content')
     <div class="row">
         <div class="col-lg-8 mb-5 mb-lg-0">
             <!-- Home Content (Default) -->
             <div id="home-content">
-                @if (empty($search))
-                    <article class="row mb-5">
-                        @if (!empty($slides))
-                            <div class="col-12">
-                                <div class="post-slider">
-                                    @foreach ($slides as $slide)
-                                        <div class="slider-item">
-                                            <img loading="lazy" src='{{ asset("images/slides/{$slide->image}") }}'
-                                                class="img-fluid" alt="{{ $slide->heading }}">
-                                            <div class="slider-content">
-                                                @if ($slide->link)
-                                                    <a href="{{ $slide->link }}">
-                                                        <h2 class="animated__animated">{{ $slide->heading }}</h2>
-                                                    </a>
-                                                @else
-                                                    <h2 class="animate__animated">{{ $slide->heading }}</h2>
-                                                @endif
-                                            </div>
+                <article class="row mb-5">
+                    @if (!empty($slides))
+                        <div class="col-12">
+                            <div class="post-slider">
+                                @foreach ($slides as $slide)
+                                    <div class="slider-item">
+                                        <img loading="eager" fetchpriority="high"
+                                            src='{{ asset("images/slides/{$slide->image}") }}' class="img-fluid"
+                                            width="1200" height="650" alt="{{ $slide->heading }}">
+                                        <div class="slider-content">
+                                            @if ($slide->link)
+                                                <a href="{{ $slide->link }}">
+                                                    <h2 class="animated__animated">{{ $slide->heading }}</h2>
+                                                </a>
+                                            @else
+                                                <h2 class="animate__animated">{{ $slide->heading }}</h2>
+                                            @endif
                                         </div>
-                                    @endforeach
-                                </div>
+                                    </div>
+                                @endforeach
                             </div>
-                        @endif
+                        </div>
+                    @endif
 
-                        @foreach (latestPosts(0, 1) as $post)
-                            @php
-                                $postAuthor = $post->author;
-                                $postCategory = $post->post_category;
-                            @endphp
-                            <div class="col-12 mx-auto">
-                                <h3>
-                                    <a class="post-title" href="{{ route('read_post', $post->slug) }}">
-                                        {{ $post->title }}
-                                    </a>
-                                </h3>
-                                <ul class="list-inline post-meta mb-4">
-                                    <li class="list-inline-item"><i class="ti-user mr-1"></i>
-                                        <a href="{{ route('author_posts', $postAuthor->username) }}">
+                    @foreach (latestPosts(0, 1) as $post)
+                        @php
+                            $postAuthor = $post->author;
+                            $postCategory = $post->post_category;
+                        @endphp
+                        <div class="col-12 mx-auto">
+                            <h3>
+                                <a class="post-title" href="{{ route('read_post', $post->slug) }}">
+                                    {{ $post->title }}
+                                </a>
+                            </h3>
+                            <ul class="list-inline post-meta mb-4 text-primary">
+                                <li class="list-inline-item">
+                                    <a href="{{ route('author_posts', $post->author->username) }}">
+                                        <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
+                                            class="profile-avatar mb-1" width="10" height="10">
+                                        <a class="text-primary" href="{{ route('author_posts', $postAuthor->username) }}">
                                             {{ $postAuthor->name }}
                                         </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="ti-calendar mb-1 mr-1"></i>{{ dateFormatter($post->created_at) }}
+                                </li>
+                                <li class="list-inline-item"><i class="ti-folder"></i> <a
+                                        href="{{ route('category_posts', $postCategory->slug) }}"
+                                        class="text-primary ml-1">
+                                        {{ $postCategory->name }}
+                                    </a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <i class="ti-timer"></i>
+                                    {{ readDuration($post->title, $post->content) }}
+                                    @choice('min|mins', readDuration($post->title, $post->content))
+                                </li>
+                            </ul>
+                            <p>
+                                {!! Str::ucfirst(words($post->content, 45)) !!}
+                            </p>
+                            <a href="{{ route('read_post', $post->slug) }}"
+                                class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7">Read
+                                more...</a>
+                        </div>
+                    @endforeach
+                </article>
+
+                <section id="home__latest-posts" class="latest-article">
+                    @foreach (latestPosts(1, 4) as $latestPost)
+                        @php
+                            $latestPostAuthor = $latestPost->author;
+                            $latestPostCategory = $latestPost->post_category;
+                        @endphp
+                        <article class="row mb-5 letest-result-item">
+                            <div class="col-md-4 mb-4 mb-md-0">
+                                <div class="post-img-box">
+                                    <img loading="lazy"
+                                        src='{{ asset("storage/images/posts/resized/resized_{$latestPost->feature_image}") }}'
+                                        class="img-fluid rounded-lg" alt="{{ $latestPost->title }}">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <h4>
+                                    <a class="post-title" href="{{ route('read_post', $latestPost->slug) }}">
+                                        {{ $latestPost->title }}
+                                    </a>
+                                </h4>
+                                <ul class="list-inline post-meta mb-2 text-primary">
+                                    <li class="list-inline-item">
+                                        <a href="{{ route('author_posts', $post->author->username) }}">
+                                            <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
+                                                class="profile-avatar mb-1" width="10" height="10">
+                                            <a class="text-primary"
+                                                href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
                                     </li>
                                     <li class="list-inline-item"><i
-                                            class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}</li>
+                                            class="ti-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
+                                    </li>
                                     <li class="list-inline-item"><i class="ti-folder"></i> <a
-                                            href="{{ route('category_posts', $postCategory->slug) }}" class="ml-1">
-                                            {{ $postCategory->name }}
+                                            href="{{ route('category_posts', $latestPostCategory->slug) }}"
+                                            class="ml-1 text-primary">
+                                            {{ $latestPostCategory->name }}
                                         </a>
                                     </li>
+                                    @php
+                                        $duration = readDuration($latestPost->title, $latestPost->content);
+                                    @endphp
                                     <li class="list-inline-item">
-                                        <i class="ti-timer mr-1"></i>
-                                        {{ readDuration($post->title, $post->content) }}
-                                        @choice('min|mins', readDuration($post->title, $post->content))
+                                        <i class="ti-timer"></i>
+                                        {{ $duration }}
+                                        @choice('min|mins', $duration)
                                     </li>
                                 </ul>
                                 <p>
-                                    {!! Str::ucfirst(words($post->content, 45)) !!}
+                                    {!! Str::ucfirst(words($latestPost->content, 30)) !!}
                                 </p>
-                                <a href="{{ route('read_post', $post->slug) }}" class="btn btn-outline-primary">Read
+                                <a href="{{ route('read_post', $latestPost->slug) }}"
+                                    class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7">Read
                                     more...</a>
                             </div>
-                        @endforeach
-                    </article>
+                        </article>
+                    @endforeach
+                </section>
+                <!-- Blog 5 - Bootstrap Brain Component -->
+                <section class="bsb-blog-5 py-3 py-md-1 py-xl-8 mb-5">
+                    <div class="container">
+                        <div class="row justify-content-md-center">
+                            <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                                <h2 class="display-5 mb-4 mb-md-5 text-center">Popular Articles</h2>
+                                <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
+                            </div>
+                        </div>
+                    </div>
 
-                    <section id="home__latest-posts" class="latest-article">
-                        @foreach (latestPosts(1, 3) as $latestPost)
-                            @php
-                                $latestPostAuthor = $latestPost->author;
-                                $latestPostCategory = $latestPost->post_category;
-                            @endphp
-                            <article class="row mb-5 letest-result-item">
-                                <div class="col-md-4 mb-4 mb-md-0">
-                                    <div class="post-img-box">
-                                        <img src='{{ asset("storage/images/posts/resized/resized_{$latestPost->feature_image}") }}'
-                                            class="img-fluid rounded-lg" alt="{{ $latestPost->title }}">
-                                    </div>
+                    <div class="container overflow-hidden">
+                        <div class="row gy-4 gy-md-5 gx-xl-6 gy-xl-6 gx-xxl-9 gy-xxl-9">
+                            @foreach ($popularPosts as $popularPost)
+                                <div class="col-12 col-lg-4 mb-5">
+                                    <article>
+                                        <div class="card border-0 bg-transparent">
+                                            <figure class="card-img-top mb-4 overflow-hidden bsb-overlay-hover">
+                                                <a href="{{ route('read_post', $popularPost->slug) }}">
+                                                    <img class="img-fluid bsb-scale bsb-hover-scale-up" loading="lazy"
+                                                        src='{{ asset("storage/images/posts/resized/resized_{$popularPost->feature_image}") }}'
+                                                        alt="post-thumb" />
+                                                </a>
+                                                <figcaption>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                                        fill="currentColor" class="bi bi-eye text-dark bsb-hover-fadeInLeft"
+                                                        viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z" />
+                                                        <path
+                                                            d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z" />
+                                                    </svg>
+                                                    <h4 class="h6 text-dark bsb-hover-fadeInRight mt-2">Read More</h4>
+                                                </figcaption>
+                                            </figure>
+                                            <div class="card-body m-0 p-0">
+                                                <div class="entry-header mb-3">
+                                                    <ul class="entry-meta list-unstyled d-flex mb-3">
+                                                        <li>
+                                                            <a class="d-inline-flex px-2 py-1 btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7"
+                                                                href="{{ route('category_posts', $popularPost->post_category->slug) }}">{{ $popularPost->post_category->name }}</a>
+                                                        </li>
+                                                    </ul>
+                                                    <h3 class="card-title entry-title h5 m-0">
+                                                        <a class="post-title"
+                                                            href="{{ route('read_post', $popularPost->slug) }}">{{ $popularPost->title }}</a>
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                            <div class="card-footer border-0 bg-transparent p-0 m-0">
+                                                <ul class="entry-meta list-unstyled d-flex align-items-center m-0">
+                                                    <li>
+                                                        <span
+                                                            class="text-primary text-decoration-none d-flex align-items-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="14" fill="currentColor"
+                                                                class="bi bi-calendar3" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                                                                <path
+                                                                    d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                                            </svg>
+                                                            <span
+                                                                class="ml-1">{{ dateFormatter($popularPost->created_at) }}</span>
+                                                        </span>
+                                                    </li>
+                                                    <li>
+                                                        <span class="px-2"></span>
+                                                    </li>
+                                                    <li>
+                                                        <span
+                                                            class="text-primary text-decoration-none d-flex align-items-center">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
+                                                                height="14" fill="currentColor"
+                                                                class="bi bi-chat-dots text-sm" viewBox="0 0 16 16">
+                                                                <path
+                                                                    d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                                                                <path
+                                                                    d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z" />
+                                                            </svg>
+                                                            <span
+                                                                class="ml-1">{{ $popularPost->comments_count }}</span>
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </article>
                                 </div>
-                                <div class="col-md-8">
-                                    <h4>
-                                        <a class="post-title" href="{{ route('read_post', $latestPost->slug) }}">
-                                            {{ $latestPost->title }}
-                                        </a>
-                                    </h4>
-                                    <ul class="list-inline post-meta mb-2">
-                                        <li class="list-inline-item">
-                                            <i class="ti-user mr-1"></i>
-                                            <a
-                                                href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
-                                        </li>
-                                        <li class="list-inline-item"><i
-                                                class="ti-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
-                                        </li>
-                                        <li class="list-inline-item"><i class="ti-folder"></i> <a
-                                                href="{{ route('category_posts', $latestPostCategory->slug) }}"
-                                                class="ml-1">
-                                                {{ $latestPostCategory->name }}
-                                            </a>
-                                        </li>
-                                        @php
-                                            $duration = readDuration($latestPost->title, $latestPost->content);
-                                        @endphp
-                                        <li class="list-inline-item">
-                                            <i class="ti-timer mr-1"></i>
-                                            {{ $duration }}
-                                            @choice('min|mins', $duration)
-                                        </li>
-                                    </ul>
-                                    <p>
-                                        {!! Str::ucfirst(words($latestPost->content, 30)) !!}
-                                    </p>
-                                    <a href="{{ route('read_post', $latestPost->slug) }}"
-                                        class="btn btn-outline-primary">Read more...</a>
-                                </div>
-                            </article>
-                        @endforeach
-                    </section>
-                @endif
+                            @endforeach
+                        </div>
+                    </div>
+                </section>
             </div>
 
             <!-- Search Results Container (Will be populated by Livewire) -->
@@ -154,7 +258,8 @@
                         @if ($cornerAd->image && $cornerAd->url)
                             {{-- Show image wrapped in a link --}}
                             <a href="{{ e($cornerAd->url) }}" target="_blank" rel="noopener noreferrer">
-                                <img src='{{ asset("images/ads/{$cornerAd->image}") }}' alt="Ad" class="img-fluid">
+                                <img src='{{ asset("images/ads/{$cornerAd->image}") }}' alt="Ad"
+                                    class="img-fluid">
                             </a>
                         @elseif($cornerAd->url && $cornerAd->content)
                             {{-- Show content wrapped in a link --}}

@@ -9,7 +9,7 @@
         <div class="container">
             <!-- Author Profile -->
             <div class="author-card text-center">
-                <img src="{{ asset($author->picture) }}" alt="Author's Photo" class="rounded-full w-24 h-24 mx-auto object-cover">
+                <img src="{{ asset($author->picture) }}" loading="lazy" alt="Author's Photo" class="rounded-full w-24 h-24 mx-auto object-cover">
                 <h3 class="mt-3 title-color font-semibold text-xl">{{ $author->name }}</h3>
                 <p class="text-gray-600">{{ $author->username }}</p>
                 <p class="text-gray-700 max-w-2xl mx-auto mt-2">
@@ -41,6 +41,7 @@
                             <a href="{{ route('read_post', $post->slug) }}" class="block post-image-wrapper">
                                 <img loading="lazy"
                                     src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
+                                    loading="lazy"
                                     alt="{{ $post->title }}" class="post-image">
                             </a>
 
@@ -50,13 +51,13 @@
                                         {{ $post->title }}
                                     </a>
                                 </h5>
-                                <ul class="list-inline post-meta text-xs text-gray-500">
+                                <ul class="list-inline post-meta text-xs text-gray-500 text-primary">
                                     <li class="list-inline-item">
                                         <i class="ti-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="{{ route('category_posts', $post->post_category->slug) }}"
-                                            class="hover:text-blue-500 category-link">
+                                            class="hover:text-blue-500 category-link text-primary">
                                             <i class="ti-folder mr-1"></i> {{ $post->post_category->name }}
                                         </a>
                                     </li>

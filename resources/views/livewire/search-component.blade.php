@@ -7,11 +7,11 @@
                 <input type="search" wire:model.live.debounce.300ms="search"
                     placeholder="Type to discover articles, guide &amp; tutorials..." class="search-input"
                     autocomplete="off">
-                <button type="button" wire:click="clearSearch">
-                    <i class="ti-close text-dark"></i>
+                <button type="button" wire:click="clearSearch" aria-label="Clear search">
+                    <i class="ti-close text-dark" aria-hidden="true"></i>
                 </button>
-                <button type="button" class="search-btn">
-                    <i class="ti-search"></i>
+                <button type="button" class="search-btn" aria-label="Open search">
+                    <i class="ti-search" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -58,8 +58,8 @@
                                     <i class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-folder"></i> <a href="{{ route('category_posts', $post->post_category->slug) }}"
-                                        class="ml-1">
+                                    <i class="ti-folder"></i> <a
+                                        href="{{ route('category_posts', $post->post_category->slug) }}" class="ml-1">
                                         {{ $post->post_category->name }}
                                     </a>
                                 </li>

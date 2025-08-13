@@ -41,7 +41,7 @@
                     </ul>
                 </div>
 
-                <img src='{{ asset("images/aboutus/{$about_us->image}") }}' class="img-fluid w-100 mb-4 rounded-lg"
+                <img src='{{ asset("images/aboutus/{$about_us->image}") }}' loading="lazy" class="img-fluid w-100 mb-4 rounded-lg"
                     alt="Dev Talk">
 
                 <div class="content">

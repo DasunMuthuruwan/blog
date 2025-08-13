@@ -15,7 +15,7 @@
                     <article class="row mb-5 letest-result-item">
                         <div class="col-md-4 mb-4 mb-md-0">
                             <div class="post-img-box">
-                                <img src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
+                                <img loading="lazy" src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
                                     class="img-fluid rounded-lg" alt="post-thumb">
                             </div>
                         </div>

@@ -9,8 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ParentCategory extends Model
 {
-    use Sluggable;
-    // , SoftDeletes;
+    use Sluggable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.

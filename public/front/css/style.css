@@ -1512,3 +1512,9 @@ pre .copy-button:hover {
     background-color: #f0f4ff; /* light blue hover */
     color: #176AFF; /* text turns blue */
 }
+.profile-avatar {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}

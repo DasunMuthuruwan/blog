@@ -69,7 +69,7 @@
             <p>You may request access to or correction of your personal data. You also have the right to request deletion,
                 subject to any legal obligations we may have to retain it.</p>
             <p>To exercise your rights, contact us at: <a
-                    href="mailto:{{ settings()->site_email }}">{{ settings()->site_email }}</a> ✉️.</p>
+                    href="mailto:{{ config('app.contact_email') }}">{{ config('app.contact_email') }}}</a> ✉️.</p>
         </section>
 
         <section class="mb-4">
@@ -88,8 +88,8 @@
             <h4>9. Contact Us 📞</h4>
             <p>If you have any questions or concerns about this Privacy Policy, please reach out:</p>
             <ul>
-                <li>Email: <a href="mailto:{{ settings()->site_email }}">{{ settings()->site_email }}</a> ✉️</li>
-                <li>Phone: +94 (72) 9374928 📱</li>
+                <li>Email: <a href="mailto:{{ config('app.contact_email') }}">{{ config('app.contact_email') }}</a> ✉️</li>
+                {{-- <li>Phone: +94 (72) 9374928 📱</li> --}}
             </ul>
         </section>
 

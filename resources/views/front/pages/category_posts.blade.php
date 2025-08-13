@@ -3,7 +3,9 @@
 @section('meta_tags')
     {!! SEO::generate(true) !!}
 @endsection
-
+@push('stylesheets')
+    <link rel="stylesheet" href="{{ asset('front/css/category_posts.css') }}">
+@endpush
 @section('content')
     <div class="w-full mb-6">
         <h3 class="text-2xl font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
@@ -25,12 +27,14 @@
                                     {{ $post->title }}
                                 </a>
                             </h5>
-                            <ul class="list-inline post-meta text-xs">
+                            <ul class="list-inline post-meta text-xs text-primary">
                                 <li class="list-inline-item"><i class="ti-calendar mr-1"></i>
                                     {{ dateFormatter($post->created_at) }}</li>
                                 <li class="list-inline-item">
-                                    <i class="ti-user mr-1"></i>
-                                    <a href="{{ route('author_posts', $post->author->username) }}" class="author-link">
+                                    <a href="{{ route('author_posts', $post->author->username) }}">
+                                <img src='{{ asset($post->author->picture) }}'
+                                loading="lazy" alt="User Avatar" class="profile-avatar mb-1" width="10" height="10">
+                                    <a href="{{ route('author_posts', $post->author->username) }}" class="author-link text-primary">
                                         {{ $post->author->name }}
                                     </a>
                                 </li>
@@ -51,9 +55,6 @@
     </div>
 
 @endsection
-@push('stylesheets')
-    <link rel="stylesheet" href="{{ asset('front/css/category_posts.css') }}">
-@endpush
 @push('scripts')
     <script>
         // JavaScript to control card hover states when author link is hovered

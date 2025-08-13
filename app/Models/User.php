@@ -84,7 +84,7 @@ class User extends Authenticatable
         return Attribute::make(
             get: fn($value) => $value
                 ? "storage/images/users/{$value}" // Return stored user image if available
-                : asset("/images/users/default-profile.jpg") // Return default image if no user image exists
+                : "/images/users/default-profile.jpg" // Return default image if no user image exists
         );
     }
 

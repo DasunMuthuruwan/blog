@@ -26,6 +26,16 @@ class BlogController extends Controller
         $imgUrl = $settings->site_logo ? asset("/storage/images/{$settings->site_logo}") : '';
         $keywords = $settings->site_meta_keywords ?? '';
         $currentUrl = url()->current();
+        $popularPosts = Post::query()
+            ->select('id', 'category', 'title', 'slug', 'feature_image', 'created_at') // only needed columns
+            ->with([
+                'author:id,name',
+                'post_category:id,name,slug'
+            ])
+            ->withCount(['views', 'comments']) 
+            ->orderByDesc('views_count')
+            ->limit(6)
+            ->get();
 
         /** Meta  SEO */
         SEOTools::setTitle($title, false);
@@ -51,7 +61,8 @@ class BlogController extends Controller
             'front.pages.index',
             [
                 'pageTitle' => $title,
-                'slides' => getSlides()
+                'slides' => getSlides(),
+                'popularPosts' => $popularPosts
             ]
         );
     }
@@ -65,7 +76,7 @@ class BlogController extends Controller
 
             // Retrieve posts related to this category and paginate
             $posts = Post::visible(1)
-                ->with(['author:id,name,username', 'post_category:id,name,slug']) // Eager load relationships
+                ->with(['author:id,name,username,picture', 'post_category:id,name,slug']) // Eager load relationships
                 ->where('category', $category->id)
                 ->orderBy('posts.created_at', 'desc')
                 ->paginate(8);
@@ -244,8 +255,8 @@ class BlogController extends Controller
     public function readPost(Request $request, string $slug)
     {
         try {
-            $post = Post::with(['author:id,name,username', 'post_category:id,name,slug'])
-                ->withCount('views')
+            $post = Post::with(['author:id,name,username,picture', 'post_category:id,name,slug'])
+                ->withCount('views', 'comments')
                 ->where('slug', $slug)
                 ->firstOrFail();
 
@@ -348,7 +359,7 @@ class BlogController extends Controller
                 'subject' => $contactRequest->subject,
                 'message' => $contactRequest->message
             ];
-            Mail::to(settings()->site_email)
+            Mail::to(config('app.contact_email'))
                 ->queue(new ContactMail($data));
 
             return redirect()->back()->with('success', 'Email Sent Successfully.');

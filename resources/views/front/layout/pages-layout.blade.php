@@ -4,6 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Dev Talk">
     @yield('meta_tags')
     @php
         $settings = settings();
@@ -26,8 +28,8 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-white">
                 <a class="navbar-brand" href="{{ route('home') }}">
-                    <img class="img-fluid" width="70px" src="/storage/images/site/{{ $settings->site_logo ?? '' }}"
-                        alt="{{ $pageTitle ?? '' }}">
+                    <img class="img-fluid" width="70" height="50"
+                        src="/storage/images/site/{{ $settings->site_logo ?? '' }}" alt="{{ $pageTitle ?? '' }}">
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
                     <i class="ti-menu"></i>
@@ -50,9 +52,11 @@
 
                     <!-- search -->
                     <div class="search px-4">
-                        <button id="searchOpen" class="search-btn-top"><i class="ti-search"></i></button>
+                        <button id="searchOpen" class="search-btn-top" aria-label="Open search">
+                            <i class="ti-search" aria-hidden="true"></i>
+                        </button>
                         <div class="search-wrapper">
-                            <form action="{{route('search_posts')}}" method="GET" class="h-100">
+                            <form action="{{ route('search_posts') }}" method="GET" class="h-100">
                                 <input class="search-box pl-4" id="search-query" name="q" type="search"
                                     placeholder="Type to discover articles, guide &amp; tutorials... "
                                     value="{{ request('q') ?? '' }}">
@@ -102,8 +106,9 @@
             <div class="row justify-content-between">
                 <div class="col-md-3 mb-4">
                     <a class="mb-4 d-block" href="{{ route('home') }}">
-                        <img class="img-fluid" width="50px"
-                            src="/storage/images/site/{{ $settings->site_logo ?? '' }}" alt="{{ $pageTitle ?? '' }}">
+                        <img class="img-fluid" width="50" height="30"
+                            src="/storage/images/site/{{ $settings->site_logo ?? '' }}"
+                            alt="{{ $pageTitle ?? '' }}">
                     </a>
                     <p>{{ $settings->site_meta_description ?? '' }}</p>
                 </div>
@@ -138,22 +143,20 @@
                         @endif
                     </ul>
                 </div>
-
                 <div class="col-md-3 mb-4">
                     <h6 class="mb-4">Subscribe Newsletter</h6>
                     @livewire('news-letter-form')
                 </div>
             </div>
             <div class="scroll-top">
-                <a href="javascript:void(0);" id="scrollTop"><i class="ti-angle-up"></i></a>
+                <a href="#" id="scrollTop" aria-label="Scroll top"><i class="ti-angle-up"
+                        aria-hidden="true"></i></a>
             </div>
             <div class="text-center">
                 <p class="content">&copy; {{ date('Y') }} - Design &amp; Develop By {{ config('app.name') }}</p>
             </div>
         </div>
     </footer>
-
-
     <script src="{{ asset('front/plugins/jQuery/jquery.min.js') }}"></script>
     <script src="{{ asset('front/plugins/bootstrap/bootstrap.min.js') }}" async></script>
     <script src="{{ asset('front/plugins/slick/slick.min.js') }}"></script>

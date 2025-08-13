@@ -51,12 +51,10 @@
         <p>These Terms are governed by and interpreted in accordance with the laws of <strong>Sri Lanka</strong>. You agree
             to submit to the jurisdiction of the courts located in <strong>Colombo</strong> for any disputes arising out of
             these terms.</p>
-
         <hr>
-
         <p class="text-muted">
             If you have any questions about these Terms, please contact us at
-            <a href="mailto:{{ settings()->site_email }}">{{ settings()->site_email }}</a>.
+            <a href="mailto:{{ config('app.contact_email') }}">{{ config('app.contact_email') }}</a>.
         </p>
     </div>
 @endsection
