@@ -24,7 +24,7 @@ class BlogController extends Controller
         $settings = settings();
         $title = $settings->site_title ?? '';
         $description = $settings->site_meta_description ?? '';
-        $imgUrl = $settings->site_logo ? asset("/storage/images/{$settings->site_logo}") : '';
+        $imgUrl = $settings->site_logo ? asset("/storage/images/site/{$settings->site_logo}") : '';
         $keywords = $settings->site_meta_keywords ?? '';
         $currentUrl = url()->current();
         $popularPosts = Post::query()
