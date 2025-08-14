@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ContactRequest;
 use App\Mail\ContactMail;
 use App\Models\Category;
+use App\Models\ContactUs;
 use App\Models\Post;
 use App\Models\PostView;
 use App\Models\User;
@@ -359,6 +360,9 @@ class BlogController extends Controller
                 'subject' => $contactRequest->subject,
                 'message' => $contactRequest->message
             ];
+
+            ContactUs::create($data);
+
             Mail::to(config('app.contact_email'))
                 ->queue(new ContactMail($data));
 

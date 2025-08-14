@@ -201,4 +201,17 @@ class AdminController extends Controller
             'pageTitle' => 'Manage News Subscribers',
         ]);
     }
+
+    public function manageContactUs() {
+        return view('back.pages.contact_us', [
+            'pageTitle' => 'Manage Contact Us',
+        ]);
+    }
+
+    public function ManageComments() {
+        return view('back.pages.comments', [
+            'pageTitle' => 'Manage Comments'
+        ]);
+        
+    }
 }

@@ -28,13 +28,16 @@
         <div class="container-fluid d-flex justify-content-between align-items-center">
             <div class="brand-logo">
                 <a href="">
-                    <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
+                    @php
+                        $siteLogo = settings()->site_logo;
+                    @endphp
+                    <img src='{{ $siteLogo ? asset("storage/images/site/{$siteLogo}") : asset(path: "default-logo.png") }}'
                         alt="Login Logo" class="light-logo img-fluid" style="width: 90px; height: 55px;" />
                 </a>
             </div>
             {{-- <div class="login-menu">
                 <ul>
-                    <li><a href="register.html">Register</a></li>
+                    <li><a href="{{ route('admin.register') }}">Register</a></li>
                 </ul>
             </div> --}}
         </div>

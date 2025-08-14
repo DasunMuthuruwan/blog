@@ -44,5 +44,25 @@ class AppServiceProvider extends ServiceProvider
         Category::observe(classes: CategoryObserver::class);
         ParentCategory::observe(classes: ParentCategoryObserver::class);
         Post::observe(PostObserver::class);
+        $publicPath = public_path('storage');
+        $storagePath = storage_path('app/public');
+
+        if (!file_exists($publicPath)) {
+            @mkdir($publicPath, 0755, true);
+            // Copy instead of symlink
+            $files = new \RecursiveIteratorIterator(
+                new \RecursiveDirectoryIterator($storagePath, \FilesystemIterator::SKIP_DOTS),
+                \RecursiveIteratorIterator::SELF_FIRST
+            );
+
+            foreach ($files as $file) {
+                $target = $publicPath . '/' . $file->getSubPathName();
+                if ($file->isDir()) {
+                    @mkdir($target);
+                } else {
+                    @copy($file, $target);
+                }
+            }
+        }
     }
 }

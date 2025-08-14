@@ -28,6 +28,13 @@ class AuthController extends Controller
         $this->serverError = config('exception-errors.errors.server-error');
     }
 
+    public function registerForm(Request $request)
+    {
+        return view('back.pages.auth.register', [
+            'pageTitle' => 'Register'
+        ]);
+    }
+
     public function loginForm(Request $request)
     {
         return view('back.pages.auth.login', [

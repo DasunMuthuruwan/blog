@@ -3,7 +3,7 @@
         <!-- New Comment Form -->
         <div class="mb-4">
             <div class="d-flex gap-3">
-                <img src="https://randomuser.me/api/portraits/women/4.jpg" loading="lazy" alt="User Avatar"
+                <img src="{{ asset('images/users/default-profile.jpg') }}" width="25" height="25" loading="lazy" alt="User Avatar"
                     class="user-avatar">
                 <div class="flex-grow-1">
                     <textarea class="form-control comment-input" wire:model="comment" rows="3" placeholder="Write a comment..."></textarea>

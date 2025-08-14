@@ -9,9 +9,16 @@
     <title>@yield('pageTitle')</title>
 
     <!-- Site favicon -->
-    <link rel="icon" type="image/png" sizes="16x16"
-        href="{{ asset('storage/images/site/' . (settings()->site_favicon ?? 'default-favicon.png')) }}">
-
+    {{-- <link rel="icon" type="image/png" sizes="16x16"
+        href="{{ asset('storage/images/site/' . (settings()->site_favicon ?? 'default-favicon.png')) }}"> --}}
+    @php
+        $settings = settings();
+    @endphp
+    <link rel="shortcut icon"
+        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'
+        type="image/x-icon">
+    <link rel="icon"
+        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'>
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="robots" content="noindex, follow">
@@ -242,14 +249,26 @@
                                 <span class="mtext">Advertisements</span>
                             </a>
                         </li>
-                    @endif
-                    @if (auth()->user()->type == 'superAdmin')
                         <li>
                             <a href="{{ route('admin.news_subscriber_list') }}"
                                 class="dropdown-toggle no-arrow {{ Route::is('admin.news_subscriber_list') ? 'active' : '' }}">
                                 <span class="micon fa fa-list"></span>
-                                <span class="mtext">Subscriber List</span>
+                                <span class="mtext">Subscribers</span>
                             </a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="javascript:;"
+                                class="dropdown-toggle {{ Route::is('admin.contact_us') || Route::is('admin.comments') ? 'active' : '' }}">
+                                <span class="micon bi bi-chat-dots"></span>
+                                <span class="mtext">User Feedback</span>
+                            </a>
+                            <ul class="submenu">
+                                <li><a href="{{ route('admin.contact_us') }}"
+                                        class="{{ Route::is('admin.contact_us') ? 'active' : '' }}">Contact Us</a>
+                                </li>
+                                <li><a href="{{ route('admin.comments') }}"
+                                        class="{{ Route::is('admin.comments') ? 'active' : '' }}">Comments</a></li>
+                            </ul>
                         </li>
                     @endif
                     {{-- @if (auth()->user()->type == 'superAdmin')

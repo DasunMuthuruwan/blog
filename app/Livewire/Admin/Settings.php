@@ -112,7 +112,7 @@ class Settings extends Component
     {
         $validated = $this->validate([
             'site_title' => 'required|max:128',
-            'site_email' => 'required|email',
+            'site_email' => 'required',
             'site_phone' => 'numeric',
             'site_meta_keywords' => 'nullable|max:255',
             'site_meta_description' => 'nullable'

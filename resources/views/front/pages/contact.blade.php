@@ -47,7 +47,7 @@
                 <h5 class="mt-5">Prefer Email?</h5>
                 <p>
                     <i class="ti-email mr-2 text-primary"></i>
-                    <a href="mailto:{{ settings()->site_email }}">{{ settings()->site_email }}</a>
+                    <a href="mailto:{{ config('app.contact_email') }}">{{ config('app.contact_email') }}</a>
                 </p>
             </div>
         </div>

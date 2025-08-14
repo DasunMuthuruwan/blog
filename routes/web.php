@@ -39,6 +39,7 @@ Route::view('example-auth', 'example-auth');
 Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest', 'prevent-back-history'])->group(function () {
         Route::controller(AuthController::class)->group(function () {
+            // Route::get('/register', 'registerForm')->name('register');
             Route::get('/login', 'loginForm')->name(name: 'login');
             Route::post('/login', 'loginHandler')->name('login_handler');
             Route::get('/forgot-password', 'forgotForm')->name('forgot');
@@ -65,6 +66,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
                 Route::get('news-subscriber-list', 'manageNewsSubscriberList')->name('news_subscriber_list');
                 Route::get('users', 'ManageUsers')->name('users');
                 Route::post('post-approve', 'ManageUsers')->name('post_approve');
+                Route::get('contact-us', 'ManageContactUs')->name('contact_us');
+                Route::get('comments', 'ManageComments')->name('comments');
             });
 
             //manage posts

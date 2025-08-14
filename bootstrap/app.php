@@ -78,6 +78,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(function (Throwable $exception, $request) {
             return match (true) {
                 $exception instanceof NotFoundHttpException => response()->view('front.pages.errors.404', [], 404),
+                $exception instanceof AuthorizationException => response()->view('front.pages.errors.403', [], 403),
+                $exception instanceof Throwable => response()->view('front.pages.errors.500', [], 500),
                 default => null
             };
         });

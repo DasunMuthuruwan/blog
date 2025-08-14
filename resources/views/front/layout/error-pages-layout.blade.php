@@ -5,8 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
     @yield('meta_tags')
-    <link rel="shortcut icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
-    <link rel="icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
+    @php
+        $settings = settings();
+    @endphp
+    <link rel="shortcut icon" href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : "" }}' type="image/x-icon">
+    <link rel="icon" href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : "" }}'>
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">

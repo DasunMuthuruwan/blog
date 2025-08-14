@@ -107,7 +107,10 @@
                             <div class="col-md-6">
                                 <h6>Site Logo</h6>
                                 <div class="mb-2 mt-1" style="max-width: 200px">
-                                    <img src="{{ settings()->site_logo ? asset('storage/images/site/' . settings()->site_logo) : asset('default-logo.png') }}"
+                                    @php
+                                    $siteLogo = settings()->site_logo;
+                                    @endphp
+                                    <img src='{{ $siteLogo ? asset("storage/images/site/{$siteLogo}") : asset(path: "default-logo.png") }}'
                                         wire:ignore alt="" class="img-thumbnail preview_site_logo"
                                         id="preview_site_logo">
                                 </div>

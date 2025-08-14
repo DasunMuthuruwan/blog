@@ -10,8 +10,11 @@
     @php
         $settings = settings();
     @endphp
-    <link rel="shortcut icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
-    <link rel="icon" href="/storage/images/site/{{ $settings->site_favicon ?? '' }}"" type="image/x-icon">
+    <link rel="shortcut icon"
+        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'
+        type="image/x-icon">
+    <link rel="icon"
+        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'>
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">
@@ -28,8 +31,12 @@
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-white">
                 <a class="navbar-brand" href="{{ route('home') }}">
+                    @php
+                        $siteLogo = settings()->site_logo;
+                    @endphp
                     <img class="img-fluid" width="70" height="50"
-                        src="/storage/images/site/{{ $settings->site_logo ?? '' }}" alt="{{ $pageTitle ?? '' }}">
+                        src='{{ $siteLogo ? asset("storage/images/site/{$siteLogo}") : asset('default-logo.png') }}'
+                        alt="{{ $pageTitle ?? '' }}">
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
                     <i class="ti-menu"></i>
@@ -107,7 +114,7 @@
                 <div class="col-md-3 mb-4">
                     <a class="mb-4 d-block" href="{{ route('home') }}">
                         <img class="img-fluid" width="50" height="30"
-                            src="/storage/images/site/{{ $settings->site_logo ?? '' }}"
+                            src='{{ $siteLogo ? asset("storage/images/site/{$siteLogo}") : asset('default-logo.png') }}'
                             alt="{{ $pageTitle ?? '' }}">
                     </a>
                     <p>{{ $settings->site_meta_description ?? '' }}</p>
