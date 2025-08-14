@@ -46,13 +46,13 @@ class NewsLetterForm extends Component
 
         if (!$created) {
             $this->dispatch('showToastr', [
-                'type' => 'error',
+                'type' => 'newsletter_fail',
                 'message' => $this->serverError
             ]);
         }
 
         $this->dispatch('showToastr', [
-            'type' => 'info',
+            'type' => 'newsletter_success',
             'message' => 'You have successfully subscribed.'
         ]);
     }

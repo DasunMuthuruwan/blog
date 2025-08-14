@@ -8,7 +8,7 @@
             <p class="text-muted">Please enter your credentials to continue</p>
         </div>
         <form class="{{ route('admin.login_handler') }}" method="POST">
-            <x-form-alerts></x-form-alerts>
+            <x-form-alerts />
             @csrf
             <div class="input-group custom mb-1">
                 <input type="text" class="form-control form-control-md" placeholder="Username" name="login_id"

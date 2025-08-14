@@ -88,7 +88,7 @@ class PostService
         if (!$this->isSuperAdmin) {
             $siteInfo = settings();
             Mail::to($siteInfo->site_email)
-                ->queue(new SendApprovalPostMail($post, $this->user));
+                ->send(new SendApprovalPostMail($post, $this->user));
 
             return [
                 'data' => $post,
@@ -147,7 +147,7 @@ class PostService
         if (!$this->isSuperAdmin) {
             $siteInfo = settings();
             Mail::to($siteInfo->site_email)
-                ->queue(new SendApprovalPostMail($post, $this->user));
+                ->send(new SendApprovalPostMail($post, $this->user));
 
             return [
                 'data' => $post,

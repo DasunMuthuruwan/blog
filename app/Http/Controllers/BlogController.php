@@ -364,9 +364,9 @@ class BlogController extends Controller
             ContactUs::create($data);
 
             Mail::to(config('app.contact_email'))
-                ->queue(new ContactMail($data));
+                ->send(new ContactMail($data));
 
-            return redirect()->back()->with('success', 'Email Sent Successfully.');
+            return redirect()->back()->with('contact_success', 'Email Sent Successfully.');
         } catch (Exception $exception) {
             logger()->error("Author posts error: " . $exception->getMessage());
 

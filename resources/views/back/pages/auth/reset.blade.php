@@ -7,7 +7,7 @@
         </div>
         <h6 class="mb-20">Enter your new password, confirm and submit</h6>
         <form action="{{ route('admin.reset_password') }}" method="POST">
-            <x-form-alerts></x-form-alerts>
+            <x-form-alerts />
             @csrf
             <input type="hidden" name="email" value="{{ $email }}">
             <input type="hidden" name="token" value="{{ $token }}">

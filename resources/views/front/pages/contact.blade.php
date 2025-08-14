@@ -55,7 +55,14 @@
         <div class="col-md-6">
             <form method="POST" action="{{ route('send_email') }}">
                 @csrf
-                <x-form-alerts />
+                @if (Session::get('contact_success'))
+                    <div class="alert alert-success">
+                        {!! Session::get('contact_success') !!}
+                        <button class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
 
                 <div class="form-group">
                     <label for="name"><strong>Your Name</strong> <span class="text-danger">*</span></label>

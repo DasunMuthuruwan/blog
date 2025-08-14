@@ -21,7 +21,8 @@ class BlockCrawlers
 
         if ($crawler->isCrawler()) {
             Log::info("Crawler blocked: {$request->userAgent()}");
-            abort(403, 'You are not allowed this resource.');
+            
+            return response()->view('front.pages.errors.403', [], 403);
         }
 
         return $next($request);

@@ -105,7 +105,7 @@ class Posts extends Component
             ]);
 
             Mail::to($post->author->email)
-                ->queue(new SendApprovedPostForAuthorMail($post));
+                ->send(new SendApprovedPostForAuthorMail($post));
 
             (new PostService)->sendNewsletterForSubscribers($post);
 
