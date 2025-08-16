@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\UnauthorizedException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Exception\BadRequestException;
+use Symfony\Component\HttpFoundation\Exception\SessionNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -42,6 +43,7 @@ return Application::configure(basePath: dirname(__DIR__))
             ValidationException::class,
             TokenMismatchException::class,
             ModelNotFoundException::class,
+            NotFoundHttpException::class,
             UnauthorizedException::class,
             UrlGenerationException::class,
             InvalidParameterException::class,
@@ -72,12 +74,12 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (Throwable $exception, $request) {
-            if ($exception instanceof HttpException) {
+            if ($exception instanceof SessionNotFoundException) {
                 // For Livewire request
                 if ($request->hasHeader('X-Livewire')) {
                     return response()->json([], 419);
                 }
-
+                
                 // For normal request
                 return redirect()->route('home')->with('error', 'Your session has expired. Please try again.');
             }

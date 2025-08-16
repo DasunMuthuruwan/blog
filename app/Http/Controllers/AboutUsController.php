@@ -14,8 +14,8 @@ class AboutUsController extends Controller
         /** Site config */
         $siteName = config('app.name');
         $title = "About Us | {$siteName}";
-        $description = $aboutUs->meta_descriptions;
-        $keywords = $aboutUs->meta_keywords;
+        $description = $aboutUs->meta_descriptions ?? '';
+        $keywords = $aboutUs->meta_keywords ?? '';
 
         /** SEO Meta Tags */
         SEOTools::setTitle($title, false);

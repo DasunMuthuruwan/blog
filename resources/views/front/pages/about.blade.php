@@ -10,39 +10,43 @@
                 <div class="mb-2 d-flex align-items-center">
                     <h3 class="title-color">About Us</h3>
                     @php
-                        $siteSocialLinks = siteSocialLinks();
+                        $social_links = siteSocialLinks();
+                        $faceBookUrl = $social_links->facebook_url ?? '';
+                        $twitterUrl = $social_links->twitter_url ?? '';
+                        $instagramUrl = $social_links->instagram_url ?? '';
+                        $linkdinUrl = $social_links->linkdin_url ?? '';
                     @endphp
                     <ul class="list-inline social-icons ml-auto mr-3 d-none d-sm-block">
-                        @if ($siteSocialLinks->facebook_url)
+                        @if ($faceBookUrl)
                             <li class="list-inline-item">
-                                <a href="{{ $siteSocialLinks->facebook_url }}" target="_blank"><i class="ti-facebook"></i></a>
+                                <a href="{{ $faceBookUrl }}" target="_blank"><i class="ti-facebook"></i></a>
                             </li>
                         @endif
 
-                        @if ($siteSocialLinks->twitter_url)
+                        @if ($twitterUrl)
                             <li class="list-inline-item">
-                                <a href="{{ $siteSocialLinks->twitter_url }}" target="_blank"><i
+                                <a href="{{ $twitterUrl }}" target="_blank"><i
                                         class="ti-twitter-alt"></i></a>
                             </li>
                         @endif
 
-                        @if ($siteSocialLinks->linkdin_url)
+                        @if ($linkdinUrl)
                             <li class="list-inline-item">
-                                <a href="{{ $siteSocialLinks->linkdin_url }}" target="_blank"><i
+                                <a href="{{ $linkdinUrl }}" target="_blank"><i
                                         class="ti-linkedin"></i></a>
                             </li>
                         @endif
-                        @if ($siteSocialLinks->instagram_url)
+                        @if ($instagramUrl)
                             <li class="list-inline-item">
-                                <a href="{{ $siteSocialLinks->instagram_url }}" target="_blank"><i
+                                <a href="{{ $instagramUrl }}" target="_blank"><i
                                         class="ti-instagram"></i></a>
                             </li>
                         @endif
                     </ul>
                 </div>
 
-                <img src='{{ asset("images/aboutus/{$about_us->image}") }}' loading="lazy" class="img-fluid w-100 mb-4 rounded-lg"
-                    alt="Dev Talk">
+                <img src='{{ asset("images/aboutus/{$about_us->image}") }}' loading="lazy"
+                    class="img-fluid w-100 mb-4 rounded-lg" alt="Dev Talk">
 
                 <div class="content">
                     {!! $about_us->content !!}

@@ -78,3 +78,19 @@
         border-left: 2px solid #e9ecef;
         padding-left: 20px;
     }
+
+    .stars {
+        cursor: pointer;
+        font-size: 1.3rem;
+        color: #ffc107;
+        /* gold stars */
+    }
+
+    .stars .star {
+        transition: transform 0.2s;
+    }
+
+    .stars .star:hover,
+    .stars .star.hovered {
+        transform: scale(1.3);
+    }

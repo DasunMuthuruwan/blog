@@ -11,27 +11,31 @@
             <div class="mb-5 d-flex align-items-center">
                 <h3 class="title-color">Get in Touch</h3>
                 @php
-                    $siteSocialLinks = siteSocialLinks();
+                    $social_links = siteSocialLinks();
+                    $faceBookUrl = $social_links->facebook_url ?? '';
+                    $twitterUrl = $social_links->twitter_url ?? '';
+                    $instagramUrl = $social_links->instagram_url ?? '';
+                    $linkdinUrl = $social_links->linkdin_url ?? '';
                 @endphp
                 <ul class="list-inline social-icons ml-auto mr-3 d-none d-sm-block">
-                    @if ($siteSocialLinks->facebook_url)
+                    @if ($faceBookUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $siteSocialLinks->facebook_url }}"><i class="ti-facebook"></i></a>
+                            <a target="_blank" href="{{ $faceBookUrl }}"><i class="ti-facebook"></i></a>
                         </li>
                     @endif
-                    @if ($siteSocialLinks->twitter_url)
+                    @if ($twitterUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $siteSocialLinks->twitter_url }}"><i class="ti-twitter-alt"></i></a>
+                            <a target="_blank" href="{{ $twitterUrl }}"><i class="ti-twitter-alt"></i></a>
                         </li>
                     @endif
-                    @if ($siteSocialLinks->linkdin_url)
+                    @if ($linkdinUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $siteSocialLinks->linkdin_url }}"><i class="ti-linkedin"></i></a>
+                            <a target="_blank" href="{{ $linkdinUrl }}"><i class="ti-linkedin"></i></a>
                         </li>
                     @endif
-                    @if ($siteSocialLinks->instagram_url)
+                    @if ($instagramUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $siteSocialLinks->instagram_url }}"><i class="ti-instagram"></i></a>
+                            <a target="_blank" href="{{ $instagramUrl }}"><i class="ti-instagram"></i></a>
                         </li>
                     @endif
                 </ul>
@@ -85,7 +89,8 @@
                 <div class="form-group">
                     <label for="subject"><strong>Subject</strong></label>
                     <input type="text" name="subject" id="subject" class="form-control"
-                        placeholder="e.g. Partnership Opportunity, Guest Post, Support Request" value="{{ old('subject') }}">
+                        placeholder="e.g. Partnership Opportunity, Guest Post, Support Request"
+                        value="{{ old('subject') }}">
                     @error('subject')
                         <span class="text-danger small">{{ $message }}</span>
                     @enderror

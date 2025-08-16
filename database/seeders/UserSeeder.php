@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Dasun Muthuruwan',
-            'email' => 'dasunmuthuruwan9@gmail.com',
+            'email' => 'dasun@dev-talk.com',
             'username' => 'admin',
             'password' => Hash::make('Dasun@9495'),
             'type' => UserType::SuperAdmin,
@@ -29,10 +29,30 @@ class UserSeeder extends Seeder
 
         User::create([
             'name' => 'Gayashani Ranasinghe',
-            'email' => 'gayashiranasinghe@gmail.com',
-            'username' => 'admin',
-            'password' => Hash::make('Gayashi@9495'),
+            'email' => 'gayashi@dev-talk.com',
+            'username' => 'gayshi',
+            'password' => Hash::make('GayashiR@$95'),
             'type' => UserType::SuperAdmin,
+            'status' => UserStatus::Active,
+            'password_changed_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'name' => 'Anuradha',
+            'email' => 'anuradha@dev-talk.com',
+            'username' => 'anuradha',
+            'password' => Hash::make('Anuradha@9474'),
+            'type' => UserType::Admin,
+            'status' => UserStatus::Active,
+            'password_changed_at' => Carbon::now()
+        ]);
+
+        User::create([
+            'name' => 'Peauticca Thurairajah',
+            'email' => 'peauticca@dev-talk.com',
+            'username' => 'peauticca',
+            'password' => Hash::make('TharuP@$6581'),
+            'type' => UserType::Admin,
             'status' => UserStatus::Active,
             'password_changed_at' => Carbon::now()
         ]);

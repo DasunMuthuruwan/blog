@@ -7,9 +7,10 @@
     @yield('meta_tags')
     @php
         $settings = settings();
+        $siteFavicon = $settings->site_favicon ?? '';
     @endphp
-    <link rel="shortcut icon" href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : "" }}' type="image/x-icon">
-    <link rel="icon" href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : "" }}'>
+    <link rel="shortcut icon" href='{{ $siteFavicon ? asset("storage/images/site/{$siteFavicon}") : "" }}' type="image/x-icon">
+    <link rel="icon" href='{{ $siteFavicon ? asset("storage/images/site/{$siteFavicon}") : "" }}'>
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">

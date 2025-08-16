@@ -10,7 +10,7 @@ use Illuminate\Support\Carbon;
 class Ads extends Model
 {
     use SoftDeletes;
-    
+
     protected $fillable = [
         'title',
         'content',
@@ -22,7 +22,7 @@ class Ads extends Model
         'is_default'
     ];
 
-        /**
+    /**
      * Format the startAt attribute to 'Y-m-d'.
      * This accessor ensures that whenever the created_at value is retrieved,
      * @return Attribute

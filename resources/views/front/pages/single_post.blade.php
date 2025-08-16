@@ -86,12 +86,22 @@
                     @if (!empty($tags))
                         <div class="post-tags">
                             @foreach ($tags as $tag)
-                                <a href="{{ route('tag_posts', urlencode($tag)) }}" class="tag-badge">#{{ trim($tag) }}</a>
+                                <a href="{{ route('tag_posts', urlencode($tag)) }}"
+                                    class="tag-badge">#{{ trim($tag) }}</a>
                             @endforeach
                         </div>
                     @endif
                 </div>
             </article>
+            <div class="post-rating my-4">
+                <h5>Rate this post:</h5>
+                <div class="stars" data-post-id="{{ $post->id }}">
+                    @for ($i = 1; $i <= 5; $i++)
+                        <i class="fa fa-star-0 star" data-value="{{ $i }}"></i>
+                    @endfor
+                    <span class="rating-value ml-2">({{ number_format($post->average_rating, 1) ?? 0 }})</span>
+                </div>
+            </div>
             <div class="prev-next-posts mt-3 mb-3">
                 <div class="row justify-content-between p-4">
                     <div class="col-md-6 mb-2">
@@ -112,7 +122,6 @@
                     </div>
                 </div>
             </div>
-
             <section class="latest-article">
                 <h4>Related Posts</h4>
                 <hr>
@@ -160,31 +169,8 @@
                     </article>
                 @endforeach
             </section>
-
             <section class="comments">
                 @livewire('post-comments', ['postId' => $post->id])
-                {{-- <div id="disqus_thread"></div>
-                <script>
-                    /**
-                     *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-                     *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables    */
-                    /*
-                     */
-                    var disqus_config = function() {
-                        this.page.url =
-                            "{{ route('read_post', $post->slug) }}"; // Replace PAGE_URL with your page's canonical URL variable
-                        this.page.identifier = "PID_" +
-                            "{{ $post->id }}"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-                    };
-
-                    (function() { // DON'T EDIT BELOW THIS LINE
-                        var d = document,
-                            s = d.createElement('script');
-                        s.src = 'https://devcplus.disqus.com/embed.js';
-                        s.setAttribute('data-timestamp', +new Date());
-                        (d.head || d.body).appendChild(s);
-                    })();
-                </script> --}}
             </section>
         </div>
         <aside class="col-lg-4">
@@ -238,6 +224,76 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            const starsContainer = document.querySelector('.stars');
+
+            if (!starsContainer) return;
+
+            const stars = starsContainer.querySelectorAll('.star');
+            const postId = starsContainer.dataset.postId;
+
+            stars.forEach(star => {
+                star.addEventListener('mouseover', function() {
+                    const val = parseInt(this.dataset.value);
+                    highlightStars(val);
+                });
+
+                star.addEventListener('mouseout', function() {
+                    resetStars();
+                });
+
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.dataset.value);
+
+                    // Send rating via AJAX
+                    fetch("{{ route('post_rate') }}", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                post_id: postId,
+                                rating: rating
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                updateStars(data.average_rating);
+                            } else {
+                                alert('Error saving rating');
+                            }
+                        });
+                });
+            });
+
+            function highlightStars(count) {
+                stars.forEach(star => {
+                    star.classList.toggle('fa-star', parseInt(star.dataset.value) <= count);
+                    star.classList.toggle('fa-star-o', parseInt(star.dataset.value) > count);
+                });
+            }
+
+            function resetStars() {
+                const currentRating = parseFloat(starsContainer.querySelector('.rating-value').dataset.current ||
+                    0);
+                highlightStars(currentRating);
+            }
+
+            function updateStars(avg) {
+                avg = parseFloat(avg) || 0;
+                starsContainer.querySelector('.rating-value').textContent = `(${avg.toFixed(1)})`;
+                starsContainer.querySelector('.rating-value').dataset.current = avg;
+                highlightStars(Math.round(avg));
+            }
+
+            // Initialize stars with average rating
+            const avg = parseFloat(starsContainer.querySelector('.rating-value').textContent.replace(/[()]/g,
+                '')) || 0;
+
+            // starsContainer.querySelector('.rating-value').dataset.current = avg;
+            highlightStars(Math.round(avg));
+
             document.querySelectorAll('.content pre').forEach(function(pre) {
                 // Skip if already has a copy button
                 if (pre.querySelector('.copy-button')) return;

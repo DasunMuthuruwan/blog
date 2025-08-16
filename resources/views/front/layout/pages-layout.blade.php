@@ -9,17 +9,19 @@
     @yield('meta_tags')
     @php
         $settings = settings();
+        $siteFavicon = $settings->site_favicon ?? '';
     @endphp
     <link rel="shortcut icon"
-        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'
+        href='{{ $siteFavicon ? asset("storage/images/site/{$siteFavicon}") : '' }}'
         type="image/x-icon">
     <link rel="icon"
-        href='{{ $settings->site_favicon ? asset("storage/images/site/{$settings->site_favicon}") : '' }}'>
+        href='{{ $siteFavicon ? asset("storage/images/site/{$siteFavicon}") : '' }}'>
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">
     <link rel="stylesheet" href="{{ asset('front/plugins/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('back/src/fonts/font-awesome/css/font-awesome.css') }}">
     <link rel="stylesheet" type="text/css"
         href="{{ asset('back/src/plugins/jquery-toast-plugin/jquery.toast.min.css') }}" />
     @stack('stylesheets')
@@ -32,7 +34,7 @@
             <nav class="navbar navbar-expand-lg navbar-white">
                 <a class="navbar-brand" href="{{ route('home') }}">
                     @php
-                        $siteLogo = settings()->site_logo;
+                        $siteLogo = settings()->site_logo ?? '';
                     @endphp
                     <img class="img-fluid" width="70" height="50"
                         src='{{ $siteLogo ? asset("storage/images/site/{$siteLogo}") : asset('default-logo.png') }}'
@@ -134,19 +136,23 @@
                     <h6 class="mb-4">Social Links</h6>
                     @php
                         $social_links = siteSocialLinks();
+                        $faceBookUrl = $social_links->facebook_url ?? '';
+                        $twitterUrl = $social_links->twitter_url ?? '';
+                        $instagramUrl = $social_links->instagram_url ?? '';
+                        $linkdinUrl = $social_links->linkdin_url ?? '';
                     @endphp
                     <ul class="list-unstyled footer-list">
-                        @if ($social_links->facebook_url)
-                            <li><a target="_blank" href="{{ $social_links->facebook_url }}"> Facebook</a></li>
+                        @if ($faceBookUrl)
+                            <li><a target="_blank" href="{{ $faceBookUrl }}"> Facebook</a></li>
                         @endif
-                        @if ($social_links->twitter_url)
-                            <li><a target="_blank" href="{{ $social_links->twitter_url }}"> Twitter</a></li>
+                        @if ($twitterUrl)
+                            <li><a target="_blank" href="{{ $twitterUrl }}"> Twitter</a></li>
                         @endif
-                        @if ($social_links->linkdin_url)
-                            <li><a target="_blank" href="{{ $social_links->instagram_url }}"> Instagram</a></li>
+                        @if ($instagramUrl)
+                            <li><a target="_blank" href="{{ $instagramUrl }}"> Instagram</a></li>
                         @endif
-                        @if ($social_links->linkdin_url)
-                            <li><a target="_blank" href="{{ $social_links->linkdin_url }}">Linkedin</a></li>
+                        @if ($linkdinUrl)
+                            <li><a target="_blank" href="{{ $linkdinUrl }}">Linkedin</a></li>
                         @endif
                     </ul>
                 </div>

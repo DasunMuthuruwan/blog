@@ -19,6 +19,7 @@ Route::get('/post/{slug}', [BlogController::class, 'readPost'])->name('read_post
 Route::get('posts/category/{slug}', [BlogController::class, 'categoryPosts'])->name('category_posts');
 Route::get('posts/author/{username}', [BlogController::class, 'authorPosts'])->name('author_posts');
 Route::get('posts/tag/{any}', [BlogController::class, 'tagPosts'])->name('tag_posts');
+Route::post('/posts/rate', [BlogController::class, 'rate'])->name('post_rate');
 Route::get('search', [BlogController::class, 'searchPosts'])->name('search_posts');
 Route::get('contact', [BlogController::class, 'contactPage'])->name('contact');
 Route::post('contact', [BlogController::class, 'sendEmail'])->name('send_email');

@@ -24,7 +24,7 @@ return new class extends Migration
             $table->text('meta_description')->nullable();
             $table->integer('visibility')->default(0);
             $table->timestamp('created_at')->index();
-            $table->timestamp('updated_at');
+            $table->timestamp('updated_at')->nullable();
         });
     }
 

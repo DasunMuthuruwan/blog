@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
+use App\Http\Requests\PostRatingRequest;
 use App\Mail\ContactMail;
 use App\Models\Category;
 use App\Models\ContactUs;
 use App\Models\Post;
+use App\Models\PostRating;
 use App\Models\PostView;
 use App\Models\User;
 use Artesaos\SEOTools\Facades\JsonLd;
@@ -15,57 +17,64 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BlogController extends Controller
 {
     public function index(Request $request)
     {
-        $settings = settings();
-        $title = $settings->site_title ?? '';
-        $description = $settings->site_meta_description ?? '';
-        $imgUrl = $settings->site_logo ? asset("/storage/images/site/{$settings->site_logo}") : '';
-        $keywords = $settings->site_meta_keywords ?? '';
-        $currentUrl = url()->current();
-        $popularPosts = Post::query()
-            ->select('id', 'category', 'title', 'slug', 'feature_image', 'created_at') // only needed columns
-            ->with([
-                'author:id,name',
-                'post_category:id,name,slug'
-            ])
-            ->withCount(['views', 'comments']) 
-            ->orderByDesc('views_count')
-            ->limit(6)
-            ->get();
+        try {
+            $settings = settings();
+            $title = $settings->site_title ?? '';
+            $description = $settings->site_meta_description ?? '';
+            $siteLogo = $settings->site_logo ?? '';
+            $imgUrl = $siteLogo ? asset("/storage/images/site/{}") : '';
+            $keywords = $settings->site_meta_keywords ?? '';
+            $currentUrl = url()->current();
+            $popularPosts = Post::query()
+                ->select('id', 'category', 'title', 'slug', 'feature_image', 'created_at') // only needed columns
+                ->with([
+                    'author:id,name',
+                    'post_category:id,name,slug'
+                ])
+                ->withCount(['views', 'comments'])
+                ->orderByDesc('views_count')
+                ->limit(6)
+                ->get();
 
-        /** Meta  SEO */
-        SEOTools::setTitle($title, false);
-        SEOTools::setDescription($description);
-        SEOMeta::setKeywords($keywords);
+            /** Meta  SEO */
+            SEOTools::setTitle($title, false);
+            SEOTools::setDescription($description);
+            SEOMeta::setKeywords($keywords);
 
-        /** */
-        SEOTools::opengraph()->setUrl($currentUrl);
-        SEOTools::opengraph()->addImage($imgUrl);
-        SEOTools::opengraph()->addProperty('type', 'articles');
+            /** */
+            SEOTools::opengraph()->setUrl($currentUrl);
+            SEOTools::opengraph()->addImage($imgUrl);
+            SEOTools::opengraph()->addProperty('type', 'articles');
 
-        /** Twitter */
-        SEOTools::twitter()->addImage($imgUrl);
-        SEOTools::twitter()->setUrl($currentUrl);
-        SEOTools::twitter()->setSite('@devTalk');
+            /** Twitter */
+            SEOTools::twitter()->addImage($imgUrl);
+            SEOTools::twitter()->setUrl($currentUrl);
+            SEOTools::twitter()->setSite('@devTalk');
 
-        /**json-ld */
-        JsonLd::setTitle($title);
-        JsonLd::setDescription($description);
-        JsonLd::addImage($imgUrl);
+            /**json-ld */
+            JsonLd::setTitle($title);
+            JsonLd::setDescription($description);
+            JsonLd::addImage($imgUrl);
 
-        return view(
-            'front.pages.index',
-            [
-                'pageTitle' => $title,
-                'slides' => getSlides(),
-                'popularPosts' => $popularPosts
-            ]
-        );
+            return view(
+                'front.pages.index',
+                [
+                    'pageTitle' => $title,
+                    'slides' => getSlides(),
+                    'popularPosts' => $popularPosts
+                ]
+            );
+        } catch (Exception $exception) {
+            logger()->error("Home page error: " . $exception->getMessage());
+            return redirect()->route('home');
+        }
     }
 
     public function categoryPosts(Request $request, $slug = null)
@@ -265,7 +274,7 @@ class BlogController extends Controller
             if (!Cache::has($cacheKey)) {
                 PostView::create([
                     'post_id' => $post->id,
-                    // 'user_id' => auth()->id() ?? NULL, // or null if guest
+                    'user_id' => auth()->id() ?? NULL, // or null if guest
                     'ip_address' => request()->ip(),
                     'viewed_at' => now(),
                 ]);
@@ -372,6 +381,37 @@ class BlogController extends Controller
             logger()->error("Author posts error: " . $exception->getMessage());
 
             return redirect()->route('home')->with('error', 'Something went wrong. Try again later.');
+        }
+    }
+
+    public function rate(PostRatingRequest $postRatingRequest)
+    {
+        try {
+            $post = Post::findOrFail($postRatingRequest->post_id);
+
+            if (auth()->check()) {
+                // Authenticated user
+                $key = ['post_id' => $post->id, 'user_id' => auth()->id()];
+                $data = ['rating' => $postRatingRequest->rating, 'ip_address' => null];
+            } else {
+                $key = ['post_id' => $post->id, 'ip_address' => $postRatingRequest->ip()];
+                $data = ['rating' => $postRatingRequest->rating, 'user_id' => null];
+            }
+
+            PostRating::updateOrCreate($key, $data);
+
+            // Calculate average rating
+            $average = $post->ratings()->avg('rating');
+
+            return response()->json([
+                'success' => true,
+                'average_rating' => $average
+            ]);
+        } catch (Exception $exception) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong. Try again later.'
+            ], 500);
         }
     }
 }
