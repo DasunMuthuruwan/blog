@@ -1,2 +1,7 @@
 User-agent: *
-Disallow:
+Disallow: /admin/
+
+Allow: /
+
+# Sitemap location
+Sitemap: https://dev-talk.com/sitemap.xml

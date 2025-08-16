@@ -30,11 +30,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->prependToGroup('web', [
-            BlockCrawlers::class,
-            // BlockAnonymousProxies::class
-        ])
-            ->alias([
+        $middleware->alias([
                 'prevent-back-history' => PreventBackHistoryMiddleware::class,
                 'only-access-super-admin' => OnlySuperAdminAccessPagesMiddleware::class
             ]);

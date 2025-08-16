@@ -300,6 +300,7 @@ class BlogController extends Controller
             SEOTools::opengraph()->setUrl(route('read_post', $post->slug));
             SEOTools::opengraph()->addProperty('type', 'article');
             SEOTools::opengraph()->addImage($image);
+            SEOTools::twitter()->setType('summary_large_image');
             SEOTools::twitter()->setImage($image);
             SEOTools::jsonLd()->setType('BlogPosting');
             SEOTools::jsonLd()->setTitle($title);

@@ -50,7 +50,7 @@
                 <!-- SHARE BUTTONS -->
                 <div class="share-buttons">
                     <span class="title-color">Share: </span>
-                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('read_post', $post->slug)) }}"
+                    <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(route('read_post', $post->slug)) }}&media={{ urlencode(asset('storage/images/resized/' . $post->feature_image)) }}"
                         target="_blank" class="btn-facebook">
                         <i class="ti-facebook"></i>
                     </a>

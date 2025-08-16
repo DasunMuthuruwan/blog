@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\SitemapController;
 use App\Http\Controllers\TermConditionsController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,7 @@ Route::post('contact', [BlogController::class, 'sendEmail'])->name('send_email')
 Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy_policy');
 Route::get('about-us', [AboutUsController::class, 'index'])->name('about_us');
 Route::get('term-conditions', [TermConditionsController::class, 'index'])->name('term_conditions');
+Route::get('sitemap.xml', [SitemapController::class, 'index']);
 
 /** 
  * TESTING ROUTES
@@ -40,7 +42,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware(['guest', 'prevent-back-history'])->group(function () {
         Route::controller(AuthController::class)->group(function () {
             // Route::get('/register', 'registerForm')->name('register');
-            Route::get('/login', 'loginForm')->name(name: 'login');
+            Route::get('/login', 'loginForm')->name('login');
             Route::post('/login', 'loginHandler')->name('login_handler');
             Route::get('/forgot-password', 'forgotForm')->name('forgot');
             Route::post('send-password-reset-link', 'sendPasswordResetLink')->name('send_password_reset_link');
@@ -71,7 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             });
 
             //manage posts
-            Route::controller(PostController::class)->group(function() {
+            Route::controller(PostController::class)->group(function () {
                 Route::get('/post/new', 'addPost')->name('add_post');
                 Route::post('/post/create', 'createPost')->name('create_post');
                 Route::get('/posts', 'allPosts')->name('posts');

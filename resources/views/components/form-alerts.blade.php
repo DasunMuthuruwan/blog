@@ -27,18 +27,3 @@
         @endif
     @endforeach
 </div>
-
-{{-- Optional: auto dismiss after 5 seconds --}}
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => {
-            setTimeout(() => {
-                // fade out
-                alert.classList.remove('show');
-                alert.classList.add('hide');
-                setTimeout(() => alert.remove(), 500);
-            }, 5000);
-        });
-    });
-</script>
