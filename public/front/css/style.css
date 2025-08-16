@@ -417,13 +417,14 @@ a:hover {
 }
 
 /* search */
-.search-btn,.search-btn-top {
+.search-btn,
+.search-btn-top {
   border: 0;
   background: transparent;
 }
 
 .search-btn:hover {
-   background-color: #7b64a4;
+  background-color: #7b64a4;
   border-color: #7b64a4;
   color: #fff;
 }
@@ -1026,7 +1027,7 @@ pre {
 }
 
 .widget-list-inline li {
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 .widget-list-inline li a {
@@ -1073,8 +1074,10 @@ pre {
 }
 
 .subscription .form-control:hover {
-  background-color: #e6e6e6; /* slightly darker for hover */
-  box-shadow: 0 0 2px rgba(101, 80, 135, 0.3); /* subtle glow */
+  background-color: #e6e6e6;
+  /* slightly darker for hover */
+  box-shadow: 0 0 2px rgba(101, 80, 135, 0.3);
+  /* subtle glow */
 }
 
 .subscription .email-icon {
@@ -1422,99 +1425,131 @@ pre .copy-button:hover {
 }
 
 .ad-container {
-    background-color: #655087;
-    height: 200px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background-color: #655087;
+  height: 200px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .ad-container:hover {
-    transform: scale(1.03); /* slight zoom */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* shadow glow */
+  transform: scale(1.03);
+  /* slight zoom */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  /* shadow glow */
 }
 
 .ad-container img {
-    transition: transform 0.3s ease;
-    border-radius: 8px;
+  transition: transform 0.3s ease;
+  border-radius: 8px;
 }
 
 .ad-container:hover img {
-    transform: scale(1.05); /* zoom image slightly */
+  transform: scale(1.05);
+  /* zoom image slightly */
 }
 
-    /* Widget Container */
+/* Widget Container */
 .modern-tags {
-    padding: 1rem;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 /* Title */
 .modern-tags .widget-title {
-    font-weight: 600;
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-    color: #333;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+  color: #333;
 }
 
 /* Tag List */
 .tag-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
 }
 
 .tag-list li {
-    display: inline-block;
+  display: inline-block;
 }
 
 /* Tag Style */
 .tag-list a {
-    display: inline-block;
-    padding: 0.4rem 0.8rem;
-    background-color: #f5f5f5;
-    color: #555;
-    font-size: 0.85rem;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.3s ease;
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background-color: #f5f5f5;
+  color: #555;
+  font-size: 0.85rem;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
 /* Hover Effect */
 .tag-list a:hover {
-    background-color: #655087;
-    color: #fff;
-    box-shadow: 0 4px 12px rgba(101, 80, 135, 0.3);
-    transform: translateY(-2px);
+  background-color: #655087;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(101, 80, 135, 0.3);
+  transform: translateY(-2px);
 }
 
 .widget {
-    /* border: 1px solid #e5e7eb; */
-    border-radius: 8px;
-    overflow: hidden;
-    background: #fff;
+  /* border: 1px solid #e5e7eb; */
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
 }
 
 .widget-title {
-    background-color: #176AFF; /* bright blue */
-    color: #fff;
-    padding: 12px 15px;
-    font-weight: bold;
-    border-radius: 8px 8px 0 0;
+  background-color: #176AFF;
+  /* bright blue */
+  color: #fff;
+  padding: 12px 15px;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
 }
-.widget-list li:before{
+
+.widget-list li:before {
   padding: 5px 0;
 }
+
 .widget-list a:hover {
-    background-color: #f0f4ff; /* light blue hover */
-    color: #176AFF; /* text turns blue */
+  background-color: #f0f4ff;
+  /* light blue hover */
+  color: #176AFF;
+  /* text turns blue */
 }
+
 .profile-avatar {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    object-fit: cover;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.post-tags {
+  margin-top: 20px;
+}
+
+.tag-badge {
+  display: inline-block;
+  margin: 4px 6px 4px 0;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: oklch(.546 .245 262.881);
+  background: rgba(0, 123, 255, 0.08);
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.tag-badge:hover {
+  background: #007BFF;
+  color: #ffffff;
+  text-decoration: none;
 }

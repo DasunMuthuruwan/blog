@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <label for="subject"><strong>Subject</strong></label>
                     <input type="text" name="subject" id="subject" class="form-control"
-                        placeholder="e.g. Business Inquiry" value="{{ old('subject') }}">
+                        placeholder="e.g. Partnership Opportunity, Guest Post, Support Request" value="{{ old('subject') }}">
                     @error('subject')
                         <span class="text-danger small">{{ $message }}</span>
                     @enderror

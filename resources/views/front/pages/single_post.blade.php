@@ -16,7 +16,8 @@
                         <li class="list-inline-item">
                             <a class="text-primary" href="{{ route('author_posts', $post->author->username) }}">
                                 <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
-                                    class="profile-avatar mr-1 mb-1" width="10" height="10">{{ $post->author->name }}</a>
+                                    class="profile-avatar mr-1 mb-1" width="10"
+                                    height="10">{{ $post->author->name }}</a>
                         </li>
                         <li class="list-inline-item"><i class="ti-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
                         </li>
@@ -77,6 +78,19 @@
                         {!! $post->content !!}
                     </div>
                 </div>
+                <div class="col-lg-12 mt-4">
+                    @php
+                        $tags = explode(',', $post->tags); // assuming "tags" column stores: "laravel,php,web dev"
+                    @endphp
+
+                    @if (!empty($tags))
+                        <div class="post-tags">
+                            @foreach ($tags as $tag)
+                                <a href="{{ route('tag_posts', urlencode($tag)) }}" class="tag-badge">#{{ trim($tag) }}</a>
+                            @endforeach
+                        </div>
+                    @endif
+                </div>
             </article>
             <div class="prev-next-posts mt-3 mb-3">
                 <div class="row justify-content-between p-4">
@@ -120,7 +134,7 @@
                             <ul class="list-inline post-meta text-primary mb-2">
                                 <li class="list-inline-item">
                                     <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
-                                    class="profile-avatar mb-1" width="10" height="10">
+                                        class="profile-avatar mb-1" width="10" height="10">
                                     <a class="text-primary"
                                         href="{{ route('author_posts', $relatedPost->author->username) }}">{{ $relatedPost->author->name }}</a>
                                 </li>

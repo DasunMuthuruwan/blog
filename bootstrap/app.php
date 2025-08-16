@@ -31,9 +31,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-                'prevent-back-history' => PreventBackHistoryMiddleware::class,
-                'only-access-super-admin' => OnlySuperAdminAccessPagesMiddleware::class
-            ]);
+            'prevent-back-history' => PreventBackHistoryMiddleware::class,
+            'only-access-super-admin' => OnlySuperAdminAccessPagesMiddleware::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $reportableExceptions = [
@@ -72,10 +72,28 @@ return Application::configure(basePath: dirname(__DIR__))
         });
 
         $exceptions->render(function (Throwable $exception, $request) {
+            if ($exception instanceof HttpException) {
+                // For Livewire request
+                if ($request->hasHeader('X-Livewire')) {
+                    return response()->json([], 419);
+                }
+
+                // For normal request
+                return redirect()->route('home')->with('error', 'Your session has expired. Please try again.');
+            }
+            if ($exception instanceof AuthenticationException) {
+                // If request comes from admin area
+                if ($request->is('admin/*')) {
+                    return redirect()->guest(route('admin.login'));
+                }
+                // Otherwise, send guest users to blog home
+                return redirect()->guest(route('home'));
+            }
+
             return match (true) {
                 $exception instanceof NotFoundHttpException => response()->view('front.pages.errors.404', [], 404),
                 $exception instanceof AuthorizationException => response()->view('front.pages.errors.403', [], 403),
-                $exception instanceof Throwable => response()->view('front.pages.errors.500', [], 500),
+                $exception instanceof ParseError || $exception instanceof Error || $exception instanceof TypeError || $exception instanceof InvalidArgumentException => response()->view('front.pages.errors.500', [], 500),
                 default => null
             };
         });

@@ -1,29 +1,29 @@
-<div class="mb-3 position-relative">
-    @php
-        $alerts = [
-            'newsletter_success' => 'success',
-            'newsletter_fail' => 'danger',
-            'info' => 'info',
-            'fail' => 'danger',
-            'success' => 'success'
-        ];
-    @endphp
-
-    @foreach ($alerts as $key => $type)
-        @if (Session::get($key))
-            <div class="alert alert-{{ $type }} alert-dismissible fade show d-flex align-items-center" role="alert">
-                {{-- Optional icon --}}
-                <i class="bi 
-                    @if($type=='success') bi-check-circle-fill
-                    @elseif($type=='danger') bi-x-circle-fill
-                    @elseif($type=='info') bi-info-circle-fill
-                    @endif
-                    me-2"></i>
-
-                <div>{!! Session::get($key) !!}</div>
-
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div>
+    <div class="mb-3">
+        @if(Session::get('info'))
+            <div class="alert alert-info">
+                {!! Session::get('info') !!}
+                <button class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
         @endif
-    @endforeach
+        @if(Session::get(key: 'fail'))
+            <div class="alert alert-danger">
+                {!! Session::get('fail') !!}
+                <button class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if(Session::get('success'))
+            <div class="alert alert-success">
+                {!! Session::get('success') !!}
+                <button class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+    </div>
 </div>
