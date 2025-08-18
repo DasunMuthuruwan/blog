@@ -22,7 +22,7 @@
                             @if ($author->social_links->{"{$social}_url"})
                                 <a href="{{ $author->social_links->{"{$social}_url"} }}" target="_blank"
                                     class="text-gray-500 hover:text-blue-500" title="{{ ucfirst($social) }}">
-                                    <i class="ti-{{ $social }} text-xl"></i>
+                                    <i class="fa fa-{{ $social }} text-xl"></i>
                                 </a>
                             @endif
                         @endforeach
@@ -53,12 +53,12 @@
                                 </h5>
                                 <ul class="list-inline post-meta text-xs text-gray-500 text-primary">
                                     <li class="list-inline-item">
-                                        <i class="ti-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
+                                        <i class="fa fa-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="{{ route('category_posts', $post->post_category->slug) }}"
                                             class="hover:text-blue-500 category-link text-primary">
-                                            <i class="ti-folder mr-1"></i> {{ $post->post_category->name }}
+                                            <i class="fa fa-folder mr-1"></i> {{ $post->post_category->name }}
                                         </a>
                                     </li>
                                 </ul>

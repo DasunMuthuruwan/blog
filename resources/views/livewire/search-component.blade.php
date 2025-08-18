@@ -8,10 +8,10 @@
                     placeholder="Type to discover articles, guide &amp; tutorials..." class="search-input"
                     autocomplete="off">
                 <button type="button" wire:click="clearSearch" aria-label="Clear search">
-                    <i class="ti-close text-dark" aria-hidden="true"></i>
+                    <i class="fa fa-close text-dark" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="search-btn" aria-label="Open search">
-                    <i class="ti-search" aria-hidden="true"></i>
+                    <i class="fa fa-search" aria-hidden="true"></i>
                 </button>
             </div>
         </div>
@@ -49,22 +49,22 @@
                             </h5>
                             <ul class="list-inline post-meta mb-2">
                                 <li class="list-inline-item">
-                                    <i class="ti-user mr-1"></i>
+                                    <i class="fa fa-user mr-1"></i>
                                     <a href="{{ route('author_posts', $post->author->username) }}">
                                         {{ $post->author->name }}
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
+                                    <i class="fa fa-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-folder"></i> <a
+                                    <i class="fa fa-folder"></i> <a
                                         href="{{ route('category_posts', $post->post_category->slug) }}" class="ml-1">
                                         {{ $post->post_category->name }}
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-timer mr-1"></i>
+                                    <i class="fa fa-hourglass-half mr-1"></i>
                                     {{ readDuration($post->title, $post->content) }}
                                     @choice('min|mins', readDuration($post->title, $post->content))
                                 </li>
@@ -85,7 +85,7 @@
             @else
                 <div class="text-center py-5">
                     <div class="mb-4">
-                        <i class="ti-search text-muted" style="font-size: 4rem;"></i>
+                        <i class="fa fa-search text-muted" style="font-size: 4rem;"></i>
                     </div>
                     <h5 class="text-muted mb-2">No results found</h5>
                     <p class="text-muted">

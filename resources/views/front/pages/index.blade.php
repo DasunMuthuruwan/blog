@@ -56,16 +56,16 @@
                                         </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-calendar mb-1 mr-1"></i>{{ dateFormatter($post->created_at) }}
+                                    <i class="fa fa-calendar mb-1 mr-1"></i>{{ dateFormatter($post->created_at) }}
                                 </li>
-                                <li class="list-inline-item"><i class="ti-folder"></i> <a
+                                <li class="list-inline-item"><i class="fa fa-folder"></i> <a
                                         href="{{ route('category_posts', $postCategory->slug) }}"
                                         class="text-primary ml-1">
                                         {{ $postCategory->name }}
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-timer"></i>
+                                    <i class="fa fa-hourglass-half"></i>
                                     {{ readDuration($post->title, $post->content) }}
                                     @choice('min|mins', readDuration($post->title, $post->content))
                                 </li>
@@ -109,9 +109,9 @@
                                                 href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
                                     </li>
                                     <li class="list-inline-item"><i
-                                            class="ti-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
+                                            class="fa fa-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
                                     </li>
-                                    <li class="list-inline-item"><i class="ti-folder"></i> <a
+                                    <li class="list-inline-item"><i class="fa fa-folder"></i> <a
                                             href="{{ route('category_posts', $latestPostCategory->slug) }}"
                                             class="ml-1 text-primary">
                                             {{ $latestPostCategory->name }}
@@ -121,7 +121,7 @@
                                         $duration = readDuration($latestPost->title, $latestPost->content);
                                     @endphp
                                     <li class="list-inline-item">
-                                        <i class="ti-timer"></i>
+                                        <i class="fa fa-hourglass-half"></i>
                                         {{ $duration }}
                                         @choice('min|mins', $duration)
                                     </li>
@@ -190,16 +190,8 @@
                                                     <li>
                                                         <span
                                                             class="text-primary text-decoration-none d-flex align-items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                                height="14" fill="currentColor"
-                                                                class="bi bi-calendar3" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
-                                                                <path
-                                                                    d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                                            </svg>
-                                                            <span
-                                                                class="ml-1">{{ dateFormatter($popularPost->created_at) }}</span>
+                                                            <i class="fa fa-calendar mr-1"></i>
+                                                            <span>{{ dateFormatter($popularPost->created_at) }}</span>
                                                         </span>
                                                     </li>
                                                     <li>
@@ -208,16 +200,8 @@
                                                     <li>
                                                         <span
                                                             class="text-primary text-decoration-none d-flex align-items-center">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" width="14"
-                                                                height="14" fill="currentColor"
-                                                                class="bi bi-chat-dots text-sm" viewBox="0 0 16 16">
-                                                                <path
-                                                                    d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
-                                                                <path
-                                                                    d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z" />
-                                                            </svg>
-                                                            <span
-                                                                class="ml-1">{{ $popularPost->comments_count }}</span>
+                                                            <i class="fa fa-comment mr-1"></i>
+                                                            <span>{{ $popularPost->comments_count }}</span>
                                                         </span>
                                                     </li>
                                                 </ul>
@@ -281,3 +265,16 @@
         </aside>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $('.post-slider').on('afterChange', function(event, slick, currentSlide) {
+            // Remove focus from hidden slides
+            $('.slick-slide[aria-hidden="true"] a, .slick-slide[aria-hidden="true"] button')
+                .attr('tabindex', '-1');
+
+            // Restore focus to visible slide
+            $('.slick-slide[aria-hidden="false"] a, .slick-slide[aria-hidden="false"] button')
+                .removeAttr('tabindex');
+        });
+    </script>
+@endpush

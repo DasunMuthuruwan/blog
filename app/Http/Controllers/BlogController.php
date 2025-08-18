@@ -56,7 +56,7 @@ class BlogController extends Controller
             /** Twitter */
             SEOTools::twitter()->addImage($imgUrl);
             SEOTools::twitter()->setUrl($currentUrl);
-            SEOTools::twitter()->setSite('@devTalk');
+            SEOTools::twitter()->setSite('@devtalk94');
 
             /**json-ld */
             JsonLd::setTitle($title);

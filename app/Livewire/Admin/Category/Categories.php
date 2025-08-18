@@ -94,7 +94,7 @@ class Categories extends Component
         $pCategory = ParentCategory::findOrFail($pCategoryId);
         $this->pcategory_id = $pCategory->id;
         $this->pcategory_name = $pCategory->name;
-         $this->parent_icon = $pCategory->parent_icon;
+        $this->parent_icon = $pCategory->icon;
         $this->isUpdateParentCategoryModal = true;
         $this->showParentCategoryModalForm();
     }
@@ -117,7 +117,7 @@ class Categories extends Component
         try {
             $this->isUpdateParentCategoryModal = true;
             $pCategory->name = $this->pcategory_name;
-            $pCategory->parent_icon = $this->parent_icon;
+            $pCategory->icon = $this->parent_icon;
             $pCategory->slug = null;
             $pCategory->save();
 

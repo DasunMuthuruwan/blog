@@ -16,7 +16,7 @@
                             <a
                                 href="{{ route('read_post', $sidebarLatestPost->slug) }}">{{ $sidebarLatestPost->title }}</a>
                         </h6>
-                        <small><i class="ti-calendar mr-1"></i>
+                        <small><i class="fa fa-calendar mr-1"></i>
                             {{ dateFormatter($sidebarLatestPost->created_at) }}</small>
                     </div>
                 </li>

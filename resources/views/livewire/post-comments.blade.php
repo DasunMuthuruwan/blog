@@ -13,7 +13,7 @@
                     <div class="mt-3 text-end">
                         <button class="btn btn-comment text-white" wire:click.prevent="addComment"
                             wire:loading.attr="disabled" wire:target="addComment">
-                            <i class="fas fa-paper-plane me-2"></i>
+                            <i class="fa fa-paper-plane me-2"></i>
                             <span wire:loading.remove wire:target="addComment">Post Comment</span>
                             <span wire:loading wire:target="addComment">
                                 <span class="spinner-border spinner-border-sm me-2"></span>Posting...
@@ -42,9 +42,9 @@
                                 <a wire:click.prevent="toggleLike({{ $comment->id }})" wire:loading.attr="disabled"
                                     wire:target="toggleLike({{ $comment->id }})"><i class="bi bi-heart"></i>
                                     @if ($comment->likes->contains('ip_address', request()->ip()) || $comment->likes->contains('user_id', auth()->id()))
-                                        <i class="ti ti-heart text-danger"></i>
+                                        <i class="fa fa-heart text-danger"></i>
                                     @else
-                                        <i class="ti ti-heart mr-1"></i>
+                                        <i class="fa fa-heart mr-1"></i>
                                     @endif
                                     <span>({{ $comment->likes_count }})</span>
                                 </a>
@@ -92,7 +92,7 @@
                                     wire:click.prevent="addReply({{ $comment->id }})" wire:loading.attr="disabled"
                                     wire:target="addReply({{ $comment->id }})">
                                     <span wire:loading.remove wire:target="addReply({{ $comment->id }})">
-                                        <i class="fas fa-paper-plane me-1"></i>
+                                        <i class="fa fa-paper-plane me-1"></i>
                                         Post Reply
                                     </span>
                                     <span wire:loading wire:target="addReply({{ $comment->id }})">
@@ -128,13 +128,13 @@
                                                 <a wire:click.prevent="toggleLike({{ $reply->id }})"
                                                     wire:loading.attr="disabled"
                                                     wire:target="toggleLike({{ $reply->id }})">
-                                                    <i class="bi bi-heart"></i> Like
+                                                    <i class="fa fa-heart"></i> Like
                                                     <span wire:loading.remove
                                                         wire:target="toggleLike({{ $reply->id }})">
                                                         @if ($reply->likes->contains('ip_address', request()->ip()) || $reply->likes->contains('user_id', auth()->id()))
-                                                            <i class="bi bi-heart text-danger"></i>
+                                                            <i class="fa fa-heart text-danger"></i>
                                                         @else
-                                                            <i class="bi bi-heart small"></i>
+                                                            <i class="fa fa-heart small"></i>
                                                         @endif
                                                         ({{ $reply->likes->count() }})
                                                     </span>

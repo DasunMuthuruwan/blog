@@ -30,7 +30,7 @@ class AboutUsController extends Controller
         SEOTools::opengraph()->setDescription($description);
 
         /** Twitter Cards */
-        SEOTools::twitter()->setSite('@devTalk');
+        SEOTools::twitter()->setSite('@devtalk94');
         SEOTools::twitter()->setTitle($title);
         SEOTools::twitter()->setDescription($description);
 

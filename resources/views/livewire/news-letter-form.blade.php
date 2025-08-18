@@ -2,7 +2,7 @@
     <form class="subscription" wire:submit="subscribe()" method="post">
         <x-form-alerts />
         <div class="position-relative">
-            <i class="ti-email email-icon"></i>
+            <i class="fa fa-envelope email-icon"></i>
             <input type="text" wire:model.live="email" class="form-control" placeholder="Your Email Address">
             @error('email')
             <span class="text-danger small ml-1">{{ $message }}</span>

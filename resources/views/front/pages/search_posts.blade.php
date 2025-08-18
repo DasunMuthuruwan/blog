@@ -15,7 +15,8 @@
                     <article class="row mb-5 letest-result-item">
                         <div class="col-md-4 mb-4 mb-md-0">
                             <div class="post-img-box">
-                                <img loading="lazy" src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
+                                <img loading="lazy"
+                                    src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
                                     class="img-fluid rounded-lg" alt="post-thumb">
                             </div>
                         </div>
@@ -27,21 +28,23 @@
                             </h5>
                             <ul class="list-inline post-meta mb-2">
                                 <li class="list-inline-item">
-                                    <i class="ti-user mr-1"></i><a
+                                    <i class="fa fa-user mr-1"></i>
+                                    <a
                                         href="{{ route('author_posts', $post->author->username) }}">{{ $post->author->name }}</a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
+                                    <i class="fa fa-calendar mr-1"></i>{{ dateFormatter($post->created_at) }}
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-folder"></i> <a href="{{ route('category_posts', $post->post_category->slug) }}"
+                                    <i class="fa fa-folder"></i> <a
+                                        href="{{ route('category_posts', $post->post_category->slug) }}"
                                         class="ml-1">{{ $post->post_category->name }} </a>
                                 </li>
                                 <li class="list-inline-item">
                                     @php
                                         $duration = readDuration($post->title, $post->content);
                                     @endphp
-                                    <i class="ti-timer mr-1"></i> {{ $duration }} | @choice('min|mins', $duration)
+                                    <i class="fa fa-hourglass-half mr-1"></i> {{ $duration }} | @choice('min|mins', $duration)
                                 </li>
                             </ul>
                             <p>
@@ -54,7 +57,7 @@
                 @empty
                     <div class="text-center py-5">
                         <div class="mb-4">
-                            <i class="ti-search text-muted" style="font-size: 4rem;"></i>
+                            <i class="fa fa-search text-muted" style="font-size: 4rem;"></i>
                         </div>
                         <h5 class="text-muted mb-2">No results found</h5>
                         <p class="text-muted">

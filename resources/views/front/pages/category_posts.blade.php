@@ -28,7 +28,7 @@
                                 </a>
                             </h5>
                             <ul class="list-inline post-meta text-xs text-primary">
-                                <li class="list-inline-item"><i class="ti-calendar mr-1"></i>
+                                <li class="list-inline-item"><i class="fa fa-calendar mr-1"></i>
                                     {{ dateFormatter($post->created_at) }}</li>
                                 <li class="list-inline-item">
                                     <a href="{{ route('author_posts', $post->author->username) }}">

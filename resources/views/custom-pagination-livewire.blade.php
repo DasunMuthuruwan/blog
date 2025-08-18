@@ -5,12 +5,12 @@
                 <!-- Previous -->
                 @if ($paginator->onFirstPage())
                     <li class="page-item disabled">
-                        <span class="page-link" tabindex="-1"><i class="ti-arrow-left"></i></span>
+                        <span class="page-link" tabindex="-1"><i class="fa fa-arrow-left"></i></span>
                     </li>
                 @else
                     <li class="page-item">
                         <button type="button" wire:click="previousPage" class="page-link" tabindex="-1">
-                            <i class="ti-arrow-left"></i>
+                            <i class="fa fa-arrow-left"></i>
                         </button>
                     </li>
                 @endif
@@ -55,12 +55,12 @@
                 @if ($paginator->hasMorePages())
                     <li class="page-item">
                         <button type="button" wire:click="nextPage" class="page-link">
-                            <i class="ti-arrow-right"></i>
+                            <i class="fa fa-arrow-right"></i>
                         </button>
                     </li>
                 @else
                     <li class="page-item disabled">
-                        <span class="page-link"><i class="ti-arrow-right"></i></span>
+                        <span class="page-link"><i class="fa fa-arrow-right"></i></span>
                     </li>
                 @endif
             </ul>

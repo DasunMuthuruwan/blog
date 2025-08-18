@@ -20,22 +20,22 @@
                 <ul class="list-inline social-icons ml-auto mr-3 d-none d-sm-block">
                     @if ($faceBookUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $faceBookUrl }}"><i class="ti-facebook"></i></a>
+                            <a target="_blank" href="{{ $faceBookUrl }}"><i class="fa fa-facebook"></i></a>
                         </li>
                     @endif
                     @if ($twitterUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $twitterUrl }}"><i class="ti-twitter-alt"></i></a>
+                            <a target="_blank" href="{{ $twitterUrl }}"><i class="fa fa-twitter"></i></a>
                         </li>
                     @endif
                     @if ($linkdinUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $linkdinUrl }}"><i class="ti-linkedin"></i></a>
+                            <a target="_blank" href="{{ $linkdinUrl }}"><i class="fa fa-linkedin"></i></a>
                         </li>
                     @endif
                     @if ($instagramUrl)
                         <li class="list-inline-item">
-                            <a target="_blank" href="{{ $instagramUrl }}"><i class="ti-instagram"></i></a>
+                            <a target="_blank" href="{{ $instagramUrl }}"><i class="fa fa-instagram"></i></a>
                         </li>
                     @endif
                 </ul>
@@ -50,7 +50,7 @@
 
                 <h5 class="mt-5">Prefer Email?</h5>
                 <p>
-                    <i class="ti-email mr-2 text-primary"></i>
+                    <i class="fa fa-envelope mr-2 text-primary"></i>
                     <a href="mailto:{{ config('app.contact_email') }}">{{ config('app.contact_email') }}</a>
                 </p>
             </div>

@@ -18,7 +18,7 @@
         href='{{ $siteFavicon ? asset("storage/images/site/{$siteFavicon}") : '' }}'>
     <link rel="stylesheet" href="{{ asset('front/plugins/bootstrap/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/animate.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('front/plugins/themify-icons/themify-icons.css') }}"> --}}
     <link rel="stylesheet" href="{{ asset('front/plugins/slick/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('front/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('back/src/fonts/font-awesome/css/font-awesome.css') }}">
@@ -41,28 +41,28 @@
                         alt="{{ $pageTitle ?? '' }}">
                 </a>
                 <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navigation">
-                    <i class="ti-menu"></i>
+                    <i class="fa fa-bars"></i>
                 </button>
 
                 <div class="collapse navbar-collapse text-center" id="navigation">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('home') }}"><i class="ti-home mr-1"></i>Home</a>
+                            <a class="nav-link" href="{{ route('home') }}"><i class="fa fa-home mr-1"></i>Home</a>
                         </li>
                         {!! navigations() !!}
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('about_us') }}"><span
-                                    class="icon-copy ti-info-alt mr-1"></span> About</a>
+                                    class="fa fa-user mr-1"></span> About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('contact') }}"><i class="ti-email mr-1"></i>Contact</a>
+                            <a class="nav-link" href="{{ route('contact') }}"><i class="fa fa-envelope mr-1"></i>Contact</a>
                         </li>
                     </ul>
 
                     <!-- search -->
                     <div class="search px-4">
                         <button id="searchOpen" class="search-btn-top" aria-label="Open search">
-                            <i class="ti-search" aria-hidden="true"></i>
+                            <i class="fa fa-search" aria-hidden="true"></i>
                         </button>
                         <div class="search-wrapper">
                             <form action="{{ route('search_posts') }}" method="GET" class="h-100">
@@ -70,7 +70,7 @@
                                     placeholder="Type to discover articles, guide &amp; tutorials... "
                                     value="{{ request('q') ?? '' }}">
                             </form>
-                            <button id="searchClose" class="search-close"><i class="ti-close text-dark"></i></button>
+                            <button id="searchClose" class="search-close"><i class="fa fa-close text-dark"></i></button>
                         </div>
                     </div>
                     <!-- /search -->
@@ -83,10 +83,10 @@
                         <div class="user-details">
                             <img src="{{ asset($user->picture) }}" class="img-fluid user-avatar" alt="User avatar">
                             <div class="user-dropdown">
-                                <a href="{{ route('admin.dashboard') }}"><i class="ti-dashboard"></i>Dashboard</a>
-                                <a href="{{ route('admin.profile') }}"><i class="ti-user"></i>Profile</a>
+                                <a href="{{ route('admin.dashboard') }}"><i class="fa fa-dashboard"></i>Dashboard</a>
+                                <a href="{{ route('admin.profile') }}"><i class="fa fa-user"></i>Profile</a>
                                 @if ($user->type == 'superAdmin')
-                                    <a href="{{ route('admin.settings') }}"><i class="ti-settings"></i>Settings</a>
+                                    <a href="{{ route('admin.settings') }}"><i class="fa fa-cog"></i>Settings</a>
                                 @endif
                                 <form id="front-logout-form" method="POST" style="display: none"
                                     action="{{ route('admin.logout', ['source' => 'front']) }}">
@@ -94,7 +94,7 @@
                                 </form>
                                 <a href="javascript:;"
                                     onclick="event.preventDefault();document.getElementById('front-logout-form').submit();"><i
-                                        class="ti-power-off"></i>Logout</a>
+                                        class="fa fa-sign-out"></i>Logout</a>
                             </div>
                         </div>
                     @endauth
@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="scroll-top">
-                <a href="#" id="scrollTop" aria-label="Scroll top"><i class="ti-angle-up"
+                <a href="#" id="scrollTop" aria-label="Scroll top"><i class="fa fa-angle-up"
                         aria-hidden="true"></i></a>
             </div>
             <div class="text-center">

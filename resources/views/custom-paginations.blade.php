@@ -5,12 +5,12 @@
                 <!-- Previous -->
                 @if ($paginator->onFirstPage())
                     <li class="page-item disabled">
-                        <a class="page-link" href="#!" tabindex="-1"><i class="ti-arrow-left"></i></a>
+                        <a class="page-link" href="#!" tabindex="-1"><i class="fa fa-arrow-left"></i></a>
                     </li>
                 @else
                     <li class="page-item">
                         <a class="page-link" href="{{ $paginator->previousPageUrl() }}" tabindex="-1"><i
-                                class="ti-arrow-left"></i></a>
+                                class="fa fa-arrow-left"></i></a>
                     </li>
                 @endif
 
@@ -46,11 +46,11 @@
                 <!-- Next -->
                 @if ($paginator->hasMorePages())
                     <li class="page-item">
-                        <a class="page-link" href="{{ $paginator->nextPageUrl() }}"><i class="ti-arrow-right"></i></a>
+                        <a class="page-link" href="{{ $paginator->nextPageUrl() }}"><i class="fa fa-arrow-right"></i></a>
                     </li>
                 @else
                     <li class="page-item disabled">
-                        <a class="page-link" href="#!"><i class="ti-arrow-right"></i></a>
+                        <a class="page-link" href="#!"><i class="fa fa-arrow-right"></i></a>
                     </li>
                 @endif
 

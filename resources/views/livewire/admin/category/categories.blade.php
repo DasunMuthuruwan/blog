@@ -133,7 +133,7 @@
                     <div class="form-group">
                         <label for="parent_icon"><b>Icon</b>:</label>
                         <input type="text" class="form-control form-control-sm" wire:model="parent_icon"
-                            placeholder="Enter icon(Example: ti-user)">
+                            placeholder="Enter icon(Example: fa fa-user)">
                         @error('parent_icon')
                             <span class="text-danger small">{{ $message }}</span>
                         @enderror

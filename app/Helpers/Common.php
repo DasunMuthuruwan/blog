@@ -38,9 +38,13 @@ if (!function_exists('navigations')) {
 
             // Optimized query for parent categories with eager loading
             $pCategories = ParentCategory::query()
-                ->whereHas('children.posts')
+                ->whereHas('children.posts', function ($query) {
+                    $query->where('visibility', 1); // or is_public = 1
+                })
                 ->with(['children' => function ($query) {
-                    $query->whereHas('posts')
+                    $query->whereHas('posts', function ($q) {
+                        $q->where('visibility', 1); // filter child posts too
+                    })
                         ->orderBy('name', 'asc');
                 }])
                 ->orderBy('id', 'asc')
@@ -48,7 +52,9 @@ if (!function_exists('navigations')) {
 
             // Optimized query for standalone categories
             $categories = Category::query()
-                ->whereHas('posts')
+                ->whereHas('posts', function ($query) {
+                    $query->where('visibility', 1);
+                })
                 ->where('parent', 0)
                 ->orderBy('name', 'asc')
                 ->get();
@@ -56,7 +62,7 @@ if (!function_exists('navigations')) {
             // Build parent categories with dropdowns
             if ($pCategories->isNotEmpty()) {
                 foreach ($pCategories as $category) {
-                    $iconClass = $category->parent_icon ?? 'ti-folder'; // default icon
+                    $iconClass = $category->icon ?? 'fa fa-folder'; // default icon
                     $navigationHtml .= '
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="#" role="button" data-toggle="dropdown"
@@ -151,7 +157,10 @@ if (!function_exists('navigations')) {
         function sidebarCategories($limit = 8): object
         {
             return Cache::remember(CacheKeys::SIDEBAR_CATEGORIES, CacheKeys::SHORT_TERM, function () use ($limit) {
-                return Category::withCount('posts')->having('posts_count', '>', 0)
+                return Category::withCount(['posts as posts_count' => function ($query) {
+                    $query->where('visibility', 1); // or is_public = 1
+                }])
+                    ->having('posts_count', '>', 0)
                     ->limit($limit)
                     ->orderBy('posts_count', 'desc')
                     ->get();
@@ -169,7 +178,8 @@ if (!function_exists('navigations')) {
         function getTags(?int $limit = null): array
         {
             // Get all non-empty tags in one query
-            $tags = Post::whereNotNull('tags')
+            $tags = Post::where('visibility', 1)
+                ->whereNotNull('tags')
                 ->where('tags', '!=', '')
                 ->pluck('tags')
                 ->flatMap(function ($tagsString) {

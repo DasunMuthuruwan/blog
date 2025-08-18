@@ -19,27 +19,27 @@
                     <ul class="list-inline social-icons ml-auto mr-3 d-none d-sm-block">
                         @if ($faceBookUrl)
                             <li class="list-inline-item">
-                                <a href="{{ $faceBookUrl }}" target="_blank"><i class="ti-facebook"></i></a>
+                                <a href="{{ $faceBookUrl }}" target="_blank"><i class="fa fa-facebook"></i></a>
                             </li>
                         @endif
 
                         @if ($twitterUrl)
                             <li class="list-inline-item">
                                 <a href="{{ $twitterUrl }}" target="_blank"><i
-                                        class="ti-twitter-alt"></i></a>
+                                        class="fa fa-twitter"></i></a>
                             </li>
                         @endif
 
                         @if ($linkdinUrl)
                             <li class="list-inline-item">
                                 <a href="{{ $linkdinUrl }}" target="_blank"><i
-                                        class="ti-linkedin"></i></a>
+                                        class="fa fa-linkedin"></i></a>
                             </li>
                         @endif
                         @if ($instagramUrl)
                             <li class="list-inline-item">
                                 <a href="{{ $instagramUrl }}" target="_blank"><i
-                                        class="ti-instagram"></i></a>
+                                        class="fa fa-instagram"></i></a>
                             </li>
                         @endif
                     </ul>
