@@ -8,7 +8,7 @@
 @endpush
 @section('content')
     <div class="w-full mb-6">
-        <h3 class="text-2xl font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
+        <h3 class="text-2xl mb-4 font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
     </div>
 
     @if ($posts->count() > 0)

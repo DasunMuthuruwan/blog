@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\AuthorNotFoundException;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\PostRatingRequest;
 use App\Mail\ContactMail;
@@ -17,7 +18,6 @@ use Artesaos\SEOTools\Facades\SEOTools;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class BlogController extends Controller
@@ -29,9 +29,9 @@ class BlogController extends Controller
             $title = $settings->site_title ?? '';
             $description = $settings->site_meta_description ?? '';
             $siteLogo = $settings->site_logo ?? '';
-            $imgUrl = $siteLogo ? asset("/storage/images/site/{}") : '';
+            $imgUrl = $siteLogo ? asset("/storage/images/site/{$siteLogo}") : "";
             $keywords = $settings->site_meta_keywords ?? '';
-            $currentUrl = url()->current();
+            $currentUrl = route('home');
             $popularPosts = Post::query()
                 ->select('id', 'category', 'title', 'slug', 'feature_image', 'created_at') // only needed columns
                 ->with([
@@ -62,6 +62,14 @@ class BlogController extends Controller
             JsonLd::setTitle($title);
             JsonLd::setDescription($description);
             JsonLd::addImage($imgUrl);
+            JsonLd::setType('WebSite');
+            JsonLd::addValue('name', $title ?: 'Dev Talk');
+            JsonLd::setUrl($currentUrl);
+            JsonLd::addValue('potentialAction', [
+                '@type' => 'SearchAction',
+                'target' => url('/') . '/search?q={search_term_string}',
+                'query-input' => 'required name=search_term_string'
+            ]);
 
             return view(
                 'front.pages.index',
@@ -89,27 +97,29 @@ class BlogController extends Controller
                 ->with(['author:id,name,username,picture', 'post_category:id,name,slug']) // Eager load relationships
                 ->where('category', $category->id)
                 ->orderBy('posts.created_at', 'desc')
-                ->paginate(8);
+                ->paginate(12);
 
             /** Set SEO Meta tags */
             $title = $category->meta_title ?: "Posts in Category: {$category->name}";
             $description = $category->meta_description ?: "Browse the latest posts in the {$category->name} category. {$category->description}";
-            $featureImage = $posts->first()->featured_image;
-            $canonical = url()->current();
+            $post = $posts->first();
+            $featureImage = $post ? asset("storage/images/posts/{$post->feature_image}") : '';
+            $canonical = request()->fullUrl();
 
             SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
+            SEOTools::setCanonical($canonical);
             SEOTools::opengraph()
                 ->setUrl($canonical)
                 ->addProperty('type', 'website')
                 ->setTitle($title)
                 ->setDescription($description)
-                ->addImage(asset("storage/images/posts/{$featureImage}") ?? asset('images/default-og-image.jpg'));
+                ->addImage($featureImage);
             SEOTools::twitter()
                 ->setType('summary_large_image')
                 ->setTitle($title)
                 ->setDescription($description)
-                ->setImage(asset("storage/images/posts/{$featureImage}") ?? asset('images/default-twitter-image.jpg'));
+                ->setImage($featureImage);
             SEOTools::jsonLd()
                 ->setType('CollectionPage')
                 ->setTitle($title)
@@ -134,21 +144,27 @@ class BlogController extends Controller
             $author = User::with('social_links')
                 ->withCount('posts')
                 ->where('username', $username)
-                ->firstOrFail();
+                ->first();
+
+            throw_if(
+                !$author,
+                AuthorNotFoundException::class,
+                'Author not found.'
+            );
 
             // Retrieve posts related to this category and paginate
             $posts = Post::visible(1) // Only published posts
                 ->with(['post_category:id,name,slug']) // Eager load categorywhere('author_id', $author->id)
                 ->where('author_id', $author->id)
                 ->oldest()
-                ->paginate(8);
+                ->paginate(12);
 
             /** Set SEO Meta tags */
             $title = "{$author->name} - Articles & Blog Posts" . (($request->get('page') > 1) ? " (Page " . $request->get('page') . ")" : "");
             $description = $author->bio ?: "Explore all articles and blog posts written by {$author->name}. " .
                 "Total {$author->posts_count} posts about various topics.";
             $canonical = route('author_posts', ['username' => $author->username]);
-            $featureImage = optional($posts->first())->featured_image ?: $author->picture;
+            $featureImage = optional($posts->first())->feature_image ?: $author->picture;
 
             SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
@@ -185,8 +201,11 @@ class BlogController extends Controller
                 'author' => $author,
                 'posts' => $posts
             ]);
+        } catch(AuthorNotFoundException $authorNotFoundException) {
+            logger()->error("Author not found: {$authorNotFoundException->getMessage()}");
+            return response()->view('front.pages.errors.404', [], 404);
         } catch (Exception $exception) {
-            logger()->error("Author posts error: " . $exception->getMessage());
+            logger()->error("Author posts error: {$exception->getMessage()}");
 
             return redirect()->route('home')->with('error', 'The author you requested was not found');
         }
@@ -194,21 +213,23 @@ class BlogController extends Controller
 
     public function tagPosts(Request $request, string $tag)
     {
+        $tag = urldecode($tag);
         // Query posts that have the selected tag
         $posts = Post::visible(1)
             ->whereLike('tags', "%{$tag}%")
-            ->paginate(8);
+            ->paginate(12);
 
         /** For Meta Tags */
         $title = "Posts tagged with {$tag}";
         $description = "Explore all posts tagged with {$tag} on our blog";
+        $canonical = request()->fullUrl();
 
         /** Set SEO Meta Tags */
         SEOTools::setTitle($title, false);
         SEOTools::setDescription($description);
-        SEOTools::setCanonical(url()->current());
+        SEOTools::setCanonical($canonical);
 
-        SEOTools::opengraph()->setUrl(url()->current());
+        SEOTools::opengraph()->setUrl($canonical);
         SEOTools::opengraph()->addProperty('type', 'articles');
 
         return view('front.pages.tag_posts', [
@@ -232,7 +253,7 @@ class BlogController extends Controller
 
             $posts = $postsQuery->where('visibility', 1)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->paginate(12);
             $title = "Search results for {$query}";
             $description = "Browse search results for $query on our blog";
         } else {
@@ -303,14 +324,17 @@ class BlogController extends Controller
             $title = $post->title;
             $description = !empty($post->meta_description)
                 ? $post->meta_description : words($post->content, 35);
-            $image = asset("storage/images/posts/{$post->feature_image}");
+            $image = asset("storage/images/posts/resized/resized_{$post->feature_image}");
             SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
+
             SEOTools::opengraph()->setUrl(route('read_post', $post->slug));
             SEOTools::opengraph()->addProperty('type', 'article');
             SEOTools::opengraph()->addImage($image);
+
             SEOTools::twitter()->setType('summary_large_image');
             SEOTools::twitter()->setImage($image);
+
             SEOTools::jsonLd()->setType('BlogPosting');
             SEOTools::jsonLd()->setTitle($title);
             SEOTools::jsonLd()->setDescription($description);

@@ -8,13 +8,13 @@
 @endpush
 @section('content')
     <div class="w-full mb-6">
-        <h3 class="text-2xl font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
+        <h3 class="text-2xl mb-4 font-semibold title-color dark:text-gray-200">{{ $pageTitle }}</h3>
     </div>
 
     @if ($posts->count() > 0)
         <div class="row">
             @foreach ($posts as $post)
-                <div class="col-sm-6 col-md-4 col-lg-3 mb-6">
+                <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
                     <article class="post-container h-full bg-white rounded-lg overflow-hidden shadow-sm">
                         <a href="{{ route('read_post', $post->slug) }}" class="block post-image-wrapper">
                             <img loading="lazy" src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'

@@ -48,18 +48,18 @@ h5,
 h6 {
   color: var(--text-color);
   font-family: "Geist-medium", sans-serif;
-  font-weight: 600;
+  font-weight: 550;
   line-height: 1.2;
 }
 
 h1,
 .h1 {
-  font-size: 45px;
+  font-size: 36px;
 }
 
 h2,
 .h2 {
-  font-size: 36px;
+  font-size: 32px;
 }
 
 h3,

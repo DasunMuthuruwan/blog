@@ -3,7 +3,7 @@
         <h5 class="widget-title"><span>Latest Article</span></h5>
         <!-- post-item -->
         <ul class="list-unstyled widget-list latest-article text-primary">
-            @foreach (sidebarLatestPosts() as $sidebarLatestPost)
+            @foreach (sidebarLatestPosts(6) as $sidebarLatestPost)
                 <li class="media widget-post align-items-center letest-result-item">
                     <a href="{{ route('read_post', $sidebarLatestPost->slug) }}"
                         aria-label="Latest Article {{ $sidebarLatestPost->title }}">

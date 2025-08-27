@@ -228,10 +228,10 @@ if (!function_exists('navigations')) {
         function getSlides($limit = 5)
         {
             return
-                Cache::remember(CacheKeys::HOME_SLIDES, CacheKeys::SHORT_TERM, function () use ($limit) {
+                Cache::remember(CacheKeys::HOME_SLIDES, CacheKeys::LONG_TERM, function () use ($limit) {
                     return Slide::where('status', 1)
-                        ->limit($limit)
                         ->orderBy('ordering', 'asc')
+                        ->limit($limit)
                         ->get();
                 });
         }

@@ -162,7 +162,7 @@
                 </div>
             </div>
             <div class="scroll-top">
-                <a href="#" id="scrollTop" aria-label="Scroll top"><i class="fa fa-angle-up"
+                <a href="#" id="scrollTop" aria-label="Scroll top"><i class="fa fa-arrow-up"
                         aria-hidden="true"></i></a>
             </div>
             <div class="text-center">

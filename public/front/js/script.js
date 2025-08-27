@@ -81,8 +81,8 @@
 		autoplay: true,
 		dots: false,
 		arrows: true,
-		prevArrow: '<button type=\'button\' class=\'prevArrow\' aria-label=\'Previous slide\'><i class=\'ti-angle-left\' aria-hidden=\'true\'></i></button>',
-		nextArrow: '<button type=\'button\' class=\'nextArrow\' aria-label=\'Next slide\'><i class=\'ti-angle-right\' aria-hidden=\'true\'></i></button>',
+		prevArrow: '<button type=\'button\' class=\'prevArrow\' aria-label=\'Previous slide\'><i class=\'fa fa-arrow-left\' aria-hidden=\'true\'></i></button>',
+		nextArrow: '<button type=\'button\' class=\'nextArrow\' aria-label=\'Next slide\'><i class=\'fa fa-arrow-right\' aria-hidden=\'true\'></i></button>',
 		fade:true,
 		speed:2500,
 		cssEase:'linear'
