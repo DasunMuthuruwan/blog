@@ -64,7 +64,16 @@ return array(
     |
     */
 
-    'roots' => null,
+    'roots' => [
+    [
+        'driver'        => 'LocalFileSystem',
+        'path'          => config('config.elfinder_file_location'), // Replace with your actual username
+        'URL'           => '/ufiles',
+        'alias'         => 'Uploads',
+        'uploadAllow'   => ['all'],
+        'uploadOrder'   => ['allow', 'deny'],
+    ]
+],
 
     /*
     |--------------------------------------------------------------------------

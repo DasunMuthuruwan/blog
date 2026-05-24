@@ -215,7 +215,7 @@
                 rules: {
                     feature_image: {
                         required: true,
-                        extension: "png|jpg|jpeg|svg|webp",
+                        extension: "png|webp",
                         filesize: 1 // 2MB
                     }
                 },

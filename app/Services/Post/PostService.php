@@ -189,40 +189,48 @@ class PostService
      * @param mixed $post
      * @return string
      */
-    private function imageUpload(object $request, ?object $post = null): string
-    {
-        $path = "storage/images/posts/";
-        $file = $request->file('feature_image');
-        $filename = $file->getClientOriginalName();
-        $newFileName = time() . "_{$filename}";
-        $upload = $file->move(public_path($path), $newFileName);
+private function imageUpload(object $request, ?object $post = null): string
+{
+    $path = "app/public/images/posts/";
+    $file = $request->file('feature_image');
+    $filename = $file->getClientOriginalName();
+    $newFileName = time() . "_{$filename}";
+    $fullPath = storage_path($path);
 
-        throw_if(!$upload, FileUploadFailedException::class, 'File upload failed.');
+    // Move uploaded file
+    $upload = $file->move($fullPath, $newFileName);
+    throw_if(!$upload, FileUploadFailedException::class, 'File upload failed.');
 
-        /**
-         * Generate resized image and thumbnail
-         */
-        $resized_path = "{$path}resized/";
-        if (!File::isDirectory($resized_path)) {
-            File::makeDirectory($resized_path, 0777, true, true);
-        }
-        $manager = new ImageManager(new Driver());
-
-        // Thumbnail (Aspect ratio: 1)
-        $image = $manager->read("{$path}{$newFileName}");
-        $image->scale(250, 250)->toWebp();
-        $image->save("{$resized_path}thumb_{$newFileName}");
-
-        // Thumbnail (Aspect ratio: 1.6)
-        $image = $manager->read("{$path}{$newFileName}");
-        $image->scale(512, 320)->toWebp();
-        $image->save("{$resized_path}resized_{$newFileName}");
-
-        // Delete old feature path
-        $post && $this->deleteFeatureImages($post, ['path' => $path, 'resized_path' => "{$path}resized/"]);
-
-        return $newFileName;
+    // Resized image path
+    $resizedPath = "{$fullPath}resized/";
+    if (!File::isDirectory($resizedPath)) {
+        File::makeDirectory($resizedPath, 0777, true, true);
     }
+
+    $manager = new ImageManager(new Driver());
+
+    // Use absolute path for Intervention
+    $originalFile = $fullPath . $newFileName;
+
+    // Thumbnail (Aspect ratio: 1)
+    $image = $manager->read($originalFile);
+    $image->scale(250, 250)->toWebp();
+    $image->save($resizedPath . "thumb_{$newFileName}");
+
+    // Thumbnail (Aspect ratio: 1.6)
+    $image = $manager->read($originalFile);
+    $image->scale(512, 320)->toWebp();
+    $image->save($resizedPath . "resized_{$newFileName}");
+
+    // Delete old feature path
+    $post && $this->deleteFeatureImages($post, [
+        'path' => $fullPath,
+        'resized_path' => $resizedPath
+    ]);
+
+    return $newFileName;
+}
+
 
     /**
      * Delete feature image when update or delete functionality
@@ -231,21 +239,28 @@ class PostService
      * @return void
      */
     public function deleteFeatureImages(object $post, array $path): void
-    {
-        $oldImage = optional($post)->feature_image;
-        // Delete old feature path
-        if ($oldImage && File::exists(public_path("{$path['path']}{$oldImage}"))) {
-            File::delete(public_path("{$path['path']}{$oldImage}"));
+{
+    $oldImage = optional($post)->feature_image;
 
-            //Delete resized path
-            if (File::exists(public_path("{$path['resized_path']}resized_{$oldImage}"))) {
-                File::delete(public_path("{$path['resized_path']}resized_{$oldImage}"));
-            }
+    if ($oldImage) {
+        $mainFile   = $path['path'] . $oldImage;
+        $resized    = $path['resized_path'] . "resized_{$oldImage}";
+        $thumbnail  = $path['resized_path'] . "thumb_{$oldImage}";
 
-            //Delete thumnail
-            if (File::exists(public_path("{$path['resized_path']}thumb_{$oldImage}"))) {
-                File::delete(public_path("{$path['resized_path']}thumb_{$oldImage}"));
-            }
+        // Delete main image
+        if (File::exists($mainFile)) {
+            File::delete($mainFile);
+        }
+
+        // Delete resized version
+        if (File::exists($resized)) {
+            File::delete($resized);
+        }
+
+        // Delete thumbnail
+        if (File::exists($thumbnail)) {
+            File::delete($thumbnail);
         }
     }
+}
 }

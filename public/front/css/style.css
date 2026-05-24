@@ -14,10 +14,18 @@
 }
 
 :root {
-  --main-color: oklch(.546 .245 262.881);
-  --text-color: oklch(.278 .033 256.848);
-  --bg-color: #ffffff;
+  --text-color: rgb(226 232 240);          /* Slate-200 */
+  --bg-color: rgb(15 23 42);               /* Slate-900 main background */
+  --header-footer-gradient: linear-gradient(90deg, rgb(11, 17, 30), rgb(15, 23, 42), rgb(37, 99, 235));   /* Slate-950 (slightly darker, more contrast) */
+  --hover-color: #0d1117;            /* Slate-800 for hover states  rgb(30 41 59); */  
+  --widget-color: rgb(59, 130, 246);       /* Blue-500 (primary accent) */
+  --tag-hover-color: rgb(99, 102, 241);    /* Indigo-500 (secondary accent) */
+  --btn-hover-color: rgb(37, 99, 235);     /* Blue-600 (hover buttons) */
+  --snippet-color: #0d1117;                /* Slate-800 (code blocks) */
+  --text-muted-color: rgb(156 163 175);    /* Slate-400/Gray-400 for softer muted text */
 }
+
+
 
 body {
   line-height: 1.7;
@@ -27,8 +35,19 @@ body {
   font-size: .87em;
 }
 
+.bg-dark-header,
+.bg-dark-footer {
+  background: var(--header-footer-gradient)
+}
+
+.bg-dark {
+  background-color: rgb(20, 32, 60)
+}
+
+/* rgb(20, 32, 60) */
+
 .title-color {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 p,
@@ -54,7 +73,7 @@ h6 {
 
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 38px;
 }
 
 h2,
@@ -64,7 +83,7 @@ h2,
 
 h3,
 .h3 {
-  font-size: 28px;
+  font-size: 26px;
 }
 
 h4,
@@ -89,7 +108,7 @@ h6,
   text-transform: capitalize;
   padding: 8px 25px;
   border-radius: 50px;
-  border: 1px solid;
+  /* border: 1px solid; */
   position: relative;
   z-index: 1;
   transition: 0.2s ease;
@@ -103,14 +122,18 @@ h6,
 }
 
 .btn-primary {
-  background: var(--main-color);
+  background: var(--widget-color);
   color: #fff;
-  border-color: var(--main-color);
+  /* border-color: var(--main-color); */
+}
+
+.search-input-wrapper {
+  background-color: var(--bg-color);
 }
 
 .btn-primary:hover {
-  background-color: #7b64a4;
-  border-color: #7b64a4;
+  background-color: var(--btn-hover-color);
+  /* border-color: #7b64a4; */
   color: #fff;
   box-shadow: 0 4px 12px rgba(101, 80, 135, 0.4);
 }
@@ -127,15 +150,15 @@ h6,
 .btn-outline-primary {
   background: transparent;
   color: var(--text-color);
-  border-color: var(--main-color);
+  border-color: var(--widget-color);
 }
 
 .btn-outline-primary:active,
 .btn-outline-primary:hover,
 .btn-outline-primary.focus,
 .btn-outline-primary.active {
-  background: var(--main-color) !important;
-  border-color: var(--main-color) !important;
+  background: var(--widget-color) !important;
+  border-color: var(--widget-color) !important;
   color: #fff;
 }
 
@@ -198,7 +221,7 @@ select:focus {
 }
 
 a:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .slick-slide {
@@ -254,7 +277,7 @@ a:hover {
 }
 
 .text-primary {
-  color: var(--main-color) !important;
+  color: var(--widget-color) !important;
 }
 
 .text-color {
@@ -344,7 +367,7 @@ a:hover {
 }
 
 .navbar-white .navbar-nav .nav-link:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
@@ -412,7 +435,7 @@ a:hover {
 }
 
 .navbar .dropdown-item:hover {
-  color: var(--main-color) !important;
+  color: var(--widget-color) !important;
   background: transparent;
 }
 
@@ -450,7 +473,7 @@ a:hover {
   height: 100%;
   width: 100%;
   border: 0;
-  background: var(--bg-color);
+  background: var(--header-footer-gradient);
   font-size: 20px;
   padding: 0;
   padding-right: 35px;
@@ -477,21 +500,21 @@ a:hover {
 }
 
 .post-title:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .post-meta li {
-  margin-right: 10px;
+  /*margin-right: 10px;*/
   font-size: 90%;
 }
 
 .post-meta a {
   color: var(--text-color);
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted var(--widget-color);
 }
 
 .post-meta a:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .recent-thumb-alt {
@@ -515,13 +538,13 @@ a:hover {
 
 .social-icons a {
   display: block;
-  color: #888c8e;
+  color: var(--text-color);
   padding: 5px;
   font-size: 14px;
 }
 
 .social-icons a:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .social-icons-rounded {
@@ -612,7 +635,7 @@ a:hover {
 }
 
 .slick-arrow:hover {
-  background: var(--main-color);
+  background: var(--widget-color);
 }
 
 .prevArrow {
@@ -629,20 +652,20 @@ a:hover {
 
 .pagination .page-item .page-link {
   display: inline-block;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
   border-radius: 50%;
-  background: #f0f0f0;
+  background: var(--hover-color);
   text-align: center;
   padding: 0;
   margin-right: 10px;
   border: 0;
-  color: var(--text-color);
+  color: #fff;
 }
 
 .pagination .page-item .page-link:hover {
-  background: var(--main-color);
+  background: var(--widget-color);
   color: #fff;
 }
 
@@ -656,7 +679,7 @@ a:hover {
 }
 
 .pagination .page-item.active .page-link {
-  background: var(--main-color);
+  background: var(--widget-color);
   color: #fff;
 }
 
@@ -684,7 +707,7 @@ a:hover {
 
 .content a {
   color: var(--text-color);
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted var(--widget-color);
 }
 
 .content a:hover {
@@ -718,45 +741,59 @@ a:hover {
   height: 8px;
   width: 8px;
   border-radius: 50%;
-  background: var(--main-color);
+  background: var(--widget-color);
   left: 3px;
   top: 8px;
 }
 
 .content table {
   width: 100%;
-  max-width: 100%;
-  margin-bottom: 1rem;
-  border: 1px solid #ddd;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
-.content table td,
-.content table th {
-  padding: 0.75rem;
-  vertical-align: top;
-  margin-bottom: 0;
-}
-
-.content tr:not(:last-child) {
-  border-bottom: 1px solid #ddd;
-}
-
-.content th {
-  font-weight: 500;
-}
-
+/* Table head */
 .content thead {
-  background: #f0f0f0;
-  margin-bottom: 0;
+  background: #161b22; /* darker shade for header */
+  color: #ffffff;
+  text-align: left;
 }
 
-.content thead tr {
-  border-bottom: 1px solid #ddd;
+.content th > p {
+  padding: 0.85rem 1rem;
+  font-weight: 700;   /* bold text */
+  letter-spacing: 0.3px;
+  font-size: 0.95rem;
+  color: var(--text-muted-color);
+  font-size: 12px;
+  /* border-bottom: 2px solid #30363d; */
 }
 
+/* Table body */
 .content tbody {
-  background: #fdfdfd;
-  margin-bottom: 0;
+  background: #0d1117; /* your snippet color */
+  color: #c9d1d9;
+}
+
+.content td > p {
+  padding: 0.75rem 1rem;
+  /* border-bottom: 1px solid #21262d; */
+  font-size: 12px;
+}
+
+/* Hover effect */
+.content tbody tr:hover {
+  background: #161b22;
+  transition: background 0.2s ease;
+}
+
+/* Zebra striping for rows */
+.content tbody tr:nth-child(even) {
+  background: #0f141b;
 }
 
 .content .notices {
@@ -839,7 +876,7 @@ a:hover {
   border-left: 2px solid var(--main-color);
   margin: 40px 0;
   font-weight: bold;
-  background: #f0f0f0;
+  background: var(--snippet-color);
 }
 
 .content blockquote p {
@@ -854,8 +891,8 @@ a:hover {
 }
 
 pre {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
+  background-color: var(--snippet-color);
+  /* border: 1px solid #ccc; */
   padding: 1rem;
   border-radius: 6px;
   font-family: monospace;
@@ -928,7 +965,7 @@ pre {
 }
 
 .form-group .form-control {
-  border-color: #ddd;
+  border-color: var(--widget-color);
 }
 
 .form-group .form-control:focus {
@@ -946,35 +983,13 @@ pre {
   margin-bottom: 20px;
 }
 
-/* .widget-title {
-  position: relative;
-  margin-bottom: 15px;
-}
-
-.widget-title span {
-  background: var(--bg-color);
-  position: relative;
-  padding-right: 5px;
-  z-index: 1;
-} */
-
-/* .widget-title::before {
-  position: absolute;
-  content: "";
-  right: 0;
-  height: 1px;
-  width: 100%;
-  background: #ddd;
-  top: 50%;
-} */
-
 .widget-search {
   position: relative;
 }
 
 .widget-search input {
   border: 0;
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted var(--widget-color);
   width: 100%;
   height: 40px;
   padding-left: 22px;
@@ -991,6 +1006,7 @@ pre {
 
 .widget-search input::placeholder {
   font-size: 90%;
+  color: rgb(203 213 225);
 }
 
 .widget-search button {
@@ -999,7 +1015,7 @@ pre {
   line-height: 30px;
   display: inline-block;
   padding: 0;
-  background: var(--main-color);
+  background: var(--widget-color);
   color: #ffffff;
   text-align: center;
   border-radius: 10%;
@@ -1015,7 +1031,7 @@ pre {
 }
 
 .widget-list li:not(:last-child) {
-  border-bottom: 1px dotted #ddd;
+  border-bottom: 1px dotted var(--widget-color);
 }
 
 .widget-list li a {
@@ -1023,7 +1039,7 @@ pre {
 }
 
 .widget-list li a:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .widget-list-inline li {
@@ -1032,15 +1048,15 @@ pre {
 
 .widget-list-inline li a {
   padding: 2px 10px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--widget-color);
   border-radius: 40px;
   display: block;
-  color: var(--text-color);
+  /*color: var(--text-color);*/
 }
 
 .widget-list-inline li a:hover {
-  border-color: var(--main-color);
-  background: var(--main-color);
+  border-color: var(--widget-color);
+  background: var(--widget-color);
   color: #fff;
 }
 
@@ -1058,23 +1074,24 @@ pre {
 
 .footer-list a {
   display: block;
-  color: #888c8e;
+  color: #8c8d8e;
   padding: 5px 0;
 }
 
 .footer-list a:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .subscription .form-control {
-  background-color: #f0f0f0;
-  border: 0;
+  background-color: var(--bg-color);
+  border: 1;
   margin-bottom: 10px;
   padding-left: 40px;
+  color: var(--text-color);
 }
 
 .subscription .form-control:hover {
-  background-color: #e6e6e6;
+  background-color: var(--hover-color);
   /* slightly darker for hover */
   box-shadow: 0 0 2px rgba(101, 80, 135, 0.3);
   /* subtle glow */
@@ -1085,7 +1102,7 @@ pre {
   left: 10px;
   top: 10px;
   font-size: 18px;
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 .quote {
@@ -1122,7 +1139,7 @@ pre {
   height: 50px;
   width: 50px;
   border-radius: 50%;
-  background-color: var(--main-color);
+  background-color: var(--widget-color);
   color: #fff;
   text-align: center;
   line-height: 50px;
@@ -1161,11 +1178,6 @@ pre {
 }
 
 /* PAGINATION */
-.pagination .page-item.active .page-link {
-  background-color: var(--main-color);
-  border-color: var(--main-color);
-  color: #fff;
-}
 
 .pagination .page-link {
   color: var(--main-color);
@@ -1177,7 +1189,7 @@ pre {
 
 
 .author-card {
-  background-color: #fbfbfb;
+  background-color: var(--hover-color);
   padding: 2rem;
   border-radius: 0.5rem;
   text-align: center;
@@ -1191,24 +1203,14 @@ pre {
 }
 
 .social-links a {
-  color: #333;
+  color: var(--text-color);
   font-size: 1.5rem;
   margin: 0 0.5rem;
   transition: color 0.3s ease;
 }
 
 .social-links a:hover {
-  color: var(--main-color);
-}
-
-.post-title {
-  color: #333;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.post-title:hover {
-  color: var(--main-color);
+  color: var(--widget-color);
 }
 
 /* Basic styling for share buttons */
@@ -1229,14 +1231,14 @@ pre {
   width: 30px;
   height: 30px;
   border-radius: 20%;
-  background-color: var(--main-color);
+  background-color: var(--widget-color);
   color: #fff;
   transition: background-color 0.3s ease;
   transition: background-color 0.3s ease;
 }
 
 .share-buttons a:hover {
-  background-color: #4e3d6d;
+  background-color: var(--btn-hover-color);
 }
 
 .share-buttons a i {
@@ -1302,8 +1304,8 @@ pre {
 
 .search-result-item:hover,
 .letest-result-item:hover {
-  border-left-color: #3b82f6;
-  background-color: #f8f9fa;
+  border-left-color: var(--widget-color);
+  background-color: var(--hover-color);
 }
 
 .navbar .user-details {
@@ -1367,15 +1369,15 @@ pre {
 }
 
 .scroll-top a:hover {
-  background-color: #7b64a4;
-  border-color: #7b64a4;
+  background-color: var(--btn-hover-color);
+  /* border-color: #7b64a4; */
   color: #fff;
 }
 
 /* Copy icon */
 pre {
   position: relative;
-  background-color: #f8f9fa;
+  /*background-color: #f8f9fa;*/
   padding: 1rem;
   border-radius: 6px;
   overflow: auto;
@@ -1387,18 +1389,52 @@ pre .copy-button {
   position: absolute;
   top: 8px;
   right: 8px;
-  background: #e2e8f0;
+  background: #3a3f58;
+  /* dark but lighter than bg */
   border: none;
-  padding: 3px 6px;
-  font-size: 12px;
-  /* border-radius: 4px; */
+  padding: 4px;
+  border-radius: 6px;
   cursor: pointer;
   z-index: 10;
-  color: #333;
+  color: #e2e8f0;
+  /* light gray */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.1s, color 0.2s;
 }
 
 pre .copy-button:hover {
-  background: #cbd5e0;
+  background: #4a506d;
+  /* lighter hover */
+  color: #ffffff;
+  transform: scale(1.05);
+}
+
+pre .copy-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+pre .copy-button .tooltip {
+  position: absolute;
+  top: -28px;
+  right: 0;
+  background: #1f2937;
+  /* almost black tooltip */
+  color: #fff;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+pre .copy-button.show-tooltip .tooltip {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .error-page-wrap {
@@ -1410,10 +1446,10 @@ pre .copy-button:hover {
 
 .error-page h1 {
   font-size: 210px;
-  font-weight: 700;
-  text-shadow: 2px 2px 0 #181f48, 4px 4px 0 #fff, 8px 8px 0 #181f48;
+  font-weight: 800;
+  text-shadow: 0 0 0px rgba(59, 130, 246, 0.7), 0 0 0px rgba(59, 130, 246, 0.5), 0 0 0px rgba(99, 102, 241, 0.6), 0 0 10px rgba(15, 23, 42, 0.8);
   line-height: 1;
-  color: #181f48;
+  color: #3b82f6;
 }
 
 .error-page h3 {
@@ -1501,15 +1537,15 @@ pre .copy-button:hover {
   /* border: 1px solid #e5e7eb; */
   border-radius: 8px;
   overflow: hidden;
-  background: #fff;
+  /* background: #fff; */
 }
 
 .widget-title {
-  background-color: #176AFF;
+  background-color: var(--widget-color);
   /* bright blue */
   color: #fff;
   padding: 12px 15px;
-  font-weight: bold;
+  /* font-weight: bold; */
   border-radius: 8px 8px 0 0;
 }
 
@@ -1517,10 +1553,10 @@ pre .copy-button:hover {
   padding: 5px 0;
 }
 
-.widget-list a:hover {
-  background-color: #f0f4ff;
+.widget-list .media-body a:hover {
+  background-color: transparent;
   /* light blue hover */
-  color: #176AFF;
+  color: var(--widget-color);
   /* text turns blue */
 }
 
@@ -1530,6 +1566,7 @@ pre .copy-button:hover {
   border-radius: 50%;
   object-fit: cover;
 }
+
 
 .post-tags {
   margin-top: 20px;
@@ -1541,15 +1578,34 @@ pre .copy-button:hover {
   padding: 6px 14px;
   font-size: 14px;
   font-weight: 500;
-  color: oklch(.546 .245 262.881);
-  background: rgba(0, 123, 255, 0.08);
+  color: var(--text-color);
+  background: var(--bg-color);
   border-radius: 50px;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .tag-badge:hover {
-  background: #007BFF;
+  background: var(--widget-color);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.single-post-badge{
+  display: inline-block;
+  margin: 4px 6px 4px 0;
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  background: var(--widget-color);
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.single-post-badge:hover{
+  background: var(--tag-hover-color);
   color: #ffffff;
   text-decoration: none;
 }

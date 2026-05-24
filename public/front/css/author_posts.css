@@ -60,7 +60,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, 20px);
-    background: oklch(.546 .245 262.881);
+    background: var(--widget-color);
     color: white;
     padding: 6px 12px;
     border-radius: 20px;
@@ -127,7 +127,7 @@
 }
 
 .post-meta a:hover {
-    color: #3b82f6;
+    color: var(--widget-color);
 }
 
 /* Social Icons */

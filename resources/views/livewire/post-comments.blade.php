@@ -65,7 +65,7 @@
                                         wire:loading.attr="disabled" wire:target="toggleReplies({{ $comment->id }})"
                                         type="button">
                                         <span wire:loading.remove wire:target="toggleReplies({{ $comment->id }})">
-                                            <i class="fas fa-comments me-1"></i>
+                                            <i class="fa fa-comments me-1"></i>
                                             {{ Str::plural('Replies', $comment->replies_count) }}
                                             ({{ $comment->replies_count }})
                                         </span>

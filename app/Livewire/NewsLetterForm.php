@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class NewsLetterForm extends Component
 {
-    public $email = '';
+    public $news_letter_email = '';
     protected string $serverError;
 
     public function __construct()
@@ -15,23 +15,24 @@ class NewsLetterForm extends Component
         $this->serverError = config('exception-errors.errors.server-error');
     }
 
-    protected $rules = [
-        'email' => 'required|email|unique:news_letter_subscribers,email'
+    protected $rules =
+     [
+        'news_letter_email' => 'required|email|unique:news_letter_subscribers,email'
     ];
 
     protected function message()
     {
         return [
-            'email.required' => 'Please enter your email address.',
-            'email.email' => 'Please provide a valid email address.',
-            'email.unique' => 'This email is already subscribed. Please use another one.'
+            'news_letter_email.required' => 'Please enter your email address.',
+            'news_letter_email.email' => 'Please provide a valid email address.',
+            'news_letter_email.unique' => 'This email is already subscribed. Please use another one.'
         ];
     }
 
     // REal time validation
     public function updatedEmail()
     {
-        $this->validateOnly('email');
+        $this->validateOnly('news_letter_email');
     }
 
     public function subscribe()
@@ -39,10 +40,10 @@ class NewsLetterForm extends Component
         $this->validate();
 
         // Save
-        $created = NewsLetterSubscriber::create(['email' => $this->email]);
+        $created = NewsLetterSubscriber::create(['email' => $this->news_letter_email]);
 
         //Clear input and notify user
-        $this->email = '';
+        $this->news_letter_email = '';
 
         if (!$created) {
             $this->dispatch('showToastr', [

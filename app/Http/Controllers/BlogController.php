@@ -19,6 +19,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BlogController extends Controller
 {
@@ -26,12 +27,13 @@ class BlogController extends Controller
     {
         try {
             $settings = settings();
-            $title = $settings->site_title ?? '';
+            $title = "{$settings->site_title} - Latest News | Articles" ?? 'Dev Talk - Home';
             $description = $settings->site_meta_description ?? '';
             $siteLogo = $settings->site_logo ?? '';
             $imgUrl = $siteLogo ? asset("/storage/images/site/{$siteLogo}") : "";
             $keywords = $settings->site_meta_keywords ?? '';
-            $currentUrl = route('home');
+            $currentUrl = url()->current();
+
             $popularPosts = Post::query()
                 ->select('id', 'category', 'title', 'slug', 'feature_image', 'created_at') // only needed columns
                 ->with([
@@ -47,6 +49,7 @@ class BlogController extends Controller
             SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
             SEOMeta::setKeywords($keywords);
+            SEOTools::setCanonical($currentUrl);
 
             /** */
             SEOTools::opengraph()->setUrl($currentUrl);
@@ -63,13 +66,18 @@ class BlogController extends Controller
             JsonLd::setDescription($description);
             JsonLd::addImage($imgUrl);
             JsonLd::setType('WebSite');
-            JsonLd::addValue('name', $title ?: 'Dev Talk');
+            JsonLd::addValue('name', 'Dev Talk');
             JsonLd::setUrl($currentUrl);
             JsonLd::addValue('potentialAction', [
                 '@type' => 'SearchAction',
                 'target' => url('/') . '/search?q={search_term_string}',
                 'query-input' => 'required name=search_term_string'
             ]);
+
+            JsonLd::setType('Organization')
+                ->addValue('url', $currentUrl)
+                ->addValue('name', 'Dev Talk')
+                ->addValue('logo', $imgUrl);
 
             return view(
                 'front.pages.index',
@@ -97,10 +105,10 @@ class BlogController extends Controller
                 ->with(['author:id,name,username,picture', 'post_category:id,name,slug']) // Eager load relationships
                 ->where('category', $category->id)
                 ->orderBy('posts.created_at', 'desc')
-                ->paginate(12);
+                ->paginate(6);
 
             /** Set SEO Meta tags */
-            $title = $category->meta_title ?: "Posts in Category: {$category->name}";
+            $title = $category->meta_title ?: "{$category->name}";
             $description = $category->meta_description ?: "Browse the latest posts in the {$category->name} category. {$category->description}";
             $post = $posts->first();
             $featureImage = $post ? asset("storage/images/posts/{$post->feature_image}") : '';
@@ -201,7 +209,7 @@ class BlogController extends Controller
                 'author' => $author,
                 'posts' => $posts
             ]);
-        } catch(AuthorNotFoundException $authorNotFoundException) {
+        } catch (AuthorNotFoundException $authorNotFoundException) {
             logger()->error("Author not found: {$authorNotFoundException->getMessage()}");
             return response()->view('front.pages.errors.404', [], 404);
         } catch (Exception $exception) {
@@ -289,7 +297,9 @@ class BlogController extends Controller
             $post = Post::with(['author:id,name,username,picture', 'post_category:id,name,slug'])
                 ->withCount('views', 'comments')
                 ->where('slug', $slug)
-                ->firstOrFail();
+                ->first();
+            
+            throw_if(!$post, NotFoundHttpException::class, 'Record not found');
 
             $cacheKey = 'post_viewed_' . $post->id . '_' . request()->ip();
             if (!Cache::has($cacheKey)) {
@@ -325,10 +335,12 @@ class BlogController extends Controller
             $description = !empty($post->meta_description)
                 ? $post->meta_description : words($post->content, 35);
             $image = asset("storage/images/posts/resized/resized_{$post->feature_image}");
+            $url = route('read_post', $post->slug);
             SEOTools::setTitle($title, false);
             SEOTools::setDescription($description);
+            SEOTools::setCanonical($url);
 
-            SEOTools::opengraph()->setUrl(route('read_post', $post->slug));
+            SEOTools::opengraph()->setUrl($url);
             SEOTools::opengraph()->addProperty('type', 'article');
             SEOTools::opengraph()->addImage($image);
 
@@ -367,8 +379,12 @@ class BlogController extends Controller
                 'prevPost' => $prevPost,
                 'nextPost' => $nextPost
             ]);
+        } catch (NotFoundHttpException $exception) {
+            logger()->error("single posts error: " . $exception->getMessage());
+
+            return response()->view('front.pages.errors.404', [], 404);
         } catch (Exception $exception) {
-            logger()->error("Author posts error: " . $exception->getMessage());
+            logger()->error("single post error: " . $exception->getMessage());
 
             return redirect()->route('home')->with('error', 'The author you requested was not found');
         }

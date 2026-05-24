@@ -5,6 +5,7 @@
 @endsection
 @push('stylesheets')
     <link rel="stylesheet" href="{{ asset('front/css/post_comments.css') }}">
+    <link href="{{ asset('ckeditor/plugins/codesnippet/lib/highlight/styles/dark.css') }}" rel="stylesheet">
 @endpush
 @section('content')
     <div class="row">
@@ -12,18 +13,19 @@
             <article class="row mb-4">
                 <div class="col-lg-12 mb-2">
                     <h2 class="mb-3">{{ $post->title }}</h2>
-                    <ul class="list-inline post-meta text-primary">
+                    <ul class="list-inline post-meta">
                         <li class="list-inline-item">
-                            <a class="text-primary" href="{{ route('author_posts', $post->author->username) }}">
+                            <a href="{{ route('author_posts', $post->author->username) }}">
                                 <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
                                     class="profile-avatar mr-1 mb-1" width="10"
                                     height="10">{{ $post->author->name }}</a>
                         </li>
-                        <li class="list-inline-item"><i class="fa fa-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
+                        <li class="list-inline-item"><i class="fa fa-calendar mr-1"></i>
+                            {{ dateFormatter($post->created_at) }}
                         </li>
                         <li class="list-inline-item"><i class="fa fa-folder"></i> <a
                                 href="{{ route('category_posts', $post->post_category->slug) }}"
-                                class="text-primary ml-1">{{ $post->post_category->name }}</a>
+                                class="ml-1">{{ $post->post_category->name }}</a>
                         </li>
                         <li class="list-inline-item">
                             <i class="fa fa-hourglass-half mr-1"></i>
@@ -34,7 +36,7 @@
                             {{ $post->views_count }}
                         </li>
                         <li class="list-inline-item">
-                            <i class="fa fa-comment mr-1"></i>
+                            <i class="fa fa-comments mr-1"></i>
                             {{ $post->comments_count }}
                         </li>
                     </ul>
@@ -82,7 +84,7 @@
                         <div class="post-tags">
                             @foreach ($tags as $tag)
                                 <a href="{{ route('tag_posts', urlencode($tag)) }}"
-                                    class="tag-badge">#{{ trim($tag) }}</a>
+                                    class="single-post-badge">#{{ trim($tag) }}</a>
                             @endforeach
                         </div>
                     @endif
@@ -135,11 +137,11 @@
                                     {{ $relatedPost->title }}
                                 </a>
                             </h4>
-                            <ul class="list-inline post-meta text-primary mb-2">
+                            <ul class="list-inline post-meta mb-2">
                                 <li class="list-inline-item">
-                                    <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
+                                    <img src='{{ asset($relatedPost->author->picture) }}' loading="lazy" alt="User Avatar"
                                         class="profile-avatar mb-1" width="10" height="10">
-                                    <a class="text-primary"
+                                    <a
                                         href="{{ route('author_posts', $relatedPost->author->username) }}">{{ $relatedPost->author->name }}</a>
                                 </li>
                                 <li class="list-inline-item">
@@ -147,8 +149,8 @@
                                 </li>
                                 <li class="list-inline-item">
                                     <i class="fa fa-folder"></i> <a
-                                        href="{{ route('category_posts', $relatedPost->post_category->slug) }}"
-                                        class="text-primary">{{ $relatedPost->post_category->name }} </a>
+                                        href="{{ route('category_posts', $relatedPost->post_category->slug) }}">{{ $relatedPost->post_category->name }}
+                                    </a>
                                 </li>
                                 <li class="list-inline-item"><i class="fa fa-hourglass-half">
                                     </i>
@@ -182,7 +184,7 @@
             <div class="widget">
                 <h5 class="widget-title"><span>Latest Article</span></h5>
                 <!-- post-item -->
-                <ul class="list-unstyled widget-list latest-article text-primary">
+                <ul class="list-unstyled widget-list latest-article">
                     @foreach (sidebarLatestPosts(5, $post->id) as $sidebarLatestPost)
                         <li class="media widget-post align-items-center letest-result-item">
                             <a href="{{ route('read_post', $sidebarLatestPost->slug) }}"
@@ -208,6 +210,7 @@
 @endsection
 
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script>
         $(document).on('click', '.share-buttons > a', function(e) {
             e.preventDefault();
@@ -219,6 +222,9 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('pre code').forEach((block) => {
+                hljs.highlightElement(block);
+            });
             const starsContainer = document.querySelector('.stars');
 
             if (!starsContainer) return;
@@ -290,36 +296,43 @@
             highlightStars(Math.round(avg));
 
             document.querySelectorAll('.content pre').forEach(function(pre) {
-                // Skip if already has a copy button
                 if (pre.querySelector('.copy-button')) return;
 
                 const code = pre.querySelector('code');
                 if (!code) return;
 
-                // Create the copy button inside <pre>
                 const button = document.createElement('button');
                 button.className = 'copy-button';
-                button.innerHTML = '📋';
 
-                pre.appendChild(button); // append inside <pre>
+                // Default clipboard icon
+                const clipboardIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m0 4h2a2 2 0 012 2v8a2 2 0 01-2 2h-8a2 2 0 01-2-2v-2" />
+    </svg>
+  `;
+
+                // Checkmark icon
+                const checkIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M5 13l4 4L19 7" />
+    </svg>
+  `;
+
+                button.innerHTML = clipboardIcon;
+                pre.appendChild(button);
 
                 button.addEventListener('click', function() {
                     const text = code.innerText;
 
-                    const textarea = document.createElement('textarea');
-                    textarea.value = text;
-                    document.body.appendChild(textarea);
-                    textarea.select();
-
-                    try {
-                        document.execCommand('copy');
-                        button.innerHTML = '✅';
-                    } catch (err) {
-                        button.innerHTML = '❌';
-                    }
-
-                    document.body.removeChild(textarea);
-                    setTimeout(() => button.innerHTML = '📋', 1500);
+                    navigator.clipboard.writeText(text).then(() => {
+                        button.innerHTML = checkIcon;
+                        setTimeout(() => button.innerHTML = clipboardIcon, 1500);
+                    }).catch(() => {
+                        // keep clipboard icon even if fail
+                        button.innerHTML = clipboardIcon;
+                    });
                 });
             });
         });

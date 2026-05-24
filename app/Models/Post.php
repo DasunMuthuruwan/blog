@@ -26,7 +26,9 @@ class Post extends Model
         'meta_keywords',
         'meta_description',
         'visibility',
-        'is_notified'
+        'is_notified',
+        'created_at',
+        'updated_at'
     ];
 
     /**

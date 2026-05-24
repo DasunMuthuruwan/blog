@@ -15,7 +15,7 @@
         <div class="row">
             @foreach ($posts as $post)
                 <div class="col-sm-6 col-md-4 col-lg-3 mb-6">
-                    <article class="post-container h-full bg-white rounded-lg overflow-hidden shadow-sm">
+                    <article class="post-container h-full bg-dark rounded-lg overflow-hidden shadow-sm">
                         <a href="{{ route('read_post', $post->slug) }}" class="block post-image-wrapper">
                             <img loading="lazy" src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
                                 alt="{{ $post->title }}" class="post-image">

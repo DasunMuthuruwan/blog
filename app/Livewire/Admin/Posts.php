@@ -6,6 +6,7 @@ use App\Mail\SendApprovedPostForAuthorMail;
 use App\Models\Post;
 use App\Services\Post\PostService;
 use Exception;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -101,7 +102,8 @@ class Posts extends Component
 
             $post = Post::with('author')->findOrFail($id);
             $post->update([
-                'visibility' => 1
+                'visibility' => 1,
+                'created_at' => Carbon::now()
             ]);
 
             Mail::to($post->author->email)

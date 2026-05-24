@@ -37,7 +37,7 @@
             <div class="row">
                 @forelse ($posts as $post)
                     <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                        <article class="post-container h-full bg-white rounded-lg overflow-hidden shadow-sm">
+                        <article class="post-container h-full bg-dark rounded-lg overflow-hidden shadow-sm">
                             <a href="{{ route('read_post', $post->slug) }}" class="block post-image-wrapper">
                                 <img loading="lazy"
                                     src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
@@ -51,13 +51,13 @@
                                         {{ $post->title }}
                                     </a>
                                 </h5>
-                                <ul class="list-inline post-meta text-xs text-gray-500 text-primary">
+                                <ul class="list-inline post-meta text-xs text-gray-500">
                                     <li class="list-inline-item">
                                         <i class="fa fa-calendar mr-1"></i> {{ dateFormatter($post->created_at) }}
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="{{ route('category_posts', $post->post_category->slug) }}"
-                                            class="hover:text-blue-500 category-link text-primary">
+                                            class="hover:text-blue-500 category-link">
                                             <i class="fa fa-folder mr-1"></i> {{ $post->post_category->name }}
                                         </a>
                                     </li>

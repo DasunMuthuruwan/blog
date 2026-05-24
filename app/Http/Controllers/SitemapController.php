@@ -11,17 +11,17 @@ class SitemapController extends Controller
 {
     public function index()
     {
-        // Cache sitemap for 1 day to avoid regenerating on every request
-        return Cache::remember('sitemap.xml', 86400, function () {
+        return Cache::remember('sitemap.xml', 3600, function () {
             $sitemap = Sitemap::create()
                 ->add(Url::create('/')->setPriority(1.0)->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY))
-                ->add(Url::create('/contact')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
-                ->add(Url::create('/about')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
-                ->add(Url::create('/privacy-policy')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
-                ->add(Url::create('/term-conditions')->setPriority(0.8)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
+                ->add(Url::create('/contact')->setPriority(0.6)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
+                ->add(Url::create('/about')->setPriority(0.6)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
+                ->add(Url::create('/privacy-policy')->setPriority(0.6)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY))
+                ->add(Url::create('/term-conditions')->setPriority(0.6)->setChangeFrequency(Url::CHANGE_FREQUENCY_MONTHLY));
 
             // Fetch only necessary columns to improve query performance
             $posts = Post::with(['post_category:id,slug', 'author:id,username'])
+                ->where('visibility', 1)
                 ->get();
 
             // Use arrays to avoid duplicate category/author URLs
@@ -32,8 +32,8 @@ class SitemapController extends Controller
                 // Single post
                 $sitemap->add(
                     Url::create(route('read_post', [$post->slug]))
-                        ->setPriority(0.7)
-                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                        ->setPriority(0.8)
+                        ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                         ->setLastModificationDate($post->updated_at)
                 );
 
@@ -42,8 +42,8 @@ class SitemapController extends Controller
                     $categories[] = $post->post_category->slug;
                     $sitemap->add(
                         Url::create(route('category_posts', [$post->post_category->slug]))
-                            ->setPriority(0.6)
-                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                            ->setPriority(0.7)
+                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                     );
                 }
 
@@ -52,8 +52,8 @@ class SitemapController extends Controller
                     $authors[] = $post->author->username;
                     $sitemap->add(
                         Url::create(route('author_posts', [$post->author->username]))
-                            ->setPriority(0.6)
-                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_WEEKLY)
+                            ->setPriority(0.7)
+                            ->setChangeFrequency(Url::CHANGE_FREQUENCY_DAILY)
                     );
                 }
             }

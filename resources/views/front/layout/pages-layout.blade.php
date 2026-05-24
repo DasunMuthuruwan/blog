@@ -29,7 +29,7 @@
 
 <body>
     <!-- navigation -->
-    <header class="sticky-top bg-white border-bottom border-default">
+    <header class="sticky-top bg-dark-header border-default">
         <div class="container">
             <nav class="navbar navbar-expand-lg navbar-white">
                 <a class="navbar-brand" href="{{ route('home') }}">
@@ -70,7 +70,7 @@
                                     placeholder="Type to discover articles, guide &amp; tutorials... "
                                     value="{{ request('q') ?? '' }}">
                             </form>
-                            <button id="searchClose" class="search-close"><i class="fa fa-close text-dark"></i></button>
+                            <button id="searchClose" class="search-close"><i class="fa fa-close"></i></button>
                         </div>
                     </div>
                     <!-- /search -->
@@ -110,7 +110,7 @@
         </div>
     </section>
 
-    <footer class="section-sm pb-0 border-top border-default">
+    <footer class="section-sm bg-dark-footer border-default">
         <div class="container">
             <div class="row justify-content-between">
                 <div class="col-md-3 mb-4">

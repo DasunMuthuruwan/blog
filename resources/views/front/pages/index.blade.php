@@ -48,12 +48,12 @@
                                     {{ $post->title }}
                                 </a>
                             </h3>
-                            <ul class="list-inline post-meta mb-4 text-primary">
+                            <ul class="list-inline post-meta mb-4">
                                 <li class="list-inline-item">
                                     <a href="{{ route('author_posts', $post->author->username) }}">
                                         <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
                                             class="profile-avatar mb-1" width="10" height="10">
-                                        <a class="text-primary" href="{{ route('author_posts', $postAuthor->username) }}">
+                                        <a href="{{ route('author_posts', $postAuthor->username) }}">
                                             {{ $postAuthor->name }}
                                         </a>
                                 </li>
@@ -62,7 +62,7 @@
                                 </li>
                                 <li class="list-inline-item"><i class="fa fa-folder"></i> <a
                                         href="{{ route('category_posts', $postCategory->slug) }}"
-                                        class="text-primary ml-1">
+                                        class="ml-1">
                                         {{ $postCategory->name }}
                                     </a>
                                 </li>
@@ -76,7 +76,7 @@
                                 {!! Str::ucfirst(words($post->content, 45)) !!}
                             </p>
                             <a href="{{ route('read_post', $post->slug) }}"
-                                class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7">Read
+                                class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border-primary-subtle rounded-2 text-decoration-none fs-7">Read
                                 more...</a>
                         </div>
                     @endforeach
@@ -102,20 +102,19 @@
                                         {{ $latestPost->title }}
                                     </a>
                                 </h4>
-                                <ul class="list-inline post-meta mb-2 text-primary">
+                                <ul class="list-inline post-meta mb-2">
                                     <li class="list-inline-item">
                                         <a href="{{ route('author_posts', $post->author->username) }}">
                                             <img src='{{ asset($post->author->picture) }}' loading="lazy" alt="User Avatar"
                                                 class="profile-avatar mb-1" width="10" height="10">
-                                            <a class="text-primary"
-                                                href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
+                                            <a href="{{ route('author_posts', $latestPostAuthor->username) }}">{{ $latestPostAuthor->name }}</a>
                                     </li>
                                     <li class="list-inline-item"><i
                                             class="fa fa-calendar mr-1"></i>{{ dateFormatter($latestPost->created_at) }}
                                     </li>
                                     <li class="list-inline-item"><i class="fa fa-folder"></i> <a
                                             href="{{ route('category_posts', $latestPostCategory->slug) }}"
-                                            class="ml-1 text-primary">
+                                            class="ml-1">
                                             {{ $latestPostCategory->name }}
                                         </a>
                                     </li>
@@ -132,7 +131,7 @@
                                     {!! Str::ucfirst(words($latestPost->content, 30)) !!}
                                 </p>
                                 <a href="{{ route('read_post', $latestPost->slug) }}"
-                                    class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7">Read
+                                    class="btn btn-outline-primary text-primary-emphasis bg-primary-subtle border-primary-subtle rounded-2 text-decoration-none fs-7">Read
                                     more...</a>
                             </div>
                         </article>
@@ -143,7 +142,7 @@
                     <div class="container">
                         <div class="row justify-content-md-center">
                             <div class="col-12 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
-                                <h2 class="display-5 mb-4 mb-md-5 text-center">Popular Articles</h2>
+                                <h2 class="display-5 mb-4 mb-md-5 text-center text-primary">Popular Articles</h2>
                                 <hr class="w-50 mx-auto mb-5 mb-xl-9 border-dark-subtle">
                             </div>
                         </div>
@@ -179,7 +178,7 @@
                                                 <div class="entry-header mb-3">
                                                     <ul class="entry-meta list-unstyled d-flex mb-3">
                                                         <li>
-                                                            <a class="d-inline-flex px-2 py-1 btn btn-outline-primary text-primary-emphasis bg-primary-subtle border border-primary-subtle rounded-2 text-decoration-none fs-7"
+                                                            <a class="d-inline-flex px-2 py-1 btn btn-outline-primary text-primary-emphasis bg-primary-subtle border-primary-subtle rounded-2 text-decoration-none fs-7"
                                                                 href="{{ route('category_posts', $popularPost->post_category->slug) }}">{{ $popularPost->post_category->name }}</a>
                                                         </li>
                                                     </ul>
@@ -193,7 +192,7 @@
                                                 <ul class="entry-meta list-unstyled d-flex align-items-center m-0">
                                                     <li>
                                                         <span
-                                                            class="text-primary text-decoration-none d-flex align-items-center">
+                                                            class="text-decoration-none d-flex align-items-center">
                                                             <i class="fa fa-calendar mr-1"></i>
                                                             <span>{{ dateFormatter($popularPost->created_at) }}</span>
                                                         </span>
@@ -203,8 +202,8 @@
                                                     </li>
                                                     <li>
                                                         <span
-                                                            class="text-primary text-decoration-none d-flex align-items-center">
-                                                            <i class="fa fa-comment mr-1"></i>
+                                                            class="text-decoration-none d-flex align-items-center">
+                                                            <i class="fa fa-comments mr-1"></i>
                                                             <span>{{ $popularPost->comments_count }}</span>
                                                         </span>
                                                     </li>

@@ -8,7 +8,7 @@
                     placeholder="Type to discover articles, guide &amp; tutorials..." class="search-input"
                     autocomplete="off">
                 <button type="button" wire:click="clearSearch" aria-label="Clear search">
-                    <i class="fa fa-close text-dark" aria-hidden="true"></i>
+                    <i class="fa fa-close" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="search-btn" aria-label="Open search">
                     <i class="fa fa-search" aria-hidden="true"></i>
@@ -23,7 +23,7 @@
             <div class="d-flex align-items-center justify-content-between mb-4">
                 <div class="d-flex align-items-center">
                     <h6 class="title-color mb-0">Search Results for:</h6>
-                    <span class="ml-1 font-weight-bold text-primary text-xs">"{{ $search }}"</span>
+                    <span class="ml-1 font-weight-bold text-xs">"{{ $search }}"</span>
                 </div>
                 <div class="text-muted text-xs">
                     {{ $posts->total() }} result{{ $posts->total() != 1 ? 's' : '' }} found

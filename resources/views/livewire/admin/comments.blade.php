@@ -1,6 +1,6 @@
 <div>
-    <div class="card-box pb-20 mb-4">
-        <div class="table-responsive mt-3">
+    <div class="pd-20 card-box mb-30">
+        <div class="table-responsive">
             <table class="table table-striped table-auto table-sm table-condensed">
                 <thead class="bg-secondary text-white">
                     <th scope="col">#ID</th>
@@ -44,8 +44,8 @@
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="d-block mt-1 text-center">
-        {{ $comments->links('livewire::simple-bootstrap') }}
+        <div class="d-block mt-1">
+            {{ $comments->links('livewire::simple-bootstrap') }}
+        </div>
     </div>
 </div>

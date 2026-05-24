@@ -2,13 +2,13 @@
         max-width: 800px;
         margin: 2rem auto;
         padding: 20px;
-        background: #f8f9fa;
+        background: rgb(20, 32, 60);
         border-radius: 15px;
         box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
     }
 
     .comment-box {
-        background: white;
+        background: rgb(20, 32, 60);
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 20px;
@@ -31,8 +31,9 @@
     .comment-input {
         border-radius: 20px;
         padding: 15px 20px;
-        border: 2px solid #e9ecef;
+        /* border: 2px solid #e9ecef; */
         transition: all 0.3s;
+        background-color: var(--bg-color);
     }
 
     .comment-input:focus {
@@ -43,13 +44,13 @@
     .btn-comment {
         border-radius: 20px;
         padding: 8px 25px;
-        background: #0d6efd;
+        background: var(--widget-color);
         border: none;
         transition: all 0.3s;
     }
 
     .btn-comment:hover {
-        background: #0b5ed7;
+        background: var(--btn-hover-color);
         transform: translateY(-1px);
     }
 
@@ -65,7 +66,7 @@
     }
 
     .comment-actions a:hover {
-        color: #0d6efd;
+        color: var(--widget-color);
     }
 
     .comment-time {

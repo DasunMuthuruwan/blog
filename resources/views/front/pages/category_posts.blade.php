@@ -15,7 +15,7 @@
         <div class="row">
             @foreach ($posts as $post)
                 <div class="col-sm-6 col-md-4 col-lg-3 mb-4">
-                    <article class="post-container h-full bg-white rounded-lg overflow-hidden shadow-sm">
+                    <article class="post-container h-full bg-dark rounded-lg overflow-hidden shadow-sm">
                         <a href="{{ route('read_post', $post->slug) }}" class="block post-image-wrapper">
                             <img loading="lazy" src='{{ asset("storage/images/posts/resized/resized_$post->feature_image") }}'
                                 alt="{{ $post->title }}" class="post-image">
@@ -27,14 +27,14 @@
                                     {{ $post->title }}
                                 </a>
                             </h5>
-                            <ul class="list-inline post-meta text-xs text-primary">
+                            <ul class="list-inline post-meta text-xs">
                                 <li class="list-inline-item"><i class="fa fa-calendar mr-1"></i>
                                     {{ dateFormatter($post->created_at) }}</li>
                                 <li class="list-inline-item">
                                     <a href="{{ route('author_posts', $post->author->username) }}">
                                 <img src='{{ asset($post->author->picture) }}'
                                 loading="lazy" alt="User Avatar" class="profile-avatar mb-1" width="10" height="10">
-                                    <a href="{{ route('author_posts', $post->author->username) }}" class="author-link text-primary">
+                                    <a href="{{ route('author_posts', $post->author->username) }}" class="author-link">
                                         {{ $post->author->name }}
                                     </a>
                                 </li>

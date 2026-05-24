@@ -124,7 +124,22 @@ if (!function_exists('navigations')) {
         function readDuration(...$text)
         {
             Str::macro('timeCounter', function () use ($text) {
-                $totalWords = str_word_count(implode(" ", $text));
+                // Combine all text
+                $content = implode(" ", $text);
+
+                // Remove code blocks <pre><code>...</code></pre>
+                $content = preg_replace('/<pre.*?>.*?<\/pre>/si', '', $content);
+
+                // Remove inline code <code>...</code>
+                $content = preg_replace('/<code.*?>.*?<\/code>/si', '', $content);
+
+                // Strip remaining HTML tags
+                $content = strip_tags($content);
+
+                // Count words in cleaned content
+                $totalWords = str_word_count($content);
+
+                // Average reading speed: 200 words/minute
                 $minutesToRead = round($totalWords / 200);
 
                 return (int) max(1, $minutesToRead);

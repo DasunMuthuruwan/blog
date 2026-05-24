@@ -5,9 +5,12 @@ namespace App\Livewire\Admin;
 use App\Models\Comment;
 use Exception;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Comments extends Component
 {
+
+    use WithPagination;
 
     protected $listeners = [
         'deleteCommentAction'

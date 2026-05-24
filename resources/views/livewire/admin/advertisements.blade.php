@@ -23,8 +23,8 @@
             </div>
         </div>
     </div>
-    <div class="card-box pb-20 mb-4">
-        <div class="table-responsive mt-3">
+    <div class="pd-20 card-box mb-30">
+        <div class="table-responsive">
             <table class="table table-striped table-auto table-sm table-condensed">
                 <thead class="bg-secondary text-white">
                     <th scope="col">#ID</th>
@@ -79,15 +79,16 @@
                         </tr>
                     @empty
                         <tr class="text-center">
-                            <td colspan="8" class="text-center"><span class="text-danger">No slide item found!</span></td>
+                            <td colspan="8" class="text-center"><span class="text-danger">No slide item found!</span>
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-    </div>
-    <div class="d-block mt-1 text-center">
-        {{ $ads->links('livewire::simple-bootstrap') }}
+        <div class="d-block mt-1">
+            {{ $ads->links('livewire::simple-bootstrap') }}
+        </div>
     </div>
 
     {{-- SLIDE MODEL --}}
@@ -139,8 +140,8 @@
                     </div>
                     <div class="form-group">
                         <label>Started</label>
-                        <input class="form-control form-control-sm date-picker" id="start_at_picker"
-                            wire:ignore placeholder="Choose start date" type="text" />
+                        <input class="form-control form-control-sm date-picker" id="start_at_picker" wire:ignore
+                            placeholder="Choose start date" type="text" />
                         @error('start_at')
                             <span class="text-danger small ml-1">{{ $message }}</span>
                         @enderror
@@ -148,8 +149,8 @@
 
                     <div class="form-group">
                         <label>Ended</label>
-                        <input class="form-control form-control-sm date-picker" wire:ignore
-                            id="end_at_picker" placeholder="Choose end date" type="text" />
+                        <input class="form-control form-control-sm date-picker" wire:ignore id="end_at_picker"
+                            placeholder="Choose end date" type="text" />
                         @error('end_at')
                             <span class="text-danger small ml-1">{{ $message }}</span>
                         @enderror
